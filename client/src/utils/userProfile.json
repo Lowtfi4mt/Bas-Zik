@@ -1,0 +1,13 @@
+{
+    "username": "Jean Baptiste Lambertin", 
+    "theme": {
+      "primaryColor": "#e74c3c",
+      "secondaryColor": "#8e44ad",
+      "backgroundColor": "#ffffff"
+    },
+    "layout": {
+      "headerVisible": true,
+      "sidebarVisible": true,
+      "fontSize": "14px"
+    }
+  }
