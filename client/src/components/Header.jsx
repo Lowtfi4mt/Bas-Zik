@@ -12,6 +12,9 @@ export function Header() {
 				<a href="/404" class={url == '/404' && 'active'}>
 					404
 				</a>
+				<a href="/music" class={url == '/music' && 'active'}>
+					Music
+				</a>
 			</nav>
 		</header>
 	);

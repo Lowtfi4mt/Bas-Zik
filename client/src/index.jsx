@@ -4,6 +4,9 @@ import { LocationProvider, Router, Route } from 'preact-iso';
 import { Header } from './components/Header.jsx';
 import { Home } from './pages/Home/index.jsx';
 import { NotFound } from './pages/_404.jsx';
+import MusicManager from './pages/MusicManager/index.jsx';
+
+
 import './style.css';
 import { useState } from 'preact/hooks';
 import defaultProfile from './utils/defaultProfile.json';
@@ -46,6 +49,7 @@ export function App() {
 					<main>
 						<Router>
 							<Route path="/" component={() => <Home profile={profile} />} />
+							<Route path='/music' component={() => <MusicManager />} />
 							<Route default component={NotFound} />
 						</Router>
 					</main>
