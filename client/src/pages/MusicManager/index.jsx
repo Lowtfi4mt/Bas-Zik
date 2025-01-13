@@ -3,16 +3,20 @@ import { Fragment } from 'preact';
 import { useRef } from 'preact/hooks';
 import AudioPlayer from '../AudioPlayer';
 import RecordPlayer from '../RecordPlayer';
+import { Header } from '../../components/Header';
 
 const MusicManager = () => {
   const audioRef = useRef(null);
 
   return (
     <Fragment>
-      {/* Fournir la référence de l'élément audio */}
-      <audio ref={audioRef} src="../../../public/Titanium 8K.ogg" />
-      <AudioPlayer audioRef={audioRef} />
-      <RecordPlayer audioRef={audioRef} />
+      <Header />
+      <Fragment>
+        {/* Fournir la référence de l'élément audio */}
+        <audio ref={audioRef} src="../../../public/Titanium 8K.ogg" />
+        <AudioPlayer audioRef={audioRef} />
+        <RecordPlayer audioRef={audioRef} />
+      </Fragment>
     </Fragment>
   );
 };
