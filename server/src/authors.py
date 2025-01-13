@@ -35,10 +35,31 @@ class Authors(MethodView):
         """
         return new_author
 
+
+@authors_blp.route("/<int:author_id>")
+class AuthorById(MethodView):
+    """
+    Resource for a specific author
+    """
+
+    @authors_blp.response(200, AuthorSchema)
+    def get(self, author_id):
+        """
+        Get a specific author
+        """
+        return {"id": author_id, "name": "Author name"}
+
     @authors_blp.arguments(AuthorSchema)
     @authors_blp.response(200, AuthorSchema)
-    def put(self, author):
+    def put(self, author, author_id):
         """
-        Update an author
+        Update a specific author
         """
         return author
+
+    @authors_blp.response(204)
+    def delete(self, author_id):
+        """
+        Delete a specific author
+        """
+        return None
