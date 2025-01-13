@@ -66,6 +66,12 @@ const UserSettings = () => {
     };
 
     const handleExport = () => {
+        if (isModified) {
+            const confirmCancel = window.confirm(
+                'Vous avez des modifications non sauvegardées. Voulez-vous vraiment exporter votre profil ?'
+            );
+            if (!confirmCancel) return;
+        }
         const profile = localStorage.getItem('profile');
         if (!profile) {
             alert('Aucun profil trouvé dans le localStorage.');
