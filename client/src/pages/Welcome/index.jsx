@@ -3,6 +3,7 @@ import { useProfile } from '../../helpers/ProfileContext';
 import './style.css';
 import defaultProfile from '../../utils/defaultProfile.json';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { saveProfile } from '../../helpers/profileSave';
 
 
 export function Welcome() {
@@ -21,12 +22,14 @@ export function Welcome() {
     reader.onload = (e) => {
       try {
         const profile = JSON.parse(e.target.result.toString());
-        if (!checkIsProfile(profile)) {
+        const isProfile = saveProfile(profile);
+        if (!isProfile) {
           alert('Invalid profile');
           return;
         }
-        setAuthProfile(profile);
-        navigate('/home');
+        else {
+          navigate('/home');
+        }
       } catch (error) {
         alert('Error parsing JSON file.');
       }

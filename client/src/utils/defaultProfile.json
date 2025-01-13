@@ -1,12 +1,8 @@
 {
     "username": "Guest",
-    "theme": {
-      "primaryColor": "#e74c3c",
-      "secondaryColor": "#8e44ad",
-      "backgroundColor": "#ffffff"
-    },
     "layout": {
       "theme" : { 
+        "name" : "default",
         "primary" : "#3498db", 
         "secondary" : "#2ecc71", 
         "background" : "#ecf0f1" 

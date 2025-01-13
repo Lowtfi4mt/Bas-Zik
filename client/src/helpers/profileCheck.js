@@ -1,8 +1,6 @@
 export function checkIsProfile (profile) {
     if (
         profile.username &&
-        profile.theme &&
-        profile.theme.primaryColor &&
         profile.layout &&
         profile.layout.theme &&
         profile.layout.theme.primary &&

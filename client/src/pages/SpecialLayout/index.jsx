@@ -1,5 +1,5 @@
 import { useState } from 'preact/hooks';
-import './specialLayout.css';
+import './style.css';
 import { Home } from '../Home';
 import MusicManager from '../MusicManager';
 import { NotFound } from '../_404';
