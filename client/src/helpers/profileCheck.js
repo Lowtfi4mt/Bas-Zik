@@ -4,7 +4,13 @@ export function checkIsProfile (profile) {
         profile.theme &&
         profile.theme.primaryColor &&
         profile.layout &&
-        profile.layout.fontSize
+        profile.layout.theme &&
+        profile.layout.theme.primary &&
+        profile.layout.theme.secondary &&
+        profile.layout.theme.background &&
+        profile.layout.centerPanel &&
+        profile.layout.rightPanel &&
+        profile.layout.leftPanel
       ) {
         return true;
       }

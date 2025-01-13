@@ -6,8 +6,13 @@
       "backgroundColor": "#ffffff"
     },
     "layout": {
-      "headerVisible": true,
-      "sidebarVisible": true,
-      "fontSize": "14px"
+      "theme" : { 
+        "primary" : "#2ecc71", 
+        "secondary" : "#ecf0f1", 
+        "background" : "#3498db" 
+      },
+      "leftPanel" : "MusicManager",
+      "centerPanel" : "NotFound",
+      "rightPanel" : "Home"
     }
   }
