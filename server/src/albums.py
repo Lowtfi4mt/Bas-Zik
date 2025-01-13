@@ -35,10 +35,31 @@ class Albums(MethodView):
         """
         return new_album
 
+
+@albums_blp.route("/<int:album_id>")
+class AlbumById(MethodView):
+    """
+    Resource for a specific album
+    """
+
+    @albums_blp.response(200, AlbumSchema)
+    def get(self, album_id):
+        """
+        Get a specific album
+        """
+        return {"id": album_id, "name": "Album name"}
+
     @albums_blp.arguments(AlbumSchema)
     @albums_blp.response(200, AlbumSchema)
-    def put(self, album):
+    def put(self, album, album_id):
         """
-        Update an album
+        Update a specific album
         """
         return album
+
+    @albums_blp.response(204)
+    def delete(self, album_id):
+        """
+        Delete a specific album
+        """
+        return None
