@@ -1,4 +1,3 @@
-import { route } from 'preact-router';
 import { checkIsProfile } from '../../helpers/profileCheck';
 import { useProfile } from '../../helpers/ProfileContext';
 import './style.css';
