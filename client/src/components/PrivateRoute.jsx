@@ -1,6 +1,4 @@
-import { h } from 'preact';
 import { useProfile } from '../helpers/ProfileContext';
-import { route } from 'preact-router'; // Equivalent de Navigate pour Preact
 import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
