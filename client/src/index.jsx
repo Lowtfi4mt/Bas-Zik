@@ -7,6 +7,7 @@ import ProtectedRoute from './components/PrivateRoute.jsx';
 import { Welcome } from './pages/Welcome/index.jsx';
 import { ProfileProvider } from './helpers/ProfileContext';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import SpecialLayout from './pages/SpecialLayout/specialLayout.jsx';
 
 export function App() {
   return (
@@ -17,6 +18,7 @@ export function App() {
 				<Route path="/" Component={Welcome} />
 				<Route path="/home" Component={() => <ProtectedRoute component={Home} />} />
 				<Route path="/music" Component={() => <ProtectedRoute component={MusicManager} />} />
+				<Route path="/layout" Component={() => <ProtectedRoute component={SpecialLayout} />} />
 				<Route default Component={NotFound} />
 			</Routes>
           </Router>
