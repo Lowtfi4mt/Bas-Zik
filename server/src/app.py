@@ -5,6 +5,7 @@ Simple Flask API
 from flask import Flask
 from flask_smorest import Api
 from musics import musics_blp
+from authors import authors_blp
 
 
 def create_app():
@@ -23,6 +24,7 @@ def create_app():
 
     api = Api(app)
     api.register_blueprint(musics_blp)
+    api.register_blueprint(authors_blp)
 
     return app
 
