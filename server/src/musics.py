@@ -8,6 +8,7 @@ from schemas import (
     AppMusicSchema,
     ProposedMusicSchema,
 )
+from models import db, AppMusic, ProposedMusic
 
 musics_blp = Blueprint(
     "musics",
