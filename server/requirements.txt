@@ -5,6 +5,7 @@ blinker==1.9.0
 click==8.1.8
 colorama==0.4.6
 dill==0.3.9
+Faker==33.3.1
 flake8==7.1.1
 Flask==3.1.0
 flask-smorest==0.45.0
@@ -24,6 +25,8 @@ platformdirs==4.3.6
 pycodestyle==2.12.1
 pyflakes==3.2.0
 pylint==3.3.3
+python-dateutil==2.9.0.post0
+six==1.17.0
 SQLAlchemy==2.0.37
 tomlkit==0.13.2
 typing_extensions==4.12.2
