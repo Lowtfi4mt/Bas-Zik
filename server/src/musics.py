@@ -29,6 +29,7 @@ class AppMusicResource(MethodView):
         """
         Get all musics in the app
         """
+        return AppMusic.query.all()
 
     @musics_blp.arguments(AppMusicSchema)
     @musics_blp.response(201, AppMusicSchema)
@@ -87,7 +88,7 @@ class ProposedMusicResource(MethodView):
         """
         Get all proposed musics
         """
-        return []
+        return ProposedMusic.query.all()
 
     @musics_blp.arguments(ProposedMusicSchema)
     @musics_blp.response(201, ProposedMusicSchema)

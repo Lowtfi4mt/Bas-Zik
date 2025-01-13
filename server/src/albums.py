@@ -26,7 +26,7 @@ class AlbumResource(MethodView):
         """
         Get all albums
         """
-        return []
+        return Album.query.all()
 
     @albums_blp.arguments(AlbumSchema)
     @albums_blp.response(201, AlbumSchema)

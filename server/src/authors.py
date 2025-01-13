@@ -26,7 +26,7 @@ class AuthorResource(MethodView):
         """
         Get all authors
         """
-        return []
+        return Author.query.all()
 
     @authors_blp.arguments(AuthorSchema)
     @authors_blp.response(201, AuthorSchema)
