@@ -47,6 +47,35 @@ class AppMusic(MethodView):
         return music
 
 
+@musics_blp.route("/app/<int:music_id>")
+class AppMusicById(MethodView):
+    """
+    Resource for a specific app music
+    """
+
+    @musics_blp.response(200, AppMusicSchema)
+    def get(self, music_id):
+        """
+        Get a specific app music
+        """
+        return {}
+
+    @musics_blp.arguments(AppMusicSchema)
+    @musics_blp.response(200, AppMusicSchema)
+    def put(self, music, music_id):
+        """
+        Update a specific app music
+        """
+        return music
+
+    @musics_blp.response(204)
+    def delete(self, music_id):
+        """
+        Delete a specific app music
+        """
+        return None
+
+
 @musics_blp.route("/proposals")
 class ProposedMusic(MethodView):
     """
@@ -68,10 +97,31 @@ class ProposedMusic(MethodView):
         """
         return new_proposal
 
+
+@musics_blp.route("/proposals/<int:music_id>")
+class ProposedMusicById(MethodView):
+    """
+    Resource for a specific proposed music
+    """
+
+    @musics_blp.response(200, ProposedMusicSchema)
+    def get(self, music_id):
+        """
+        Get a specific proposed music
+        """
+        return {}
+
     @musics_blp.arguments(ProposedMusicSchema)
     @musics_blp.response(200, ProposedMusicSchema)
-    def put(self, proposal):
+    def put(self, proposal, music_id):
         """
-        Update a music proposal
+        Update a specific proposed music
         """
         return proposal
+
+    @musics_blp.response(204)
+    def delete(self, music_id):
+        """
+        Delete a specific proposed music
+        """
+        return None
