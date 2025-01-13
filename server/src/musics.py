@@ -18,7 +18,7 @@ musics_blp = Blueprint(
 
 
 @musics_blp.route("/app")
-class AppMusic(MethodView):
+class AppMusicResource(MethodView):
     """
     Resource for app musics
     """
@@ -28,7 +28,6 @@ class AppMusic(MethodView):
         """
         Get all musics in the app
         """
-        return []
 
     @musics_blp.arguments(AppMusicSchema)
     @musics_blp.response(201, AppMusicSchema)
@@ -48,7 +47,7 @@ class AppMusic(MethodView):
 
 
 @musics_blp.route("/app/<int:music_id>")
-class AppMusicById(MethodView):
+class AppMusicDetailResource(MethodView):
     """
     Resource for a specific app music
     """
@@ -77,7 +76,7 @@ class AppMusicById(MethodView):
 
 
 @musics_blp.route("/proposals")
-class ProposedMusic(MethodView):
+class ProposedMusicResource(MethodView):
     """
     Resource for proposed musics
     """
@@ -99,7 +98,7 @@ class ProposedMusic(MethodView):
 
 
 @musics_blp.route("/proposals/<int:music_id>")
-class ProposedMusicById(MethodView):
+class ProposedMusicDetailResource(MethodView):
     """
     Resource for a specific proposed music
     """

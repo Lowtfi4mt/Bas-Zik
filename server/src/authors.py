@@ -15,7 +15,7 @@ authors_blp = Blueprint(
 
 
 @authors_blp.route("/")
-class Authors(MethodView):
+class AuthorResource(MethodView):
     """
     Resource for authors
     """
@@ -37,7 +37,7 @@ class Authors(MethodView):
 
 
 @authors_blp.route("/<int:author_id>")
-class AuthorById(MethodView):
+class AuthorDetailResource(MethodView):
     """
     Resource for a specific author
     """

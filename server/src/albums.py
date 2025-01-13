@@ -15,7 +15,7 @@ albums_blp = Blueprint(
 
 
 @albums_blp.route("/")
-class Albums(MethodView):
+class AlbumResource(MethodView):
     """
     Resource for albums
     """
@@ -37,7 +37,7 @@ class Albums(MethodView):
 
 
 @albums_blp.route("/<int:album_id>")
-class AlbumById(MethodView):
+class AlbumDetailResource(MethodView):
     """
     Resource for a specific album
     """
