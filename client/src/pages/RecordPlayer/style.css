@@ -12,6 +12,5 @@
     height: 200px;
     border-radius: 50%;
     background: radial-gradient(circle, #444 50%, #222 100%);
-    animation: rotate 5s linear infinite;
   }
   
