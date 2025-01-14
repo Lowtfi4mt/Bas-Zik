@@ -31,7 +31,7 @@ class AppMusicResource(MethodView):
         """
         return AppMusic.query.all()
 
-    @musics_blp.arguments(AppMusicSchema)
+    @musics_blp.arguments(AppMusicSchema(session=db.session))
     @musics_blp.response(201, AppMusicSchema)
     def post(self, new_music):
         """
@@ -41,7 +41,7 @@ class AppMusicResource(MethodView):
         db.session.commit()
         return new_music
 
-    @musics_blp.arguments(AppMusicSchema)
+    @musics_blp.arguments(AppMusicSchema(session=db.session))
     @musics_blp.response(200, AppMusicSchema)
     def put(self, music):
         """
@@ -65,7 +65,7 @@ class AppMusicDetailResource(MethodView):
         """
         return AppMusic.query.get_or_404(music_id)
 
-    @musics_blp.arguments(AppMusicSchema)
+    @musics_blp.arguments(AppMusicSchema(session=db.session))
     @musics_blp.response(200, AppMusicSchema)
     def put(self, music, music_id):
         """
@@ -100,7 +100,7 @@ class ProposedMusicResource(MethodView):
         """
         return ProposedMusic.query.all()
 
-    @musics_blp.arguments(ProposedMusicSchema)
+    @musics_blp.arguments(ProposedMusicSchema(session=db.session))
     @musics_blp.response(201, ProposedMusicSchema)
     def post(self, new_proposal):
         """
@@ -124,7 +124,7 @@ class ProposedMusicDetailResource(MethodView):
         """
         return ProposedMusic.query.get_or_404(music_id)
 
-    @musics_blp.arguments(ProposedMusicSchema)
+    @musics_blp.arguments(ProposedMusicSchema(session=db.session))
     @musics_blp.response(200, ProposedMusicSchema)
     def put(self, proposal, music_id):
         """

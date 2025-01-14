@@ -28,7 +28,7 @@ class AlbumResource(MethodView):
         """
         return Album.query.all()
 
-    @albums_blp.arguments(AlbumSchema)
+    @albums_blp.arguments(AlbumSchema(session=db.session))
     @albums_blp.response(201, AlbumSchema)
     def post(self, new_album):
         """
@@ -52,7 +52,7 @@ class AlbumDetailResource(MethodView):
         """
         return Album.query.get_or_404(album_id)
 
-    @albums_blp.arguments(AlbumSchema)
+    @albums_blp.arguments(AlbumSchema(session=db.session))
     @albums_blp.response(200, AlbumSchema)
     def put(self, album, album_id):
         """
