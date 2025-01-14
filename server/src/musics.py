@@ -106,6 +106,20 @@ class AppMusicTopResource(MethodView):
         return AppMusic.query.order_by(AppMusic.likes.desc()).limit(top_count).all()
 
 
+@musics_blp.route("/app/random/<int:random_count>")
+class AppMusicRandomResource(MethodView):
+    """
+    Resource for getting random app musics
+    """
+
+    @musics_blp.response(200, AppMusicSchema(many=True))
+    def get(self, random_count):
+        """
+        Get random musics from the app
+        """
+        return AppMusic.query.order_by(random()).limit(random_count).all()
+
+
 @musics_blp.route("/proposals")
 class ProposedMusicResource(MethodView):
     """
