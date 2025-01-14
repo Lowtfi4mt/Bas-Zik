@@ -37,6 +37,8 @@ class AppMusicResource(MethodView):
         """
         Add a new music to the app
         """
+        db.session.add(new_music)
+        db.session.commit()
         return new_music
 
     @musics_blp.arguments(AppMusicSchema)
@@ -45,6 +47,8 @@ class AppMusicResource(MethodView):
         """
         Update a music in the app
         """
+        db.session.add(music)
+        db.session.commit()
         return music
 
 
@@ -59,7 +63,7 @@ class AppMusicDetailResource(MethodView):
         """
         Get a specific app music
         """
-        return {}
+        return AppMusic.query.get_or_404(music_id)
 
     @musics_blp.arguments(AppMusicSchema)
     @musics_blp.response(200, AppMusicSchema)
@@ -67,6 +71,9 @@ class AppMusicDetailResource(MethodView):
         """
         Update a specific app music
         """
+        music = AppMusic.query.get_or_404(music_id)
+        music.update(music)
+        db.session.commit()
         return music
 
     @musics_blp.response(204)
@@ -74,6 +81,9 @@ class AppMusicDetailResource(MethodView):
         """
         Delete a specific app music
         """
+        music = AppMusic.query.get_or_404(music_id)
+        db.session.delete(music)
+        db.session.commit()
         return None
 
 
@@ -96,6 +106,8 @@ class ProposedMusicResource(MethodView):
         """
         Add a new music proposal
         """
+        db.session.add(new_proposal)
+        db.session.commit()
         return new_proposal
 
 
@@ -110,7 +122,7 @@ class ProposedMusicDetailResource(MethodView):
         """
         Get a specific proposed music
         """
-        return {}
+        return ProposedMusic.query.get_or_404(music_id)
 
     @musics_blp.arguments(ProposedMusicSchema)
     @musics_blp.response(200, ProposedMusicSchema)
@@ -118,6 +130,9 @@ class ProposedMusicDetailResource(MethodView):
         """
         Update a specific proposed music
         """
+        proposal = ProposedMusic.query.get_or_404(music_id)
+        proposal.update(proposal)
+        db.session.commit()
         return proposal
 
     @musics_blp.response(204)
@@ -125,4 +140,7 @@ class ProposedMusicDetailResource(MethodView):
         """
         Delete a specific proposed music
         """
+        proposal = ProposedMusic.query.get_or_404(music_id)
+        db.session.delete(proposal)
+        db.session.commit()
         return None

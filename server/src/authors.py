@@ -34,6 +34,8 @@ class AuthorResource(MethodView):
         """
         Add a new author
         """
+        db.session.add(new_author)
+        db.session.commit()
         return new_author
 
 
@@ -48,7 +50,7 @@ class AuthorDetailResource(MethodView):
         """
         Get a specific author
         """
-        return {"id": author_id, "name": "Author name"}
+        return Author.query.get_or_404(author_id)
 
     @authors_blp.arguments(AuthorSchema)
     @authors_blp.response(200, AuthorSchema)
@@ -56,6 +58,9 @@ class AuthorDetailResource(MethodView):
         """
         Update a specific author
         """
+        author = Author.query.get_or_404(author_id)
+        author.update(author)
+        db.session.commit()
         return author
 
     @authors_blp.response(204)
@@ -63,4 +68,7 @@ class AuthorDetailResource(MethodView):
         """
         Delete a specific author
         """
+        author = Author.query.get_or_404(author_id)
+        db.session.delete(author)
+        db.session.commit()
         return None

@@ -34,6 +34,8 @@ class AlbumResource(MethodView):
         """
         Add a new album
         """
+        db.session.add(new_album)
+        db.session.commit()
         return new_album
 
 
@@ -48,7 +50,7 @@ class AlbumDetailResource(MethodView):
         """
         Get a specific album
         """
-        return {"id": album_id, "name": "Album name"}
+        return Album.query.get_or_404(album_id)
 
     @albums_blp.arguments(AlbumSchema)
     @albums_blp.response(200, AlbumSchema)
@@ -56,6 +58,9 @@ class AlbumDetailResource(MethodView):
         """
         Update a specific album
         """
+        album = Album.query.get_or_404(album_id)
+        album.update(album)
+        db.session.commit()
         return album
 
     @albums_blp.response(204)
@@ -63,4 +68,7 @@ class AlbumDetailResource(MethodView):
         """
         Delete a specific album
         """
+        album = Album.query.get_or_404(album_id)
+        db.session.delete(album)
+        db.session.commit()
         return None
