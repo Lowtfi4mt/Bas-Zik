@@ -92,6 +92,20 @@ class AppMusicSearchResource(MethodView):
         return AppMusic.query.filter(AppMusic.title.like(f"%{music_name}%")).all()
 
 
+@musics_blp.route("/app/top/<int:top_count>")
+class AppMusicTopResource(MethodView):
+    """
+    Resource for getting the top x app musics
+    """
+
+    @musics_blp.response(200, AppMusicSchema(many=True))
+    def get(self, top_count):
+        """
+        Get the top x musics in the app
+        """
+        return AppMusic.query.order_by(AppMusic.likes.desc()).limit(top_count).all()
+
+
 @musics_blp.route("/proposals")
 class ProposedMusicResource(MethodView):
     """
