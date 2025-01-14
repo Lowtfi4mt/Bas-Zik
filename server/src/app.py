@@ -48,6 +48,9 @@ def create_app() -> Flask:
 
 
 def create_mock_data(app):
+    """
+    Create mock data for the app
+    """
     with app.app_context():
         fake = Faker()
 
