@@ -26,7 +26,12 @@ class AppMusicSchema(SQLAlchemyAutoSchema):
 
     class Meta:
         model = AppMusic
-        exclude = ("type",)
+        load_instance = True
+        include_relationships = True
+        exclude = (
+            "id",
+            "type",
+        )
 
 
 class ProposedMusicSchema(SQLAlchemyAutoSchema):
@@ -36,7 +41,10 @@ class ProposedMusicSchema(SQLAlchemyAutoSchema):
 
     class Meta:
         model = ProposedMusic
-        exclude = ("type",)
+        exclude = (
+            "id",
+            "type",
+        )
 
 
 class AuthorSchema(SQLAlchemyAutoSchema):
@@ -48,6 +56,7 @@ class AuthorSchema(SQLAlchemyAutoSchema):
         model = Author
         load_instance = True
         include_relationships = True
+        exclude = ("id",)
 
 
 class AlbumSchema(SQLAlchemyAutoSchema):
@@ -59,3 +68,4 @@ class AlbumSchema(SQLAlchemyAutoSchema):
         model = Album
         load_instance = True
         include_relationships = True
+        exclude = ("id",)
