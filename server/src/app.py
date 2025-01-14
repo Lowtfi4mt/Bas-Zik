@@ -9,7 +9,7 @@ from flask_smorest import Api
 from musics import musics_blp
 from authors import authors_blp
 from albums import albums_blp
-from models import db, Music, Author, Album
+from models import db, AppMusic, Author, Album
 
 USE_MOCKS = True
 
@@ -63,6 +63,16 @@ def create_mock_data(app):
         for _ in range(10):
             album = Album(name=fake.sentence())
             db.session.add(album)
+
+        # generate musics
+        for _ in range(100):
+            music = AppMusic(
+                title=fake.sentence(),
+                path=fake.file_path(),
+                duration=random.randint(60, 600),
+                likes=random.randint(0, 100),
+            )
+            db.session.add(music)
 
         db.session.commit()
 
