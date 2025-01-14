@@ -41,16 +41,6 @@ class AppMusicResource(MethodView):
         db.session.commit()
         return new_music
 
-    @musics_blp.arguments(AppMusicSchema(session=db.session))
-    @musics_blp.response(200, AppMusicSchema)
-    def put(self, music):
-        """
-        Update a music in the app
-        """
-        db.session.add(music)
-        db.session.commit()
-        return music
-
 
 @musics_blp.route("/app/<int:music_id>")
 class AppMusicDetailResource(MethodView):

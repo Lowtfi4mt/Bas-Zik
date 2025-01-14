@@ -35,7 +35,7 @@ def create_app() -> Flask:
     api.register_blueprint(musics_blp)
     api.register_blueprint(authors_blp)
     api.register_blueprint(albums_blp)
-    
+
     db.init_app(app)
     with app.app_context():
         db.drop_all()
