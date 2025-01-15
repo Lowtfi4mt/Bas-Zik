@@ -28,23 +28,25 @@ export function Header() {
 			}}
 			>
 			<nav>
-				<a href="/" class={url == '/' && 'active'} style={buttonstyle} >
-					💿 Welcome
-				</a>
-			</nav>
-			<nav>
 				<a href="/home" class={url == '/404' && 'active'} style={buttonstyle}>
-					🏠 Home
+					🏠 Accueil
 				</a>
 			</nav>
 			<nav>
 				<a href="/music" class={url == '/music' && 'active'} style={buttonstyle}>
-					🎵 Music
+					🎵 Musique
 				</a>
 			</nav>
 			<nav>
 				<a href="/layout" class={url == '/layout' && 'active'} style={buttonstyle}>
-					🎧 MyLayout
+					💿 Table de mixage
+				</a>
+			</nav>
+			<nav style={{
+        marginLeft: 'auto',
+      }}>
+				<a href="/" class={url == '/' && 'active'} style={buttonstyle} >
+					⬅️ Déconnexion
 				</a>
 			</nav>
 			</div>
