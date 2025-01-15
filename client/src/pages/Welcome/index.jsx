@@ -52,9 +52,24 @@ export function Welcome() {
   };
 
   return (
-    <div>
-      <button onClick={() => { setAuthProfile(defaultProfile); navigate('/home'); }}>Profil invité</button>
-      <input type="file" onChange={handleFileUpload} />
+    <div className="outer-container">
+    <div className="centered-container">
+      <div className="text-section">
+        <h1 className="title">Bas'Zik</h1>
+        <p className="subtitle">Avec Bas'Zik, c'est simple : vous n'avez pas les basses !</p>
+        <p>Bienvenue sur notre site d'écoute de musique Bas'Zik : Nous vous invitons à vous connecter en chargeant votre profil utilisateur si vous en possédez un ou à utiliser le profil invité.</p>
+      </div>
+
+      <div className="button-section">
+        <button className="button button-primary" onClick={() => { setAuthProfile(defaultProfile); navigate('/home'); }}>
+          Utiliser le profil invité
+        </button>
+        <label className="file-upload">
+          <input type="file" onChange={handleFileUpload} />
+          Charger un profil utilisateur
+        </label>
+      </div>
     </div>
-  );
+  </div>
+);
 }
