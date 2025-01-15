@@ -2,19 +2,15 @@ import fs from "fs";
 import path from "path";
 import { exec } from "child_process";
 import Innertube from "youtubei.js";
+import pLimit from "p-limit";
 
-// Fonction principale pour télécharger une playlist
 async function downloadPlaylist(playlistUrl) {
     try {
-        // Initialisation de youtubei
         const youtube2 = await Innertube.create();
-
         const playlistId = new URL(playlistUrl).searchParams.get("list");
         const playlist = await youtube2.music.getPlaylist(playlistId);
 
         const outputDir = "./output";
-
-        // Créer le dossier de sortie
         if (!fs.existsSync(outputDir)) {
             fs.mkdirSync(outputDir, { recursive: true });
         }
@@ -22,29 +18,24 @@ async function downloadPlaylist(playlistUrl) {
         let downloadQueue = playlist.contents.filter(
             (music) => music.item_type === "song"
         );
-
         console.log(`Téléchargement de la playlist : ${playlist.header.title}`);
 
+        const albumAssociation = {};
+        const limit = pLimit(10);
         let index = 0;
-        let albumAssociation = {};
 
-        for (const music of downloadQueue) {
+        // Fonction pour traiter une musique
+        const processMusic = async (music) => {
             const fileName = `${music.id}`;
-
             console.log(`Traitement de la musique : ${music.id} ${music.title}`);
 
-            // Chemins des fichiers
             const audioFileInput = path.join(outputDir, `${fileName}.mp3`);
             const audioFile = path.join(outputDir, `${fileName}.ogg`);
             const thumbnailFile = path.join(outputDir, `${fileName}.jpg`);
             const metadataFile = path.join(outputDir, `${fileName}.json`);
 
             try {
-                process.stdout.write("Download...   ");
-                // Télécharger l'audio avec yt-dlp
-                if (fs.existsSync(audioFileInput)) {
-                    process.stdout.write("Skipped...   ");
-                } else {
+                if (!fs.existsSync(audioFileInput)) {
                     await executeCommand(
                         `yt-dlp -x --audio-format mp3 -o \"${audioFileInput}\" https://music.youtube.com/watch?v=${music.id}`
                     );
@@ -53,46 +44,41 @@ async function downloadPlaylist(playlistUrl) {
                 let additionalInfo;
                 if (!music.artists || !music?.thumbnail?.contents) {
                     additionalInfo = await youtube2.music.getInfo(music.id);
-                    //console.log("thumb", additionalInfo.basic_info.thumbnail)
                 }
 
-                process.stdout.write("Thumbnail...   ");
-                // Télécharger la miniature
-                const thumbnailUrl =
-                    music?.thumbnail?.contents?.[0]?.url ||
-                    additionalInfo.basic_info.thumbnail[
-                        additionalInfo.basic_info.thumbnail.length - 1
-                    ].url;
-                if (fs.existsSync(thumbnailFile) || !thumbnailUrl) {
-                    process.stdout.write("Skipped...   ");
-                } else {
+                let thumbnailUrl = null;
+                if (music?.thumbnail?.contents) {
+                    thumbnailUrl = music.thumbnail.contents.reduce((smallest, current) => {
+                        return current.width < smallest.width ? current : smallest;
+                    }).url;
+                }
+                else {
+                    thumbnailUrl = additionalInfo?.basic_info.thumbnail.reduce((smallest, current) => {
+                        return current.width < smallest.width ? current : smallest;
+                    }).url;
+                }
+
+                if (thumbnailUrl && !fs.existsSync(thumbnailFile)) {
                     await executeCommand(
                         `curl -o \"${thumbnailFile}\" \"${thumbnailUrl}\"`
                     );
                 }
-                process.stdout.write("Convert...   ");
-                // Convertir en Ogg Vorbis avec ffmpeg
 
-                if (fs.existsSync(audioFile)) {
-                    process.stdout.write("Skipped...   ");
-                } else {
+                if (!fs.existsSync(audioFile)) {
                     await executeCommand(
                         `ffmpeg -i \"${audioFileInput}\" -ac 1 -ar 8000 -c:a libvorbis -qscale:a 0 \"${audioFile}\"`
                     );
                 }
-                process.stdout.write("Metadata...   ");
-                // Sauvegarder les métadonnées
+
                 const metadata = {
                     title: music.title,
-                    artists: music?.artists?.map((artist) => {
-                        return {
-                            name: artist.name,
-                            id: artist.channel_id,
-                        };
-                    }) || [
+                    artists: music?.artists?.map((artist) => ({
+                        name: artist.name,
+                        id: artist.channel_id,
+                    })) || [
                         {
-                            name: additionalInfo.basic_info.author,
-                            id: additionalInfo.basic_info.channel_id,
+                            name: additionalInfo?.basic_info.author,
+                            id: additionalInfo?.basic_info.channel_id,
                         },
                     ],
                     album: music.album
@@ -108,34 +94,22 @@ async function downloadPlaylist(playlistUrl) {
                     JSON.stringify(metadata, null, 2)
                 );
                 console.log("Done !");
-                index++;
 
                 if (music.album) {
                     const newAlbum = await youtube2.music.getAlbum(
                         music.album.id
                     );
-                    //console.log("album", newAlbum, newAlbum.header.thumbnail.contents)
-
-                    // const newAlbumThumbnailUrl = newAlbum.header.thumbnail.contents[0].url;
-                    // const thumbnailAlbumFile = path.join(outputDir, `${music.album.id}.jpg`);
-                    // if (fs.existsSync(thumbnailAlbumFile)) {
-                    //     process.stdout.write("Skipped...   ");
-                    // }
-                    // else {
-                    //     await executeCommand(`curl -o \"${thumbnailAlbumFile}\" \"${newAlbumThumbnailUrl}\"`);
-                    //     console.log("Thumbnail album téléchargée")
-                    // }
-
                     const newSongs = newAlbum.contents.filter(
                         (music) => music.item_type === "song"
                     );
+
                     newSongs.forEach((song) => {
                         albumAssociation[song.id] = {
                             name: music.album.name,
                             id: music.album.id,
                         };
                     });
-                    let numberAdded = 0;
+
                     for (const newSong of newSongs) {
                         if (
                             !downloadQueue.some(
@@ -143,31 +117,36 @@ async function downloadPlaylist(playlistUrl) {
                             )
                         ) {
                             downloadQueue.push(newSong);
-                            process.stdout.write(newSong.title + ",");
-                            numberAdded++;
+                            console.log(
+                                `Ajout de ${newSong.title} à la file d'attente`
+                            );
                         }
                     }
-                    console.log("");
-                    console.log(
-                        `Ajout de ${numberAdded} musiques à télécharger`
-                    );
                 }
-                console.log(
-                    `${index}/${downloadQueue.length} Téléchargement réussi : ${music.title}`
-                );
             } catch (error) {
-                console.log(music);
                 console.error(`Erreur pour ${music.title} :`, error);
+            } finally {
+                index++;
+                console.log(
+                    `${index}/${downloadQueue.length} téléchargements terminés`
+                );
             }
+        };
+
+        // Boucle pour traiter dynamiquement les musiques
+        while (downloadQueue.length > 0) {
+            const tasks = downloadQueue.splice(0, 10).map((music) =>
+                limit(() => processMusic(music))
+            );
+            await Promise.all(tasks);
         }
 
-        console.log(`Playlist téléchargée avec succès : ${playlist.title}`);
+        console.log(`Playlist téléchargée avec succès : ${playlist.header.title}`);
     } catch (error) {
         console.error("Erreur lors du téléchargement de la playlist :", error);
     }
 }
 
-// Fonction pour exécuter une commande système
 function executeCommand(command) {
     return new Promise((resolve, reject) => {
         exec(command, (error, stdout, stderr) => {
@@ -179,8 +158,6 @@ function executeCommand(command) {
     });
 }
 
-// URL de la playlist de base
-
 const playlistUrl =
-    "https://music.youtube.com/playlist?list=RDCLAK5uy_mn6mX0GYERCgJxFbmlSXE8Vxqhafy1VoY";
+    "https://music.youtube.com/playlist?list=LRYRIylIuWRkOvpdDJkT_enRfVUInzzXUKo2b&si=jFMW7ydwbC5TiRTJ";
 downloadPlaylist(playlistUrl);
