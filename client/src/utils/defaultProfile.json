@@ -8,7 +8,7 @@
         "background" : "#ecf0f1" 
       },
       "leftPanel" : "Home",
-      "centerPanel" : "MusicManager",
-      "rightPanel" : "NotFound"
+      "centerPanel" : "AudioPage",
+      "rightPanel" : "MusicList"
     }
   }
