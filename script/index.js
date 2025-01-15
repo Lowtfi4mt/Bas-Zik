@@ -31,7 +31,7 @@ async function downloadPlaylist(playlistUrl) {
         for (const music of downloadQueue) {
             const fileName = `${music.id}`;
 
-            console.log(`\\nTraitement de la musique : ${music.title}`);
+            console.log(`Traitement de la musique : ${music.id} ${music.title}`);
 
             // Chemins des fichiers
             const audioFileInput = path.join(outputDir, `${fileName}.mp3`);
@@ -161,7 +161,7 @@ async function downloadPlaylist(playlistUrl) {
             }
         }
 
-        console.log(`\\nPlaylist téléchargée avec succès : ${playlist.title}`);
+        console.log(`Playlist téléchargée avec succès : ${playlist.title}`);
     } catch (error) {
         console.error("Erreur lors du téléchargement de la playlist :", error);
     }
