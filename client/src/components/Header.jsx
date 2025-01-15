@@ -34,8 +34,10 @@ export function Header() {
 				<a href="/music" class={url == '/music' && 'active'}>
 					Music
 				</a>
-				<a href="/music" class={url == '/music' && 'active'}>
-					Music
+			</nav>
+			<nav>
+				<a href="/layout" class={url == '/layout' && 'active'} style={buttonstyle}>
+					🎧 MyLayout
 				</a>
 			</nav>
 			<nav>
