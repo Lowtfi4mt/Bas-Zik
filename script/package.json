@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "youtubei": "^1.6.7",
+    "youtubei.js": "^12.2.0",
+    "ytmusic-api": "^5.2.2"
+  }
+}
