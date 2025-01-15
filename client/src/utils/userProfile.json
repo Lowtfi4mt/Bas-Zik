@@ -7,8 +7,8 @@
         "secondary" : "#ecf0f1", 
         "background" : "#3498db" 
       },
-      "leftPanel" : "MusicManager",
-      "centerPanel" : "NotFound",
+      "leftPanel" : "AudioPage",
+      "centerPanel" : "MusicList",
       "rightPanel" : "Home"
     }
   }
