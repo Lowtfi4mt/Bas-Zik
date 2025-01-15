@@ -7,7 +7,6 @@ import ProtectedRoute from './components/PrivateRoute.jsx';
 import { Welcome } from './pages/Welcome/index.jsx';
 import { ProfileProvider } from './helpers/ProfileContext';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import SpecialLayout from './pages/SpecialLayout/index.jsx';
 import UserSettings from './pages/UserSettings/index.jsx';
 
 export function App() {
@@ -20,7 +19,7 @@ export function App() {
 				<Route path="/home" Component={() => <ProtectedRoute component={Home} />} />
         <Route path="/profile" Component={() => <ProtectedRoute component={UserSettings} />} />
 				<Route path="/music" Component={() => <ProtectedRoute component={MusicManager} />} />
-				<Route path="/layout" Component={() => <ProtectedRoute component={SpecialLayout} />} />
+				<Route path="/layout" Component={() => <ProtectedRoute component={MusicManager} />} />
 				<Route default Component={NotFound} />
 			</Routes>
           </Router>
