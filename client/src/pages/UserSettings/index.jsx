@@ -163,7 +163,7 @@ const UserSettings = () => {
             </form>
 
             <div className="layout-editor">
-                <h2>Modifier le Layout</h2>
+                <h2>Modifier la mise en page</h2>
                 <div className="layout-manager-container">
                     {['leftPanel', 'centerPanel', 'rightPanel'].map((column) => (
                         <div
@@ -172,7 +172,7 @@ const UserSettings = () => {
                             onDrop={(e) => handleDrop(e, column)}
                             onDragOver={allowDrop}
                         >
-                            <h3>{column}</h3>
+                            <h3>{column === 'leftPanel' ? 'Gauche' : (column === 'centerPanel' ? 'Centre' : 'Droite')}</h3>
                             {layout[column] && (
                                 <div
                                     className="layout-manager-item"

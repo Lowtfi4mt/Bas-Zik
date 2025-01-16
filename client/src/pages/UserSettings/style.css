@@ -83,16 +83,17 @@ button.disabled {
 
 .layout-manager-container {
   display: flex;
-  max-height: 100px;
+  max-height: 250px;
   justify-content: space-between;
   gap: 10px;
 }
 
 .layout-manager-column {
+  display: flex;
+  flex-direction: column;
   width: 100px;
   border: 2px dashed #ccc;
   border-radius: 8px;
-  display: flex;
   align-items: center;
   justify-content: center;
   background-color: #f7f7f7;
