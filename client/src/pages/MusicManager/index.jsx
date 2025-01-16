@@ -1,17 +1,16 @@
 import './style.css';
 import { useState, useRef, useEffect } from 'preact/hooks';
 import { Fragment } from 'preact';
-import { Header } from '../../components/Header';
 import SpecialLayout from '../SpecialLayout';
 
 const MusicManager = () => {
   const audioRef = useRef(null);
 
   // Liste de lecture
-  const playlist = [
+  const [playlist, setPlaylist] = useState([
     { src: '../../../public/Titanium 8K.ogg' },
     { src: '../../../public/Benny Hill Theme.mp3' },
-  ];
+  ]);
 
   // Piste actuelle
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
@@ -73,11 +72,10 @@ const MusicManager = () => {
 
   return (
     <Fragment>
-      <Header />
       <Fragment>
         {/* Balise audio visible */}
         <audio ref={audioRef} style={{ display: 'none' }} />
-        <SpecialLayout audioRef={audioRef} handleNext={handleNext} handlePrevious={handlePrevious} handlePlay={handlePlay} />
+        <SpecialLayout audioRef={audioRef} playlist={playlist} handleNext={handleNext} handlePrevious={handlePrevious} handlePlay={handlePlay} />
       </Fragment>
     </Fragment>
   );
