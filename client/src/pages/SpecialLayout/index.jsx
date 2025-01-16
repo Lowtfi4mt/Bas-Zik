@@ -27,20 +27,21 @@ const SpecialLayout = ({ audioRef, playlist , handleNext, handlePrevious, handle
     return (
         <div 
         className="layout-container" 
-        style={{ backgroundColor: theme.background, color: theme.primary }}
         >
         {/* Left Menu */}
         <div 
             className={`layout-sidebar layout-left ${isLeftCollapsed ? 'collapsed' : ''}`} 
-            style={{ backgroundColor: theme.secondary }}
         >
-            <button 
-            className="toggle-button" 
-            onClick={() => setLeftCollapsed(!isLeftCollapsed)}
-            >
-            {isLeftCollapsed ? '→' : '←'}
-            </button>
             {!isLeftCollapsed && leftContent}
+            <div className="layout-sidebar-header" style={{ backgroundColor: theme.primary }}>
+                <button 
+                className="toggle-button" 
+                style={{ backgroundColor: theme.secondary }}
+                onClick={() => setLeftCollapsed(!isLeftCollapsed)}
+                >
+                    {isLeftCollapsed ? '→' : '←'}
+                </button>
+            </div>
         </div>
 
         {/* Main Content */}
@@ -51,14 +52,16 @@ const SpecialLayout = ({ audioRef, playlist , handleNext, handlePrevious, handle
         {/* Right Menu */}
         <div 
             className={`layout-sidebar layout-right ${isRightCollapsed ? 'collapsed' : ''}`} 
-            style={{ backgroundColor: theme.secondary }}
         >
-            <button 
-            className="toggle-button" 
-            onClick={() => setRightCollapsed(!isRightCollapsed)}
-            >
-            {isRightCollapsed ? '←' : '→'}
-            </button>
+            <div className="layout-sidebar-header" style={{ backgroundColor: theme.primary }}>
+                <button 
+                className="toggle-button" 
+                style={{ backgroundColor: theme.secondary }}
+                onClick={() => setRightCollapsed(!isRightCollapsed)}
+                >
+                {isRightCollapsed ? '←' : '→'}
+                </button>
+            </div>
             {!isRightCollapsed && rightContent}
         </div>
         </div>
