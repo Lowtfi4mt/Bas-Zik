@@ -12,3 +12,10 @@ En mode développement :
 ```
 docker compose -f docker-compose.dev.yaml up
 ```
+
+# Ports de l'application
+Frontend - Production : 80
+
+Frontend - Développement : 5173
+
+Backend : 5000
