@@ -72,11 +72,9 @@ const MusicManager = () => {
 
   return (
     <Fragment>
-      <Fragment>
-        {/* Balise audio visible */}
-        <audio ref={audioRef} style={{ display: 'none' }} />
-        <SpecialLayout audioRef={audioRef} playlist={playlist} handleNext={handleNext} handlePrevious={handlePrevious} handlePlay={handlePlay} />
-      </Fragment>
+      {/* Balise audio visible */}
+			<audio ref={audioRef} style={{ display: 'none' }} />
+      <SpecialLayout audioRef={audioRef} playlist={playlist} handleNext={handleNext} handlePrevious={handlePrevious} handlePlay={handlePlay} />
     </Fragment>
   );
 };
