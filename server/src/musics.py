@@ -78,20 +78,6 @@ class AppMusicDetailResource(MethodView):
         return None
 
 
-@musics_blp.route("/app/search/<string:music_name>")
-class AppMusicSearchResource(MethodView):
-    """
-    Resource for searching app musics by name
-    """
-
-    @musics_blp.response(200, AppMusicSchema(many=True))
-    def get(self, music_name):
-        """
-        Get all musics in the app matching the search query
-        """
-        return AppMusic.query.filter(AppMusic.title.like(f"%{music_name}%")).all()
-
-
 @musics_blp.route("/app/top/<int:top_count>")
 class AppMusicTopResource(MethodView):
     """

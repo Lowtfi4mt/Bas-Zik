@@ -4,6 +4,7 @@ This module contains the schemas for the music API
 
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
 from models import Music, AppMusic, ProposedMusic, Author, Album
+from marshmallow import fields, Schema
 
 
 class MusicSchema(SQLAlchemyAutoSchema):
@@ -69,3 +70,14 @@ class AlbumSchema(SQLAlchemyAutoSchema):
         load_instance = True
         include_relationships = True
         exclude = ("id",)
+
+
+class SearchResultSchema(Schema):
+    """
+    A schema for a search result
+    Contains a list of authors, albums and musics
+    """
+
+    authors = fields.List(fields.Nested(AuthorSchema))
+    albums = fields.List(fields.Nested(AlbumSchema))
+    musics = fields.List(fields.Nested(MusicSchema))
