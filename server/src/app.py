@@ -9,6 +9,7 @@ from flask_smorest import Api
 from musics import musics_blp
 from authors import authors_blp
 from albums import albums_blp
+from search import search_blp
 from models import db, AppMusic, Author, Album
 
 USE_MOCKS = True
@@ -35,6 +36,7 @@ def create_app() -> Flask:
     api.register_blueprint(musics_blp)
     api.register_blueprint(authors_blp)
     api.register_blueprint(albums_blp)
+    api.register_blueprint(search_blp)
 
     db.init_app(app)
     with app.app_context():
