@@ -5,7 +5,7 @@ import { NotFound } from './pages/_404.jsx';
 import MusicManager from './pages/MusicManager/index.jsx';
 import ProtectedRoute from './components/PrivateRoute.jsx';
 import { Welcome } from './pages/Welcome/index.jsx';
-import { ProfileProvider } from './helpers/ProfileContext';
+import { ProfileProvider } from './contexts/ProfileContext.jsx';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import UserSettings from './pages/UserSettings/index.jsx';
 
