@@ -1,11 +1,10 @@
 import { useState } from 'preact/hooks';
 import './style.css';
 import { Home } from '../Home';
-import { NotFound } from '../_404';
 import AudioPage from '../AudioPage';
 import { MusicList } from '../MusicList';
 
-const SpecialLayout = ({ audioRef , handleNext, handlePrevious, handlePlay }) => {
+const SpecialLayout = ({ audioRef, playlist , handleNext, handlePrevious, handlePlay }) => {
     const profile = JSON.parse(localStorage.getItem('profile'));
     const leftContent = setContent(profile.layout.leftPanel);
     const mainContent = setContent(profile.layout.centerPanel); 
@@ -21,7 +20,7 @@ const SpecialLayout = ({ audioRef , handleNext, handlePrevious, handlePlay }) =>
             case 'AudioPage':
                 return AudioPage({ audioRef , handleNext, handlePrevious, handlePlay });
             case 'MusicList':
-                return MusicList();
+                return MusicList({playlist});
         }
     }
 
