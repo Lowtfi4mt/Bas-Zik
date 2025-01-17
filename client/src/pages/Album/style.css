@@ -1,0 +1,148 @@
+/* Conteneur principal */
+.album-container {
+    display: flex;
+    flex-direction: column; /* Par défaut : composants en colonne */
+    gap: 20px;
+    padding: 0;
+    height: 100vh; /* Prend toute la hauteur de l'écran */
+    overflow-y: auto; /* Permet le défilement si nécessaire */
+  }
+  
+  /* Partie gauche */
+  .left-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    
+  }
+  
+  /* Image de la pochette */
+  .album-cover {
+    max-height: 70vh;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Titre de l'album */
+  .album-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  /* Nom de l'artiste */
+  .artist-name {
+    font-size: 1.2rem;
+    font-style: italic;
+    text-align: center;
+    color: #555;
+  }
+  
+  /* Partie droite */
+  .right-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .tracklist-title {
+    display: flex;
+    /**/
+    margin-bottom: 10px;
+  }
+
+  .listTitle {
+    flex: 6.5;
+    font-size: 1.5rem;
+  }
+
+  .listenAll {
+    display: flex;
+    flex: 3.5;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .listenAllButton {
+    display: inline-block;
+    border: 2px solid;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 1px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    align-items: center;
+    font-weight: bold;
+  }
+  
+  /* Liste des musiques */
+  .tracklist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto; /* Permet le défilement des musiques */
+    max-height: 60vh; /* Limite la hauteur de la liste */
+  }
+  
+  .track {
+    display: flex;
+    border: 2px solid;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 1px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .trackinfo {
+    flex: 7;
+  }
+
+  .tracklisten {
+    display: flex;
+    flex: 3;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .listen {
+    display: inline-block;
+    border: 2px solid;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 1px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    align-items: center;
+    font-weight: bold;
+    background-color: white;
+  }
+
+  .listen:hover {
+    background-color: rgb(240, 240, 240);
+  }
+
+  .listenAllButton:hover {
+    background-color: rgb(240, 240, 240);
+  }
+  
+  /* Media Query pour les écrans larges */
+  @media (min-width: 768px) {
+    .album-container {
+      flex-direction: row; /* Composants en ligne */
+      gap: 40px;
+    }
+  
+    .left-section {
+      flex: 1; /* Prend la moitié gauche */
+      align-items: flex-start;
+    }
+  
+    .right-section {
+      flex: 1; /* Prend la moitié droite */
+    }
+  
+    .tracklist {
+      max-height: unset; /* Retire la limite de hauteur */
+    }
+  }
+  
