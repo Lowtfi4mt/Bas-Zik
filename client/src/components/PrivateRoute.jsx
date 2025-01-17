@@ -1,4 +1,4 @@
-import { useProfile } from '../helpers/ProfileContext';
+import { useProfile } from '../contexts/ProfileContext';
 import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {

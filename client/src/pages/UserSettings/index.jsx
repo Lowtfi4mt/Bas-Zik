@@ -29,6 +29,11 @@ const UserSettings = () => {
     const [username, setUserName] = useState(user.username);
     const [theme, setTheme] = useState(user.layout.theme);
     const [isModified, setIsModified] = useState(false);
+    const [layout, setLayout] = useState({
+        leftPanel: user.layout.leftPanel,
+        centerPanel: user.layout.centerPanel,
+        rightPanel: user.layout.rightPanel,
+    });
 
     const handleUserNameChange = (e) => {
         setUserName(e.target.value);
@@ -45,6 +50,9 @@ const UserSettings = () => {
         if (isModified) {
             user.username = username;
             user.layout.theme = theme;
+            user.layout.leftPanel = layout.leftPanel;
+            user.layout.centerPanel = layout.centerPanel;
+            user.layout.rightPanel = layout.rightPanel;
             const isSaved = saveProfile(user);
             if (isSaved) {
                 setIsModified(false);
@@ -89,6 +97,28 @@ const UserSettings = () => {
         URL.revokeObjectURL(url);
     };
 
+    const handleDragStart = (e, column) => {
+        e.dataTransfer.setData('column', column);
+    };
+
+    const handleDrop = (e, targetColumn) => {
+        e.preventDefault();
+        const sourceColumn = e.dataTransfer.getData('column');
+        if (!sourceColumn || sourceColumn === targetColumn) return;
+
+        setLayout((prevLayout) => {
+            const updatedLayout = { ...prevLayout };
+            [updatedLayout[sourceColumn], updatedLayout[targetColumn]] = [
+                updatedLayout[targetColumn],
+                updatedLayout[sourceColumn],
+            ];
+            return updatedLayout;
+        });
+        setIsModified(true);
+    };
+
+    const allowDrop = (e) => e.preventDefault();
+
     return (
         <div className="user-editor">
             {/* Titre */}
@@ -131,6 +161,31 @@ const UserSettings = () => {
                     </div>
                 </div>
             </form>
+
+            <div className="layout-editor">
+                <h2>Modifier la mise en page</h2>
+                <div className="layout-manager-container">
+                    {['leftPanel', 'centerPanel', 'rightPanel'].map((column) => (
+                        <div
+                            key={column}
+                            className={`layout-manager-column ${column}`}
+                            onDrop={(e) => handleDrop(e, column)}
+                            onDragOver={allowDrop}
+                        >
+                            <h3>{column === 'leftPanel' ? 'Gauche' : (column === 'centerPanel' ? 'Centre' : 'Droite')}</h3>
+                            {layout[column] && (
+                                <div
+                                    className="layout-manager-item"
+                                    draggable
+                                    onDragStart={(e) => handleDragStart(e, column)}
+                                >
+                                    {layout[column] === 'NavigationPage' ? 'Page de navigation' : (layout[column] === 'AudioPage' ? 'Tourne disque' : 'Liste de lecture')}
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            </div>
 
             {/* Boutons */}
             <div className="user-editor-buttons">
