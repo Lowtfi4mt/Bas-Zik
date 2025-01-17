@@ -26,8 +26,16 @@ class Music(db.Model):
     """
 
     __tablename__ = "musics"
-    id = db.Column(db.Integer, primary_key=True, doc="The music ID")
-    title = db.Column(db.String(100), nullable=False, doc="The music title")
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+        doc="The music ID",
+    )
+    title = db.Column(
+        db.String(100),
+        nullable=False,
+        doc="The music title",
+    )
     type = db.Column(
         db.String(50),
         nullable=False,
@@ -50,10 +58,21 @@ class AppMusic(Music):
     """
 
     __tablename__ = "app_musics"
-    id = db.Column(db.Integer, db.ForeignKey("musics.id"), primary_key=True)
-    path = db.Column(db.String(200), doc="The path to the music file")
-    duration = db.Column(db.Integer, doc="The music duration in seconds")
-    likes = db.Column(db.Integer, doc="How many likes the music has")
+    path = db.Column(
+        db.String(200),
+        nullable=False,
+        doc="The path to the music file",
+    )
+    duration = db.Column(
+        db.Integer,
+        nullable=False,
+        doc="The music duration in seconds",
+    )
+    likes = db.Column(
+        db.Integer,
+        default=0,
+        doc="How many likes the music has",
+    )
 
     __mapper_args__ = {
         "polymorphic_identity": "app_music",
@@ -66,8 +85,11 @@ class ProposedMusic(Music):
     """
 
     __tablename__ = "proposed_musics"
-    id = db.Column(db.Integer, db.ForeignKey("musics.id"), primary_key=True)
-    votes = db.Column(db.Integer, doc="How many votes the music has")
+    votes = db.Column(
+        db.Integer,
+        default=0,
+        doc="How many votes the music has",
+    )
 
     __mapper_args__ = {
         "polymorphic_identity": "proposed_music",
@@ -79,8 +101,16 @@ class Author(db.Model):
     """
 
     __tablename__ = "authors"
-    id = db.Column(db.Integer, primary_key=True, doc="The author ID")
-    name = db.Column(db.String(100), nullable=False, doc="The author name")
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+        doc="The author ID",
+    )
+    name = db.Column(
+        db.String(100),
+        nullable=False,
+        doc="The author name",
+    )
 
     musics = db.relationship("Music", secondary=music_author, back_populates="authors")
 
@@ -91,7 +121,15 @@ class Album(db.Model):
     """
 
     __tablename__ = "albums"
-    id = db.Column(db.Integer, primary_key=True, doc="The album ID")
-    name = db.Column(db.String(100), nullable=False, doc="The album name")
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+        doc="The album ID",
+    )
+    name = db.Column(
+        db.String(100),
+        nullable=False,
+        doc="The album name",
+    )
 
     musics = db.relationship("Music", secondary=music_album, back_populates="albums")

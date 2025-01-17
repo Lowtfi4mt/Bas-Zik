@@ -28,7 +28,7 @@ class AuthorResource(MethodView):
         """
         return Author.query.all()
 
-    @authors_blp.arguments(AuthorSchema)
+    @authors_blp.arguments(AuthorSchema(session=db.session))
     @authors_blp.response(201, AuthorSchema)
     def post(self, new_author):
         """
@@ -52,7 +52,7 @@ class AuthorDetailResource(MethodView):
         """
         return Author.query.get_or_404(author_id)
 
-    @authors_blp.arguments(AuthorSchema)
+    @authors_blp.arguments(AuthorSchema(session=db.session))
     @authors_blp.response(200, AuthorSchema)
     def put(self, author, author_id):
         """

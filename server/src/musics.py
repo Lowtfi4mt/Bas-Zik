@@ -49,16 +49,6 @@ class AppMusicResource(MethodView):
 
         return app_music_from_json_data
 
-    @musics_blp.arguments(AppMusicSchema)
-    @musics_blp.response(200, AppMusicSchema)
-    def put(self, music):
-        """
-        Update a music in the app
-        """
-        db.session.add(music)
-        db.session.commit()
-        return music
-
 
 @musics_blp.route("/app/<int:music_id>")
 class AppMusicDetailResource(MethodView):
@@ -73,7 +63,7 @@ class AppMusicDetailResource(MethodView):
         """
         return AppMusic.query.get_or_404(music_id)
 
-    @musics_blp.arguments(AppMusicSchema)
+    @musics_blp.arguments(AppMusicSchema(session=db.session))
     @musics_blp.response(200, AppMusicSchema)
     def put(self, music, music_id):
         """
@@ -95,6 +85,34 @@ class AppMusicDetailResource(MethodView):
         return None
 
 
+@musics_blp.route("/app/top/<int:top_count>")
+class AppMusicTopResource(MethodView):
+    """
+    Resource for getting the top x app musics
+    """
+
+    @musics_blp.response(200, AppMusicSchema(many=True))
+    def get(self, top_count):
+        """
+        Get the top x musics in the app
+        """
+        return AppMusic.query.order_by(AppMusic.likes.desc()).limit(top_count).all()
+
+
+@musics_blp.route("/app/random/<int:random_count>")
+class AppMusicRandomResource(MethodView):
+    """
+    Resource for getting random app musics
+    """
+
+    @musics_blp.response(200, AppMusicSchema(many=True))
+    def get(self, random_count):
+        """
+        Get random musics from the app
+        """
+        return AppMusic.query.order_by(random()).limit(random_count).all()
+
+
 @musics_blp.route("/proposals")
 class ProposedMusicResource(MethodView):
     """
@@ -108,7 +126,7 @@ class ProposedMusicResource(MethodView):
         """
         return ProposedMusic.query.all()
 
-    @musics_blp.arguments(ProposedMusicSchema)
+    @musics_blp.arguments(ProposedMusicSchema(session=db.session))
     @musics_blp.response(201, ProposedMusicSchema)
     def post(self, new_proposal):
         """
@@ -132,7 +150,7 @@ class ProposedMusicDetailResource(MethodView):
         """
         return ProposedMusic.query.get_or_404(music_id)
 
-    @musics_blp.arguments(ProposedMusicSchema)
+    @musics_blp.arguments(ProposedMusicSchema(session=db.session))
     @musics_blp.response(200, ProposedMusicSchema)
     def put(self, proposal, music_id):
         """

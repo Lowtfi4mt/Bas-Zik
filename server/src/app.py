@@ -34,9 +34,26 @@ def create_app() -> Flask:
     api.register_blueprint(musics_blp)
     api.register_blueprint(authors_blp)
     api.register_blueprint(albums_blp)
-    api.register_blueprint(s3_blp)
+
+    api.register_blueprint(search_blp)
 
     db.init_app(app)
+    with app.app_context():
+        db.drop_all()
+        db.create_all()
+
+    if USE_MOCKS:
+        create_mock_data(app)
+
+    return app
+
+
+def create_mock_data(app):
+    """
+    Create mock data for the app
+    """
+    with app.app_context():
+        fake = Faker()
 
     if CREATE_DB_FROM_ZERO:
         with app.app_context():
@@ -45,7 +62,6 @@ def create_app() -> Flask:
                 process_s3_bucket(app)
             except Exception as e:
                 print(f"Error processing S3 bucket: {e}")
-
 
     return app
 
