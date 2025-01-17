@@ -43,6 +43,11 @@ export function Header() {
 					⚙️ Profil
 				</a>
 			</nav>
+			<nav>
+				<a href="/contact" class={url == '/contact' && 'active'} style={buttonstyle}>
+					📞 Contact
+				</a>
+			</nav>
 			</div>
 		</header>
 	);
