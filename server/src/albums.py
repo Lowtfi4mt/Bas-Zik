@@ -4,8 +4,8 @@ Module for handling music albums
 
 from flask_smorest import Blueprint
 from flask.views import MethodView
-from schemas import AlbumSchema
-from models import db, Album
+from src.schemas import AlbumSchema
+from src.models import db, Album
 
 albums_blp = Blueprint(
     "albums",

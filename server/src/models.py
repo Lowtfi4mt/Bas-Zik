@@ -95,7 +95,6 @@ class ProposedMusic(Music):
         "polymorphic_identity": "proposed_music",
     }
 
-
 class Author(db.Model):
     """
     An author model
