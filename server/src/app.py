@@ -2,17 +2,16 @@
 Simple Flask API
 """
 
-import random
-from faker import Faker
 from flask import Flask
 from flask_smorest import Api
-from musics import musics_blp
-from authors import authors_blp
-from albums import albums_blp
-from models import db, Music, Author, Album
+from src.musics import musics_blp
+from src.authors import authors_blp
+from src.albums import albums_blp
+from src.models import db
+from src.s3 import s3_blp
+from src.utils import process_s3_bucket
 
-USE_MOCKS = True
-
+CREATE_DB_FROM_ZERO = True
 
 def create_app() -> Flask:
     """
@@ -35,35 +34,22 @@ def create_app() -> Flask:
     api.register_blueprint(musics_blp)
     api.register_blueprint(authors_blp)
     api.register_blueprint(albums_blp)
-    
-    db.init_app(app)
-    with app.app_context():
-        db.drop_all()
-        db.create_all()
+    api.register_blueprint(s3_blp)
 
-    if USE_MOCKS:
-        create_mock_data(app)
+    db.init_app(app)
+
+    if CREATE_DB_FROM_ZERO:
+        with app.app_context():
+            db.create_all()
+            try:
+                process_s3_bucket(app)
+            except Exception as e:
+                print(f"Error processing S3 bucket: {e}")
+
 
     return app
 
-
-def create_mock_data(app):
-    with app.app_context():
-        fake = Faker()
-
-        # Generate authors
-        for _ in range(10):
-            author = Author(name=fake.name())
-            db.session.add(author)
-
-        # Generate albums
-        for _ in range(10):
-            album = Album(name=fake.sentence())
-            db.session.add(album)
-
-        db.session.commit()
-
+app = create_app()
 
 if __name__ == "__main__":
-    main_app = create_app()
-    main_app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)

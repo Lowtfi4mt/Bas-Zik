@@ -3,7 +3,7 @@ This module contains the schemas for the music API
 """
 
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
-from models import Music, AppMusic, ProposedMusic, Author, Album
+from src.models import Music, AppMusic, ProposedMusic, Author, Album
 
 
 class MusicSchema(SQLAlchemyAutoSchema):
@@ -26,8 +26,6 @@ class AppMusicSchema(SQLAlchemyAutoSchema):
 
     class Meta:
         model = AppMusic
-        exclude = ("type",)
-
 
 class ProposedMusicSchema(SQLAlchemyAutoSchema):
     """
