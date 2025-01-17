@@ -1,5 +1,6 @@
 import './style.css';
 import { useState, useEffect } from 'preact/hooks';
+import durationFormat from '../../helpers/durationDisplay';
 
 const AudioPlayer = ({ audioRef, handleNext, handlePrevious, handlePlay }) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -90,7 +91,7 @@ const AudioPlayer = ({ audioRef, handleNext, handlePrevious, handlePlay }) => {
           }}
         />
         <div className="time-display" style={{ color: theme.primary }}>
-          {Math.round(currentTime)} / {Math.round(duration)} sec
+          {durationFormat(Math.round(currentTime))} / {durationFormat(Math.round(duration))}
         </div>
       </div>
     </div>

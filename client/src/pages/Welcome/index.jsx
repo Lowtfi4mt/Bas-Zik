@@ -1,5 +1,5 @@
 import { checkIsProfile } from '../../helpers/profileCheck';
-import { useProfile } from '../../helpers/ProfileContext';
+import { useProfile } from '../../contexts/ProfileContext';
 import './style.css';
 import defaultProfile from '../../utils/defaultProfile.json';
 import { Navigate, useNavigate } from 'react-router-dom';
