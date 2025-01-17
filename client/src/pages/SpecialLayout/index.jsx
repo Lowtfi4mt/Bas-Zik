@@ -1,8 +1,8 @@
 import { useState } from 'preact/hooks';
 import './style.css';
-import { Home } from '../Home';
 import AudioPage from '../AudioPage';
 import { MusicList } from '../MusicList';
+import NavigationPage from '../NavigationPage';
 
 const SpecialLayout = ({ audioRef, playlist , handleNext, handlePrevious, handlePlay }) => {
     const profile = JSON.parse(localStorage.getItem('profile'));
@@ -15,8 +15,8 @@ const SpecialLayout = ({ audioRef, playlist , handleNext, handlePrevious, handle
 
     function setContent(page){
         switch(page){
-            case 'Home':
-                return Home();
+            case 'NavigationPage':
+                return NavigationPage();
             case 'AudioPage':
                 return AudioPage({ audioRef , handleNext, handlePrevious, handlePlay });
             case 'MusicList':

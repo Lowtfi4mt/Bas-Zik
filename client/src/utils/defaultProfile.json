@@ -7,7 +7,7 @@
         "secondary" : "#2ecc71", 
         "background" : "#ecf0f1" 
       },
-      "leftPanel" : "Home",
+      "leftPanel" : "NavigationPage",
       "centerPanel" : "AudioPage",
       "rightPanel" : "MusicList"
     }

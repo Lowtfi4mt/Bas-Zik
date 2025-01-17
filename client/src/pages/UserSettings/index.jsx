@@ -179,7 +179,7 @@ const UserSettings = () => {
                                     draggable
                                     onDragStart={(e) => handleDragStart(e, column)}
                                 >
-                                    {layout[column]}
+                                    {layout[column] === 'NavigationPage' ? 'Page de navigation' : (layout[column] === 'AudioPage' ? 'Tourne disque' : 'Liste de lecture')}
                                 </div>
                             )}
                         </div>

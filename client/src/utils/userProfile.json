@@ -9,6 +9,6 @@
       },
       "leftPanel" : "AudioPage",
       "centerPanel" : "MusicList",
-      "rightPanel" : "Home"
+      "rightPanel" : "NavigationPage"
     }
   }

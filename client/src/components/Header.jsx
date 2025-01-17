@@ -29,30 +29,18 @@ export function Header() {
 			>
 			<nav>
 				<a href="/" class={url == '/' && 'active'} style={buttonstyle} >
-					💿 Welcome
+					💿 Page de connexion
 				</a>
-				<a href="/music" class={url == '/music' && 'active'}>
-					Music
+			</nav>
+			
+			<nav>
+				<a href="/app" class={url == '/app' && 'active'} style={buttonstyle}>
+					🎵 Musique
 				</a>
 			</nav>
 			<nav>
-				<a href="/layout" class={url == '/layout' && 'active'} style={buttonstyle}>
-					🎧 MyLayout
-				</a>
-			</nav>
-			<nav>
-				<a href="/home" class={url == '/404' && 'active'} style={buttonstyle}>
-					🏠 Home
-				</a>
-			</nav>
-			<nav>
-				<a href="/music" class={url == '/music' && 'active'} style={buttonstyle}>
-					🎵 Music
-				</a>
-			</nav>
-			<nav>
-				<a href="/layout" class={url == '/layout' && 'active'} style={buttonstyle}>
-					🎧 MyLayout
+				<a href="/profile" class={url == '/profile' && 'active'} style={buttonstyle}>
+					⚙️ Profil
 				</a>
 			</nav>
 			</div>

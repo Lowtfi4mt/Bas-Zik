@@ -18,7 +18,7 @@ export function App() {
 				<Route path="/" Component={Welcome} />
 				<Route path="/home" Component={() => <ProtectedRoute component={Home} />} />
         <Route path="/profile" Component={() => <ProtectedRoute component={UserSettings} />} />
-				<Route path="/layout" Component={() => <ProtectedRoute component={MusicManager} />} />
+				<Route path="/app" Component={() => <ProtectedRoute component={MusicManager} />} />
 				<Route default Component={NotFound} />
 			</Routes>
           </Router>
