@@ -2,17 +2,14 @@
 Module for handling app musics and proposed musics
 """
 
-import json
 from flask_smorest import Blueprint
 from flask.views import MethodView
-from src.schemas import (
+from schemas import (
     AppMusicSchema,
     ProposedMusicSchema,
 )
-from src.models import *
-from src.s3 import create_package_from_files, upload_package_to_s3
-from src.utils import *
-from flask import request
+from models import db, AppMusic, ProposedMusic
+from sqlalchemy.sql.functions import random
 
 musics_blp = Blueprint(
     "musics",
@@ -35,19 +32,15 @@ class AppMusicResource(MethodView):
         """
         return AppMusic.query.all()
 
+    @musics_blp.arguments(AppMusicSchema(session=db.session))
     @musics_blp.response(201, AppMusicSchema)
-    def post(self):
-
-        package=create_package_from_files(request)
-        print(package)
-        #upload_package_to_s3(package)
-
-        app_music_from_json_data = create_app_music_from_json(package.get('json'))
-
-        db.session.add(app_music_from_json_data)
+    def post(self, new_music):
+        """
+        Add a new music to the app
+        """
+        db.session.add(new_music)
         db.session.commit()
-
-        return app_music_from_json_data
+        return new_music
 
 
 @musics_blp.route("/app/<int:music_id>")
