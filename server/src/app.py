@@ -8,7 +8,7 @@ from src.musics import musics_blp
 from src.authors import authors_blp
 from src.albums import albums_blp
 from src.models import db
-from src.s3 import s3_blp
+from src.search import search_blp
 from src.utils import process_s3_bucket
 
 CREATE_DB_FROM_ZERO = True
@@ -34,26 +34,9 @@ def create_app() -> Flask:
     api.register_blueprint(musics_blp)
     api.register_blueprint(authors_blp)
     api.register_blueprint(albums_blp)
-
     api.register_blueprint(search_blp)
 
     db.init_app(app)
-    with app.app_context():
-        db.drop_all()
-        db.create_all()
-
-    if USE_MOCKS:
-        create_mock_data(app)
-
-    return app
-
-
-def create_mock_data(app):
-    """
-    Create mock data for the app
-    """
-    with app.app_context():
-        fake = Faker()
 
     if CREATE_DB_FROM_ZERO:
         with app.app_context():
