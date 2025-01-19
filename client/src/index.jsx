@@ -25,7 +25,7 @@ export function App() {
 				<Route path="/" Component={Welcome} />
 				<Route path="/home" Component={() => <ProtectedRoute component={Home} />} />
         <Route path="/profile" Component={() => <ProtectedRoute component={UserSettings} />} />
-				<Route path="/app" Component={() => <ProtectedRoute component={MusicManager} />} />
+				<Route path="/app/*" Component={() => <ProtectedRoute component={MusicManager} />} />
         <Route path="/contact" Component={() => <ProtectedRoute component={Contact} />} />
         <Route path='/propose' Component={() => <ProtectedRoute component={PropositionPage} />} />
         <Route path='/search' Component={() => <ProtectedRoute component={SearchResults} />} />
