@@ -1,9 +1,16 @@
+"""
+Utility functions for processing JSON files and S3 buckets
+"""
+
 import json
 from models import db, AppMusic, Album, Author, Music
 from s3 import s3_client, BUCKET_NAME
 
 
 def create_app_music_from_json(file):
+    """
+    Create an AppMusic instance from a JSON file
+    """
     try:
         json_data = json.load(file)
 
@@ -27,6 +34,9 @@ def create_app_music_from_json(file):
 
 
 def insert_music_from_json(json_data, base_name):
+    """
+    Insert music data into the database from a JSON file
+    """
 
     # Extracting information
     title = json_data.get("title")
@@ -76,6 +86,9 @@ def insert_music_from_json(json_data, base_name):
 
 
 def process_s3_bucket(app):
+    """
+    Process the S3 bucket, downloading and inserting music data into the database
+    """
     try:
         # List all objects in the S3 bucket
         response = s3_client.list_objects_v2(Bucket=BUCKET_NAME)
