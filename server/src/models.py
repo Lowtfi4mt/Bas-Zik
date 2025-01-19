@@ -19,6 +19,12 @@ music_album = db.Table(
     db.Column("album_id", db.Integer, db.ForeignKey("albums.id"), primary_key=True),
 )
 
+album_author = db.Table(
+    "album_author",
+    db.Column("album_id", db.Integer, db.ForeignKey("albums.id"), primary_key=True),
+    db.Column("author_id", db.Integer, db.ForeignKey("authors.id"), primary_key=True),
+)
+
 
 class Music(db.Model):
     """
@@ -42,7 +48,6 @@ class Music(db.Model):
         doc="Internal discriminator for joined table inheritance, hidden from frontend",
     )
 
-    # Relationships
     authors = db.relationship("Author", secondary=music_author, back_populates="musics")
     albums = db.relationship("Album", secondary=music_album, back_populates="musics")
 
@@ -114,6 +119,7 @@ class Author(db.Model):
     )
 
     musics = db.relationship("Music", secondary=music_author, back_populates="authors")
+    albums = db.relationship("Album", secondary=album_author, back_populates="authors")
 
 
 class Album(db.Model):
@@ -134,3 +140,4 @@ class Album(db.Model):
     )
 
     musics = db.relationship("Music", secondary=music_album, back_populates="albums")
+    authors = db.relationship("Author", secondary=album_author, back_populates="albums")
