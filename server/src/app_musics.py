@@ -88,6 +88,23 @@ class AppMusicDetailResource(MethodView):
         return None
 
 
+@app_musics_blp.route("/<int:music_id>/like")
+class AppMusicLikeResource(MethodView):
+    """
+    Resource for liking an app music
+    """
+
+    @app_musics_blp.response(200, AppMusicSchema)
+    def post(self, music_id):
+        """
+        Like an app music
+        """
+        music = AppMusic.query.get_or_404(music_id)
+        music.likes += 1
+        db.session.commit()
+        return music
+
+
 @app_musics_blp.route("/top/<int:top_count>")
 class AppMusicTopResource(MethodView):
     """

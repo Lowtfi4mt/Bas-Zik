@@ -72,3 +72,20 @@ class ProposedMusicDetailResource(MethodView):
         db.session.delete(proposal)
         db.session.commit()
         return None
+
+
+@musics_proposals_blp.route("/<int:music_id>/vote")
+class ProposedMusicVoteResource(MethodView):
+    """
+    Resource for voting on a proposed music
+    """
+
+    @musics_proposals_blp.response(204)
+    def post(self, music_id):
+        """
+        Vote on a proposed music
+        """
+        proposal = ProposedMusic.query.get_or_404(music_id)
+        proposal.votes += 1
+        db.session.commit()
+        return None
