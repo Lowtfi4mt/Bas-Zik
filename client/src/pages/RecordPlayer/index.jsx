@@ -1,5 +1,6 @@
 import './style.css';
 import { useState, useRef, useEffect } from 'preact/hooks';
+import { usePlaylist } from '../../contexts/PlaylistContext';
 
 const RecordPlayer = ({ audioRef }) => {
   const [isDragging, setIsDragging] = useState(false);
@@ -8,16 +9,12 @@ const RecordPlayer = ({ audioRef }) => {
   const [initialAudioTime, setInitialAudioTime] = useState(null); // Temps audio initial
   const turntableRef = useRef(null);
 
+  const { playlist, currentTrackIndex } = usePlaylist();
+
   const MAX_TURNS = 30; // 30 tours pour couvrir toute la durée de l'audio
 
   // Récupérer le thème depuis localStorage
   const theme = JSON.parse(localStorage.getItem('profile')).layout.theme;
-
-  // Fonction pour nettoyer le titre
-  const cleanTitle = (title) => {
-    return decodeURIComponent(title) // Décodage pour remplacer %20 par des espaces
-      .replace(/\.[^/.]+$/, ''); // Supprime l'extension (par exemple .ogg, .mp3)
-  };
 
   // Calcul de la rotation basée sur l'audio
   const calculateRotationFromAudio = () => {
@@ -97,7 +94,6 @@ const RecordPlayer = ({ audioRef }) => {
   // Gestion du relâchement souris
   const handleMouseUp = () => {
     setIsDragging(false);
-    const audio = audioRef.current;
   };
 
   return (
@@ -120,7 +116,7 @@ const RecordPlayer = ({ audioRef }) => {
           onMouseLeave={isDragging ? handleMouseUp : () => {}} // Arrête le drag en cas de sortie de la souris
         >
           <div className="center-label" style={{ backgroundColor: 'grey' }}>
-            {audioRef.current ? cleanTitle(audioRef.current.src.split('/').pop()) : 'No music playing'}
+            {audioRef.current ? (playlist[currentTrackIndex].title) : 'Pas de titre...'}
           </div>
         </div>
         <div
