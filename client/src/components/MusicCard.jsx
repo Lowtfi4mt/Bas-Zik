@@ -8,7 +8,7 @@ import { usePlaylist } from "../contexts/PlaylistContext";
 const MusicCard = ({ music, nowPlaying = null }) => {
     const [menuOpen, setMenuOpen] = useState(false);
 
-    const { setPlaylist, currentTrackIndex } = usePlaylist();
+    const { playlist, setPlaylist, currentTrackIndex, setCurrentTrackIndex } = usePlaylist();
 
     let image = REMOTE_STORAGE_URL + music.path.split("/")[1] + ".jpg";
     let title = music.title;
@@ -21,7 +21,12 @@ const MusicCard = ({ music, nowPlaying = null }) => {
     }
 
     const handlePlayNow = () => {
-        setPlaylist([music]);
+        if (nowPlaying){
+            setCurrentTrackIndex(playlist.findIndex((track) => track.id == music.id));
+        }
+        else {
+            setPlaylist([music]);
+        }
         setMenuOpen(false);
     }
 
