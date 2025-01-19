@@ -9,6 +9,9 @@ from schemas import (
     ProposedMusicSchema,
 )
 from models import db, AppMusic, ProposedMusic
+from s3 import create_package_from_files, upload_package_to_s3
+from utils import create_app_music_from_json
+from flask import request
 from sqlalchemy.sql.functions import random
 
 musics_blp = Blueprint(
@@ -32,15 +35,21 @@ class AppMusicResource(MethodView):
         """
         return AppMusic.query.all()
 
-    @musics_blp.arguments(AppMusicSchema(session=db.session))
     @musics_blp.response(201, AppMusicSchema)
-    def post(self, new_music):
+    def post(self):
         """
         Add a new music to the app
         """
-        db.session.add(new_music)
+        package = create_package_from_files(request)
+        print(package)
+        # upload_package_to_s3(package)
+
+        app_music_from_json_data = create_app_music_from_json(package.get("json"))
+
+        db.session.add(app_music_from_json_data)
         db.session.commit()
-        return new_music
+
+        return app_music_from_json_data
 
 
 @musics_blp.route("/app/<int:music_id>")
