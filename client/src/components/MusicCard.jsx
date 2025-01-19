@@ -31,13 +31,13 @@ const MusicCard = ({ music, nowPlaying = null }) => {
     }
 
     return (
-        <div className="music-card">
+        <div className={`music-card ${nowPlaying == 0 ? "now-playing" : ""} ${nowPlaying < 0 ? "passed" : ""}`}>
             {/* Image */}
             <img src={image} alt={title} className="music-image" />
 
             {/* Infos principales */}
             <div className="music-info">
-                {nowPlaying == 0 && <span className="now-playing">▶ En cours de lecture...</span>}
+                {nowPlaying == 0 && <span>▶ En cours de lecture...</span>}
                 <h3 className="music-title">{title}</h3>
                 <p className="music-meta">
                     {music.authors.length > 0 ? (
