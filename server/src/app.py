@@ -41,6 +41,7 @@ def create_app() -> Flask:
 
     if CREATE_DB_FROM_ZERO:
         with app.app_context():
+            db.drop_all()
             db.create_all()
             try:
                 process_s3_bucket(app)
@@ -50,7 +51,6 @@ def create_app() -> Flask:
     return app
 
 
-app = create_app()
-
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    flask_app = create_app()
+    flask_app.run(host="0.0.0.0", port=5000, debug=True)
