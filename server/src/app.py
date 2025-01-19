@@ -29,7 +29,6 @@ def create_app() -> Flask:
     )
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    app.config["SQLALCHEMY_ECHO"] = True
     app.config["SQLALCHEMY_ECHO"] = False
 
     api = Api(app)
@@ -46,6 +45,7 @@ def create_app() -> Flask:
             db.create_all()
             try:
                 process_s3_bucket(app)
+            # pylint: disable=broad-except
             except Exception as e:
                 print(f"Error processing S3 bucket: {e}")
 

@@ -3,6 +3,7 @@ Module for handling app musics and proposed musics
 """
 
 from flask_smorest import Blueprint
+from flask import request
 from flask.views import MethodView
 from schemas import (
     AppMusicSchema,
@@ -11,7 +12,6 @@ from schemas import (
 from models import db, AppMusic, ProposedMusic
 from s3 import create_package_from_files, upload_package_to_s3
 from utils import create_app_music_from_json
-from flask import request
 from sqlalchemy.sql.functions import random
 
 
