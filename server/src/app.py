@@ -4,6 +4,7 @@ Simple Flask API
 
 from flask import Flask
 from flask_smorest import Api
+from flask_cors import CORS
 from app_musics import app_musics_blp
 from musics_proposals import musics_proposals_blp
 from authors import authors_blp
@@ -20,6 +21,7 @@ def create_app() -> Flask:
     Create the Flask app
     """
     app = Flask(__name__)
+    CORS(app)
     app.config["API_TITLE"] = "My API"
     app.config["API_VERSION"] = "v1"
     app.config["OPENAPI_VERSION"] = "3.0.3"
