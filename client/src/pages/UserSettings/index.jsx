@@ -189,7 +189,7 @@ const UserSettings = () => {
 
             {/* Boutons */}
             <div className="user-editor-buttons">
-                <button type="button" onClick={handleCancel}>
+                <button type="button" class="cancel-button" onClick={handleCancel}>
                     Retour
                 </button>
                 <button
@@ -200,7 +200,7 @@ const UserSettings = () => {
                 >
                     Sauvegarder
                 </button>
-                <button type="button" onClick={handleExport}>
+                <button type="button" class="validate-button" onClick={handleExport}>
                     Exporter JSON
                 </button>
             </div>

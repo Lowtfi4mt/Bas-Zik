@@ -1,96 +1,92 @@
-import './style.css';
+import { useEffect, useState } from "preact/hooks";
+import { useParams } from "react-router-dom";
+import MusicCard from "../../components/MusicCard";
+import { Link } from "react-router-dom";
+import { fetchAlbum } from "../../helpers/getAlbum";
+import { usePlaylist } from "../../contexts/PlaylistContext";
 
-export function Album() {
+const Album = () => {
+    const [results, setResults] = useState(null);
+    const { setPlaylist, currentTrackIndex } = usePlaylist();
+    const { id } = useParams();
 
-    const theme = JSON.parse(localStorage.getItem('profile')).layout.theme;
-    const trackstyle = {
-        backgroundColor: theme.background,
-        borderColor: 'black',
-    }
+    useEffect(() => {
+        fetchAlbum(id).then((result) => setResults(result));
+    }, [id]);
 
-    const mockTracks = [
-        {
-          id: 1,
-          title: "Stairway to Heaven",
-          artist: "Led Zeppelin",
-          },
-        {
-          id: 2,
-          title: "Bohemian Rhapsody",
-          artist: "Queen",
-        },
-        {
-          id: 3,
-          title: "Hotel California",
-          artist: "Eagles",
-        },
-        {
-          id: 4,
-          title: "Imagine",
-          artist: "John Lennon",
-        },
-        {
-          id: 5,
-          title: "Smells Like Teen Spirit",
-          artist: "Nirvana",
-        },
-        {
-          id: 6,
-          title: "Billie Jean",
-          artist: "Michael Jackson",
-        },
-        {
-          id: 7,
-          title: "Purple Rain",
-          artist: "Prince",
-        },
-        {
-          id: 8,
-          title: "Sweet Child O' Mine",
-          artist: "Guns N' Roses",
-        },
-        {
-          id: 9,
-          title: "Like a Rolling Stone",
-          artist: "Bob Dylan",
-        },
-        {
-          id: 10,
-          title: "Hey Jude",
-          artist: "The Beatles",
-        },
-      ];
-      
+    const handlePlayNext = () => {
+        fetchAlbum(id).then((result) =>
+            setPlaylist((prev) => {
+                prev.splice(currentTrackIndex + 1, 0, ...result.musics);
+                return prev;
+            })
+        );
+    };
 
-  return (
-    <div className="album-container">
-      {/* Partie gauche */}
-      <div style={{backgroundColor: theme.background}} className="left-section">
-        <img src='../../public/BasZicLogo.png' alt={`Album cover`} className="album-cover" />
-        <h1 className="album-title">Album</h1>
-        <h2 className="artist-name">Artiste</h2>
-      </div>
+    const handlePlayNow = () => {
+        fetchAlbum(id).then((result) => setPlaylist(result.musics));
+    };
 
-      {/* Partie droite */}
-      <div className="right-section">
-        <div className="tracklist-title">
-        <div className="listTitle"> <h3 className="tracklist-title">Liste des Titres</h3> </div>
-        <div className="listenAll" style={{color: theme.primary}}> <div className="listenAllButton">  ▶️  Ecouter l'album </div> </div> </div>
-        <ul className="tracklist">
-        {mockTracks.map((track) => (
-        <div key={track.id} style={trackstyle} className="track">
-            <div style={{color: theme.primary}} className="trackinfo">
-                <h3>{track.title}</h3>
-                <h4> Artist: {track.artist} </h4>
-            </div>
-            <div style={{color: theme.secondary}} className="tracklisten"> <div className="listen">
-             ▶️  Ecouter
-            </div>
-            </div>
+    const handleAddToQueue = () => {
+        fetchAlbum(id).then((result) =>
+            setPlaylist((prev) => [...prev, ...result.musics])
+        );
+    };
+
+    return (
+        <div style={{ padding: "20px" }}>
+            {results ? (
+                <>
+                    <div>
+                        <h1>Page d&apos;album &bull; {results.title}</h1>
+                        <h2>
+                            {results.authors.length > 0 ? (
+                                results.authors.map((author, index) => (
+                                    <span key={index}>
+                                        <Link
+                                            to={`/artist/${results.authorsId[index]}`}
+                                        >
+                                            {author}
+                                        </Link>
+                                        {index < results.authors.length - 1 &&
+                                            " et "}
+                                    </span>
+                                ))
+                            ) : (
+                                <span>Artiste inconnu</span>
+                            )}{" "}
+                            &bull; {results.musicCount} titres
+                        </h2>
+                        <div>
+                            <ul>
+                                <li onClick={handlePlayNow}>Lire maintenant</li>
+                                <li onClick={handlePlayNext}>Lire ensuite</li>
+                                <li onClick={handleAddToQueue}>
+                                    Ajouter à la file d&apos;attente
+                                </li>
+                                <li>Ajouter à une liste de lecture</li>
+                            </ul>
+                        </div>
+
+                        <h2>Titres</h2>
+                        <div
+                            style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "20px",
+                            }}
+                        >
+                            {results.musics.map((music) => (
+                                <MusicCard key={music.id} music={music} />
+                            ))}
+                        </div>
+                    </div>
+                </>
+            ) : (
+                <p>Loading...</p>
+            )}
         </div>
-      ))}
-        </ul>
-      </div>
-    </div>
-  );
-}
+    );
+};
+
+export default Album;

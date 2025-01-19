@@ -38,6 +38,12 @@ export function Header() {
 					🎵 Musique
 				</a>
 			</nav>
+			
+			<nav>
+				<a href="/propose" class={url == '/propose' && 'active'} style={buttonstyle}>
+					🎶 Proposition
+				</a>
+			</nav>
 			<nav>
 				<a href="/profile" class={url == '/profile' && 'active'} style={buttonstyle}>
 					⚙️ Profil
