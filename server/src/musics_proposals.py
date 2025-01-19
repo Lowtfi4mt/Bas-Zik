@@ -39,7 +39,7 @@ class ProposedMusicResource(MethodView):
         return new_proposal
 
 
-@musics_proposals_blp.route("//<int:music_id>")
+@musics_proposals_blp.route("/<int:music_id>")
 class ProposedMusicDetailResource(MethodView):
     """
     Resource for a specific proposed music
