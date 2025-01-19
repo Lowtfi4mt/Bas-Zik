@@ -37,7 +37,9 @@ class AppMusicResource(MethodView):
 
     @musics_blp.response(201, AppMusicSchema)
     def post(self):
-
+        """
+        Add a new music to the app
+        """
         package = create_package_from_files(request)
         print(package)
         # upload_package_to_s3(package)
