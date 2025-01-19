@@ -28,7 +28,7 @@ class SearchResource(MethodView):
         """
         authors = Author.query.filter(Author.name.ilike(f"%{query}%")).all()
         musics = AppMusic.query.filter(AppMusic.title.ilike(f"%{query}%")).all()
-        albums = Album.query.filter(Album.title.ilike(f"%{query}%")).all()
+        albums = Album.query.filter(Album.name.ilike(f"%{query}%")).all()
 
         return {
             "authors": authors,
