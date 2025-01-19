@@ -2,6 +2,8 @@ import { useEffect, useState } from "preact/hooks";
 import { API_URL } from "../../constants";
 import { useSearchParams } from "react-router-dom";
 import MusicCard from "../../components/MusicCard";
+import AlbumCard from "../../components/AlbumCard";
+import ArtistCard from "../../components/ArtistCard";
 
 const SearchResults = () => {
     const [results, setResults] = useState(null);
@@ -73,9 +75,22 @@ const SearchResults = () => {
                 results ? (
                     <div>
                         <h1>Résultats de la recherche pour &apos;{query}&apos;</h1>
+                        <h2>Titres</h2>
                         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                             {results.musics.map((music) => (
-                                <MusicCard key={music.path} music={music} />
+                                <MusicCard key={music.id} music={music} />
+                            ))}
+                        </div>
+                        <h2>Albums</h2>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                            {results.albums.map((album) => (
+                                <AlbumCard key={album.id} album={album} />
+                            ))}
+                        </div>
+                        <h2>Artistes</h2>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                            {results.artists.map((artist) => (
+                                <ArtistCard key={artist.id} artist={artist} />
                             ))}
                         </div>
                     </div>

@@ -1,55 +1,40 @@
 import { useState } from "preact/hooks";
 import "./Card.css";
 import { REMOTE_STORAGE_URL } from "../constants";
-import durationFormat from "../helpers/durationDisplay";
 import { Link } from "react-router-dom";
 
-const MusicCard = ({ music }) => {
+const MusicCard = ({ album }) => {
     const [menuOpen, setMenuOpen] = useState(false);
 
-    let image = REMOTE_STORAGE_URL + music.path.split("/")[1] + ".jpg";
-    let title = music.title;
-    let duration = durationFormat(music.duration);
-    let likes = music.likes;
+    let image = REMOTE_STORAGE_URL + album.path.split("/")[1] + ".jpg";
+    let title = album.title;
+    let musics = album.musicCount;
 
     return (
         <div className="music-card">
             {/* Image */}
             <img src={image} alt={title} className="music-image" />
 
-            {/* Infos principales */}
             <div className="music-info">
-                <h3 className="music-title">{title}</h3>
+                <Link to={`/album/${album.id}`}>
+                    <h3 className="music-title">{title}</h3>
+                </Link>
                 <p className="music-meta">
-                    {music.authors.length > 0 ? (
-                        music.authors.map((author, index) => (
+                    {album.authors.length > 0 ? (
+                        album.authors.map((author, index) => (
                             <span key={index}>
-                                <Link to={`/artist/${music.authorsId[index]}`}>
+                                <Link to={`/artist/${album.authorsId[index]}`}>
                                     {author}
                                 </Link>
-                                {index < music.authors.length - 1 && " et "}
+                                {index < album.authors.length - 1 && " et "}
                             </span>
                         ))
                     ) : (
                         <span>Artiste inconnu</span>
                     )}
-                      &bull; {
-                        music.albums.length > 0 ? (
-                            music.albums.map((album, index) => (
-                                <span key={index}>
-                                    <Link to={`/album/${music.albumsId[index]}`}>
-                                        {album}
-                                    </Link>
-                                    {index < music.albums.length - 1 && " et "}
-                                </span>
-                            ))
-                        ) : (
-                            <span>Album inconnu</span>
-                        )
-                      }
                 </p>
                 <p className="music-stats">
-                    <span>{duration}</span> &bull; <span>{likes} likes</span>
+                    <span>{musics} titres</span>
                 </p>
             </div>
 
@@ -72,17 +57,11 @@ const MusicCard = ({ music }) => {
                         <li>Lire ensuite</li>
                         <li>Ajouter à la file d&apos;attente</li>
                         <li>Ajouter à une liste de lecture</li>
-                        {music.albumsId.length > 0 && (
-                            <Link to={`/album/${music.albumsId[0]}`}>
-                                <li>Accéder à l&apos;album</li>
-                            </Link>
-                        )}
-                        {music.authorsId.length > 0 && (
-                            <Link to={`/artist/${music.authorsId[0]}`}>
+                        {album.authorsId.length > 0 && (
+                            <Link to={`/artist/${album.authorsId[0]}`}>
                                 <li>Accéder à l&apos;artiste</li>
                             </Link>
                         )}
-                        <li>Ajouter un j&apos;aime</li>
                     </ul>
                 </div>
             )}
