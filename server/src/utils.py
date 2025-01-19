@@ -3,7 +3,7 @@ Utility functions for processing JSON files and S3 buckets
 """
 
 import json
-from models import db, AppMusic, Album, Author, Music
+from models import db, AppMusic, Album, Author
 from s3 import s3_client, BUCKET_NAME
 
 
@@ -67,7 +67,7 @@ def insert_music_from_json(json_data, base_name):
         authors.append(author)
 
     # Create and insert the music record
-    music = Music(title=title)
+    music = AppMusic(title=title)
     music.authors.extend(authors)
     music.albums.append(album)
 

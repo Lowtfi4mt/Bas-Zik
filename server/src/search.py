@@ -35,7 +35,7 @@ class SearchResource(MethodView):
         musics = AppMusic.query.filter(AppMusic.title.ilike(f"%{query}%")).limit(
             MAX_SEARCH_RESULTS
         )
-        albums = Album.query.filter(Album.title.ilike(f"%{query}%")).limit(
+        albums = Album.query.filter(Album.name.ilike(f"%{query}%")).limit(
             MAX_SEARCH_RESULTS
         )
 

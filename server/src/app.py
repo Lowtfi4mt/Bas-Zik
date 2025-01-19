@@ -9,9 +9,10 @@ from app_musics import app_musics_blp
 from musics_proposals import musics_proposals_blp
 from authors import authors_blp
 from albums import albums_blp
-from models import db
+from models import db, MusicProposal
 from search import search_blp
 from utils import process_s3_bucket
+from faker import Faker
 
 CREATE_DB_FROM_ZERO = False
 
@@ -52,6 +53,15 @@ def create_app() -> Flask:
             # pylint: disable=broad-except
             except Exception as e:
                 print(f"Error processing S3 bucket: {e}")
+
+    with app.app_context():
+        faker = Faker()
+        for _ in range(10):
+            music_proposal = MusicProposal(
+                title=faker.name(),
+            )
+            db.session.add(music_proposal)
+        db.session.commit()
 
     return app
 

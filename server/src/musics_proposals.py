@@ -6,6 +6,7 @@ from flask_smorest import Blueprint
 from flask.views import MethodView
 from schemas import MusicProposalSchema
 from models import db, MusicProposal
+from fuzzywuzzy import fuzz
 
 musics_proposals_blp = Blueprint(
     "musics_proposals",
@@ -89,3 +90,22 @@ class MusicProposalVoteResource(MethodView):
         proposal.votes += 1
         db.session.commit()
         return None
+
+
+@musics_proposals_blp.route("/search/<string:search>/fuzzy/<int:threshold>")
+class MusicProposalSearchResource(MethodView):
+    """
+    Resource for searching proposed musics with a fuzzy search
+    """
+
+    @musics_proposals_blp.response(200, MusicProposalSchema(many=True))
+    def get(self, search, threshold):
+        """
+        Search proposed musics with a fuzzy search
+        """
+        proposals = MusicProposal.query.all()
+        return [
+            proposal
+            for proposal in proposals
+            if fuzz.partial_ratio(search, proposal.title) >= threshold
+        ]
