@@ -9,6 +9,7 @@ import { ProfileProvider } from './contexts/ProfileContext.jsx';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import UserSettings from './pages/UserSettings/index.jsx';
 import Contact from './pages/Contact/index.jsx';
+import Album from './pages/Album/index.jsx';
 
 export function App() {
   return (
@@ -21,6 +22,7 @@ export function App() {
         <Route path="/profile" Component={() => <ProtectedRoute component={UserSettings} />} />
 				<Route path="/app" Component={() => <ProtectedRoute component={MusicManager} />} />
         <Route path="/contact" Component={() => <ProtectedRoute component={Contact} />} />
+        <Route path="/album" Component={() => <ProtectedRoute component={Album} />} />
 				<Route default Component={NotFound} />
 			</Routes>
           </Router>
