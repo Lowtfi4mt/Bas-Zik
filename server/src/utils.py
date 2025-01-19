@@ -28,6 +28,7 @@ def create_app_music_from_json(file):
             duration=duration or 0,
             likes=likes or 0,
         )
+    # pylint: disable=broad-except
     except Exception as e:
         print(f"Error creating AppMusic instance: {e}")
         return None
@@ -128,5 +129,6 @@ def process_s3_bucket(app):
                 result = insert_music_from_json(json_data, base_name)
                 print(result)
 
+    # pylint: disable=broad-except
     except Exception as e:
         print(f"Error processing S3 bucket: {e}")
