@@ -1,6 +1,7 @@
 import json
-from src.models import *
-from src.s3 import *
+from models import db, AppMusic, Album, Author, Music
+from s3 import s3_client, BUCKET_NAME
+
 
 def create_app_music_from_json(file):
     try:
@@ -18,15 +19,16 @@ def create_app_music_from_json(file):
             title=title,
             path=path or "",
             duration=duration or 0,
-            likes=likes or 0
+            likes=likes or 0,
         )
     except Exception as e:
         print(f"Error creating AppMusic instance: {e}")
         return None
 
+
 def insert_music_from_json(json_data, base_name):
 
-   # Extracting information
+    # Extracting information
     title = json_data.get("title")
     artists_data = json_data.get("artists", [])
     album_data = json_data.get("album", {})
@@ -59,13 +61,19 @@ def insert_music_from_json(json_data, base_name):
     music.albums.append(album)
 
     # If it's an app music, insert it in the correct model
-    app_music = AppMusic(id=music.id, title=music.title, duration=duration, path=f"{base_name}")
+    app_music = AppMusic(
+        id=music.id,
+        title=music.title,
+        duration=duration,
+        path=f"{base_name}",
+    )
     db.session.add(app_music)
 
     # Commit transaction
     db.session.commit()
 
     return {"message": f"Music '{title}' inserted successfully!"}
+
 
 def process_s3_bucket(app):
     try:
@@ -87,8 +95,16 @@ def process_s3_bucket(app):
 
             # Check if the corresponding files exist in the bucket
             available_files = {file["Key"] for file in files}
-            music_path = f"s3://{BUCKET_NAME}/{music_file}" if music_file in available_files else None
-            image_path = f"s3://{BUCKET_NAME}/{image_file}" if image_file in available_files else None
+            music_path = (
+                f"s3://{BUCKET_NAME}/{music_file}"
+                if music_file in available_files
+                else None
+            )
+            image_path = (
+                f"s3://{BUCKET_NAME}/{image_file}"
+                if image_file in available_files
+                else None
+            )
 
             # Download and process the JSON file
             json_object = s3_client.get_object(Bucket=BUCKET_NAME, Key=json_file)

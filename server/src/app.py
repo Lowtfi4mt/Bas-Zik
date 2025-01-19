@@ -4,14 +4,15 @@ Simple Flask API
 
 from flask import Flask
 from flask_smorest import Api
-from src.musics import musics_blp
-from src.authors import authors_blp
-from src.albums import albums_blp
-from src.models import db
-from src.search import search_blp
-from src.utils import process_s3_bucket
+from musics import musics_blp
+from authors import authors_blp
+from albums import albums_blp
+from models import db
+from search import search_blp
+from utils import process_s3_bucket
 
 CREATE_DB_FROM_ZERO = True
+
 
 def create_app() -> Flask:
     """
@@ -47,6 +48,7 @@ def create_app() -> Flask:
                 print(f"Error processing S3 bucket: {e}")
 
     return app
+
 
 app = create_app()
 
