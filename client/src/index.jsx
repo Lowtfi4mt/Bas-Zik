@@ -10,6 +10,7 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import UserSettings from './pages/UserSettings/index.jsx';
 import Contact from './pages/Contact/index.jsx';
 import { PropositionPage } from './pages/PropositionPage/index.jsx';
+import SearchResults from './pages/SearchResults/index.jsx';
 
 export function App() {
   return (
@@ -23,6 +24,7 @@ export function App() {
 				<Route path="/app" Component={() => <ProtectedRoute component={MusicManager} />} />
         <Route path="/contact" Component={() => <ProtectedRoute component={Contact} />} />
         <Route path='/propose' Component={() => <ProtectedRoute component={PropositionPage} />} />
+        <Route path='/search' Component={() => <ProtectedRoute component={SearchResults} />} />
 				<Route default Component={NotFound} />
 			</Routes>
           </Router>
