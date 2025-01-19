@@ -11,6 +11,8 @@ import UserSettings from './pages/UserSettings/index.jsx';
 import Contact from './pages/Contact/index.jsx';
 import { PropositionPage } from './pages/PropositionPage/index.jsx';
 import SearchResults from './pages/SearchResults/index.jsx';
+import Artist from './pages/Artist/index.jsx';
+import Album from './pages/Album/index.jsx';
 
 export function App() {
   return (
@@ -25,6 +27,8 @@ export function App() {
         <Route path="/contact" Component={() => <ProtectedRoute component={Contact} />} />
         <Route path='/propose' Component={() => <ProtectedRoute component={PropositionPage} />} />
         <Route path='/search' Component={() => <ProtectedRoute component={SearchResults} />} />
+        <Route path='/artist/:id' Component={() => <ProtectedRoute component={Artist} />} />
+        <Route path='/album/:id' Component={() => <ProtectedRoute component={Album} />} />
 				<Route default Component={NotFound} />
 			</Routes>
           </Router>
