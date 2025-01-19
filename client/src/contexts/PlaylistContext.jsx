@@ -5,17 +5,8 @@ const PlaylistContext = createContext(null);
 
 export const PlaylistProvider = ({ children }) => {
 
-  const initSongs = [
-    "LRPGqNeav_M",
-    "RkKyB284eHQ",
-    "Trcr4YBELCA",
-    "wl_QRuCPzbE",
-    "zNfyJxXcfp8",
-    "9VQ2J3PA7uo",
-  ]
-
-  const [playlist, setPlaylist] = useState(initSongs.map(path => ({ path })));
-  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+  const [playlist, setPlaylist] = useState([]);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(null);
 
   return (
     <PlaylistContext.Provider value={{ playlist, setPlaylist, currentTrackIndex, setCurrentTrackIndex }}>

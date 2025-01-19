@@ -3,7 +3,7 @@ import "./Card.css";
 import { REMOTE_STORAGE_URL } from "../constants";
 import { Link } from "react-router-dom";
 
-const MusicCard = ({ artist }) => {
+const ArtistCard = ({ artist }) => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     let image = REMOTE_STORAGE_URL + artist.path.split("/")[1] + ".jpg";
@@ -46,4 +46,4 @@ const MusicCard = ({ artist }) => {
     );
 };
 
-export default MusicCard;
+export default ArtistCard;

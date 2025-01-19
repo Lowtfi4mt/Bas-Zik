@@ -2,9 +2,28 @@ import { useState } from "preact/hooks";
 import "./Card.css";
 import { REMOTE_STORAGE_URL } from "../constants";
 import { Link } from "react-router-dom";
+import { usePlaylist } from "../contexts/PlaylistContext";
+import { fetchAlbum } from "../helpers/getAlbum";
 
-const MusicCard = ({ album }) => {
+const AlbumCard = ({ album }) => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const { setPlaylist, currentTrackIndex } = usePlaylist();
+    
+    const handlePlayNext = () => {
+        fetchAlbum(album.id).then(result => setPlaylist((prev) => {prev.splice(currentTrackIndex + 1, 0, ...result.musics); return prev;}));
+        setMenuOpen(false);
+    }
+
+    const handlePlayNow = () => {
+        fetchAlbum(album.id).then(result => setPlaylist(result.musics));
+        setMenuOpen(false);
+    }
+
+    const handleAddToQueue = () => {
+        fetchAlbum(album.id).then(result => setPlaylist((prev) => [...prev, ...result.musics]));
+        setMenuOpen(false);
+    }
+
 
     let image = REMOTE_STORAGE_URL + album.path.split("/")[1] + ".jpg";
     let title = album.title;
@@ -40,7 +59,7 @@ const MusicCard = ({ album }) => {
 
             {/* Boutons d'action */}
             <div className="music-actions">
-                <button className="play-button">▶</button>
+                <button className="play-button" onClick={handlePlayNow}>▶</button>
                 <button
                     className="more-options-button"
                     onClick={() => setMenuOpen(!menuOpen)}
@@ -53,9 +72,9 @@ const MusicCard = ({ album }) => {
             {menuOpen && (
                 <div className="context-menu">
                     <ul>
-                        <li>Lire maintenant</li>
-                        <li>Lire ensuite</li>
-                        <li>Ajouter à la file d&apos;attente</li>
+                        <li onClick={handlePlayNow}>Lire maintenant</li>
+                        <li onClick={handlePlayNext}>Lire ensuite</li>
+                        <li onClick={handleAddToQueue}>Ajouter à la file d&apos;attente</li>
                         <li>Ajouter à une liste de lecture</li>
                         {album.authorsId.length > 0 && (
                             <Link to={`/artist/${album.authorsId[0]}`}>
@@ -69,4 +88,4 @@ const MusicCard = ({ album }) => {
     );
 };
 
-export default MusicCard;
+export default AlbumCard;

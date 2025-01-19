@@ -3,22 +3,46 @@ import "./Card.css";
 import { REMOTE_STORAGE_URL } from "../constants";
 import durationFormat from "../helpers/durationDisplay";
 import { Link } from "react-router-dom";
+import { usePlaylist } from "../contexts/PlaylistContext";
 
-const MusicCard = ({ music }) => {
+const MusicCard = ({ music, nowPlaying = null }) => {
     const [menuOpen, setMenuOpen] = useState(false);
+
+    const { playlist, setPlaylist, currentTrackIndex, setCurrentTrackIndex } = usePlaylist();
 
     let image = REMOTE_STORAGE_URL + music.path.split("/")[1] + ".jpg";
     let title = music.title;
     let duration = durationFormat(music.duration);
     let likes = music.likes;
 
+    const handlePlayNext = () => {
+        setPlaylist((prev) => {prev.splice(currentTrackIndex + 1, 0, music); return prev;});
+        setMenuOpen(false);
+    }
+
+    const handlePlayNow = () => {
+        if (nowPlaying){
+            setCurrentTrackIndex(playlist.findIndex((track) => track.id == music.id));
+        }
+        else {
+            setPlaylist([music]);
+        }
+        setMenuOpen(false);
+    }
+
+    const handleAddToQueue = () => {
+        setPlaylist((prev) => [...prev, music]);
+        setMenuOpen(false);
+    }
+
     return (
-        <div className="music-card">
+        <div className={`music-card ${nowPlaying == 0 ? "now-playing" : ""} ${nowPlaying < 0 ? "passed" : ""}`}>
             {/* Image */}
             <img src={image} alt={title} className="music-image" />
 
             {/* Infos principales */}
             <div className="music-info">
+                {nowPlaying == 0 && <span>▶ En cours de lecture...</span>}
                 <h3 className="music-title">{title}</h3>
                 <p className="music-meta">
                     {music.authors.length > 0 ? (
@@ -55,7 +79,7 @@ const MusicCard = ({ music }) => {
 
             {/* Boutons d'action */}
             <div className="music-actions">
-                <button className="play-button">▶</button>
+                <button className="play-button" onClick={handlePlayNow}>▶</button>
                 <button
                     className="more-options-button"
                     onClick={() => setMenuOpen(!menuOpen)}
@@ -68,9 +92,9 @@ const MusicCard = ({ music }) => {
             {menuOpen && (
                 <div className="context-menu">
                     <ul>
-                        <li>Lire maintenant</li>
-                        <li>Lire ensuite</li>
-                        <li>Ajouter à la file d&apos;attente</li>
+                        <li onClick={handlePlayNow}>Lire maintenant</li>
+                        <li onClick={handlePlayNext}>Lire ensuite</li>
+                        <li onClick={handleAddToQueue}>Ajouter à la file d&apos;attente</li>
                         <li>Ajouter à une liste de lecture</li>
                         {music.albumsId.length > 0 && (
                             <Link to={`/album/${music.albumsId[0]}`}>
