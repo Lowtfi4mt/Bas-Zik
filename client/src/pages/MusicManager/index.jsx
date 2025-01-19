@@ -16,7 +16,7 @@ const MusicManager = () => {
       audioRef.current.src = REMOTE_STORAGE_URL + playlist[currentTrackIndex].path.split("/")[1] + ".ogg";
       audioRef.current.play(); // Démarre la lecture automatiquement
     }
-  }, [currentTrackIndex]);
+  }, [playlist[currentTrackIndex]?.id]);
 
   // Gestion de la fin de la piste
   useEffect(() => {
