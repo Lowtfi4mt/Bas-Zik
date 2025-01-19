@@ -7,6 +7,8 @@ from flask.views import MethodView
 from models import Author, AppMusic, Album
 from schemas import SearchResultSchema
 
+MAX_SEARCH_RESULTS = 10
+
 search_blp = Blueprint(
     "search",
     __name__,
@@ -26,9 +28,16 @@ class SearchResource(MethodView):
         """
         Search authors, musics and albums
         """
-        authors = Author.query.filter(Author.name.ilike(f"%{query}%")).all()
-        musics = AppMusic.query.filter(AppMusic.title.ilike(f"%{query}%")).all()
-        albums = Album.query.filter(Album.name.ilike(f"%{query}%")).all()
+
+        authors = Author.query.filter(Author.name.ilike(f"%{query}%")).limit(
+            MAX_SEARCH_RESULTS
+        )
+        musics = AppMusic.query.filter(AppMusic.title.ilike(f"%{query}%")).limit(
+            MAX_SEARCH_RESULTS
+        )
+        albums = Album.query.filter(Album.title.ilike(f"%{query}%")).limit(
+            MAX_SEARCH_RESULTS
+        )
 
         return {
             "authors": authors,
