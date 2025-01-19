@@ -1,6 +1,9 @@
 import './style.css';
+import { usePlaylist } from '../../contexts/PlaylistContext';
 
-export const MusicList = ({ playlist }) => {
+export const MusicList = () => {
+  const { playlist } = usePlaylist()
+
   return (
     <div className="music-list">
       <h1>Liste de lecture</h1>

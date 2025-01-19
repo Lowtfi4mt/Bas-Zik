@@ -13,10 +13,12 @@ import { PropositionPage } from './pages/PropositionPage/index.jsx';
 import SearchResults from './pages/SearchResults/index.jsx';
 import Artist from './pages/Artist/index.jsx';
 import Album from './pages/Album/index.jsx';
+import { PlaylistProvider } from './contexts/PlaylistContext.jsx';
 
 export function App() {
   return (
     <ProfileProvider>
+      <PlaylistProvider>
         <main>
           <Router>
 			<Routes>
@@ -33,6 +35,7 @@ export function App() {
 			</Routes>
           </Router>
         </main>
+      </PlaylistProvider>
     </ProfileProvider>
   );
 }
