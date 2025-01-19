@@ -4,14 +4,15 @@ Simple Flask API
 
 from flask import Flask
 from flask_smorest import Api
-from musics import musics_blp
+from app_musics import app_musics_blp
+from musics_proposals import musics_proposals_blp
 from authors import authors_blp
 from albums import albums_blp
 from models import db
 from search import search_blp
 from utils import process_s3_bucket
 
-CREATE_DB_FROM_ZERO = True
+CREATE_DB_FROM_ZERO = False
 
 
 def create_app() -> Flask:
@@ -32,7 +33,8 @@ def create_app() -> Flask:
     app.config["SQLALCHEMY_ECHO"] = False
 
     api = Api(app)
-    api.register_blueprint(musics_blp)
+    api.register_blueprint(app_musics_blp)
+    api.register_blueprint(musics_proposals_blp)
     api.register_blueprint(authors_blp)
     api.register_blueprint(albums_blp)
     api.register_blueprint(search_blp)
