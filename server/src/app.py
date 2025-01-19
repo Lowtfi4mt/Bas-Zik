@@ -9,11 +9,10 @@ from app_musics import app_musics_blp
 from musics_proposals import musics_proposals_blp
 from authors import authors_blp
 from albums import albums_blp
-from models import db
 from search import search_blp
 from utils import process_s3_bucket
 
-CREATE_DB_FROM_ZERO = False
+CREATE_DB_FROM_ZERO = True
 
 
 def create_app() -> Flask:
