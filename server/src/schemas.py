@@ -31,6 +31,12 @@ class AppMusicSchema(SQLAlchemyAutoSchema):
         """Meta class for the schema"""
 
         model = AppMusic
+        load_instance = True
+        include_relationships = True
+        exclude = (
+            "id",
+            "type",
+        )
 
 
 class ProposedMusicSchema(SQLAlchemyAutoSchema):
@@ -42,6 +48,8 @@ class ProposedMusicSchema(SQLAlchemyAutoSchema):
         """Meta class for the schema"""
 
         model = ProposedMusic
+        load_instance = True
+        include_relationships = True
         exclude = (
             "id",
             "type",
