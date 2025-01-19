@@ -79,7 +79,7 @@ class AppMusic(Music):
     }
 
 
-class ProposedMusic(Music):
+class MusicProposal(Music):
     """
     A proposed music model, inheriting from the base music model
     """

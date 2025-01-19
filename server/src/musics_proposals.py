@@ -4,8 +4,8 @@ Module for handling music proposals
 
 from flask_smorest import Blueprint
 from flask.views import MethodView
-from schemas import ProposedMusicSchema
-from models import db, ProposedMusic
+from schemas import MusicProposalSchema
+from models import db, MusicProposal
 
 musics_proposals_blp = Blueprint(
     "musics_proposals",
@@ -16,20 +16,20 @@ musics_proposals_blp = Blueprint(
 
 
 @musics_proposals_blp.route("/")
-class ProposedMusicResource(MethodView):
+class MusicProposalResource(MethodView):
     """
     Resource for proposed musics
     """
 
-    @musics_proposals_blp.response(200, ProposedMusicSchema(many=True))
+    @musics_proposals_blp.response(200, MusicProposalSchema(many=True))
     def get(self):
         """
         Get all proposed musics
         """
-        return ProposedMusic.query.all()
+        return MusicProposal.query.all()
 
-    @musics_proposals_blp.arguments(ProposedMusicSchema(session=db.session))
-    @musics_proposals_blp.response(201, ProposedMusicSchema)
+    @musics_proposals_blp.arguments(MusicProposalSchema(session=db.session))
+    @musics_proposals_blp.response(201, MusicProposalSchema)
     def post(self, new_proposal):
         """
         Add a new music proposal
@@ -40,25 +40,25 @@ class ProposedMusicResource(MethodView):
 
 
 @musics_proposals_blp.route("/<int:music_id>")
-class ProposedMusicDetailResource(MethodView):
+class MusicProposalDetailResource(MethodView):
     """
     Resource for a specific proposed music
     """
 
-    @musics_proposals_blp.response(200, ProposedMusicSchema)
+    @musics_proposals_blp.response(200, MusicProposalSchema)
     def get(self, music_id):
         """
         Get a specific proposed music
         """
-        return ProposedMusic.query.get_or_404(music_id)
+        return MusicProposal.query.get_or_404(music_id)
 
-    @musics_proposals_blp.arguments(ProposedMusicSchema(session=db.session))
-    @musics_proposals_blp.response(200, ProposedMusicSchema)
+    @musics_proposals_blp.arguments(MusicProposalSchema(session=db.session))
+    @musics_proposals_blp.response(200, MusicProposalSchema)
     def put(self, proposal, music_id):
         """
         Update a specific proposed music
         """
-        proposal = ProposedMusic.query.get_or_404(music_id)
+        proposal = MusicProposal.query.get_or_404(music_id)
         proposal.update(proposal)
         db.session.commit()
         return proposal
@@ -68,14 +68,14 @@ class ProposedMusicDetailResource(MethodView):
         """
         Delete a specific proposed music
         """
-        proposal = ProposedMusic.query.get_or_404(music_id)
+        proposal = MusicProposal.query.get_or_404(music_id)
         db.session.delete(proposal)
         db.session.commit()
         return None
 
 
 @musics_proposals_blp.route("/<int:music_id>/vote")
-class ProposedMusicVoteResource(MethodView):
+class MusicProposalVoteResource(MethodView):
     """
     Resource for voting on a proposed music
     """
@@ -85,7 +85,7 @@ class ProposedMusicVoteResource(MethodView):
         """
         Vote on a proposed music
         """
-        proposal = ProposedMusic.query.get_or_404(music_id)
+        proposal = MusicProposal.query.get_or_404(music_id)
         proposal.votes += 1
         db.session.commit()
         return None
