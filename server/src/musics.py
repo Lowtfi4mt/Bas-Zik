@@ -14,6 +14,9 @@ from utils import create_app_music_from_json
 from flask import request
 from sqlalchemy.sql.functions import random
 
+
+UPLOAD_TO_S3 = False
+
 musics_blp = Blueprint(
     "musics",
     __name__,
@@ -42,7 +45,8 @@ class AppMusicResource(MethodView):
         """
         package = create_package_from_files(request)
         print(package)
-        # upload_package_to_s3(package)
+        if UPLOAD_TO_S3:
+            upload_package_to_s3(package)
 
         app_music_from_json_data = create_app_music_from_json(package.get("json"))
 
