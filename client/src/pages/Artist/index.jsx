@@ -13,7 +13,7 @@ const Artist = () => {
             try {
                 const response = await fetch(API_URL + `authors/${id}`);
                 const data = await response.json();
-                setResults(data.results);
+                setResults(data);
             } catch (error) {
                 console.error("Error fetching search results:", error);
             }

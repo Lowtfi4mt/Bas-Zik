@@ -15,7 +15,7 @@ const SearchResults = () => {
             try {
                 const response = await fetch(API_URL + `search/${query}`);
                 const data = await response.json();
-                setResults(data.results);
+                setResults(data);
             } catch (error) {
                 console.error("Error fetching search results:", error);
             }
