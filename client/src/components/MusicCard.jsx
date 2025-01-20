@@ -77,7 +77,7 @@ const MusicCard = ({ music, nowPlaying = null }) => {
                     {music.authors.length > 0 ? (
                         music.authors.map((author, index) => (
                             <span key={index}>
-                                <Link to={`/artist/${music.authorsId[index]}`}>
+                                <Link to={`/app/artist/${music.authorsId[index]}`}>
                                     {author}
                                 </Link>
                                 {index < music.authors.length - 1 && " et "}
@@ -90,7 +90,7 @@ const MusicCard = ({ music, nowPlaying = null }) => {
                         music.albums.length > 0 ? (
                             music.albums.map((album, index) => (
                                 <span key={index}>
-                                    <Link to={`/album/${music.albumsId[index]}`}>
+                                    <Link to={`/app/album/${music.albumsId[index]}`}>
                                         {album}
                                     </Link>
                                     {index < music.albums.length - 1 && " et "}
@@ -126,12 +126,12 @@ const MusicCard = ({ music, nowPlaying = null }) => {
                         <li onClick={handleAddToQueue}>Ajouter à la file d&apos;attente</li>
                         <li>Ajouter à une liste de lecture</li>
                         {music.albumsId.length > 0 && (
-                            <Link to={`/album/${music.albumsId[0]}`}>
+                            <Link to={`/app/album/${music.albumsId[0]}`}>
                                 <li>Accéder à l&apos;album</li>
                             </Link>
                         )}
                         {music.authorsId.length > 0 && (
-                            <Link to={`/artist/${music.authorsId[0]}`}>
+                            <Link to={`/app/artist/${music.authorsId[0]}`}>
                                 <li>Accéder à l&apos;artiste</li>
                             </Link>
                         )}

@@ -18,7 +18,7 @@ const ArtistCard = ({ artist }) => {
 
             {/* Infos principales */}
             <div className="music-info">
-                <Link to={`/artist/${artist.id}`}><h3 className="music-title">{title}</h3></Link>
+                <Link to={`/app/artist/${artist.id}`}><h3 className="music-title">{title}</h3></Link>
                 <p className="music-stats">
                     <span>{albums} albums  &bull;  {musics} titres</span>
                 </p>

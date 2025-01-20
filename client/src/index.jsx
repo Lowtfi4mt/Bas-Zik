@@ -28,14 +28,12 @@ export function App() {
         <Route path="/profile" Component={() => <ProtectedRoute component={UserSettings} />} />
 				<Route path="/app" Component={() => <ProtectedRoute component={MusicManager} />} >
           <Route path="" Component={NavigationHome} />
-          <Route path="search" Component={NavigationHome} />
-          <Route path="results" Component={SearchResults} />
+          <Route path="search" Component={SearchResults} />
+          <Route path='artist/:id' Component={() => <ProtectedRoute component={Artist} />} />
+          <Route path='album/:id' Component={() => <ProtectedRoute component={Album} />} />
         </Route>
         <Route path="/contact" Component={() => <ProtectedRoute component={Contact} />} />
         <Route path='/propose' Component={() => <ProtectedRoute component={PropositionPage} />} />
-        <Route path='/search' Component={() => <ProtectedRoute component={SearchResults} />} />
-        <Route path='/artist/:id' Component={() => <ProtectedRoute component={Artist} />} />
-        <Route path='/album/:id' Component={() => <ProtectedRoute component={Album} />} />
 				<Route default Component={NotFound} />
 			</Routes>
           </Router>
