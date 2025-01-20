@@ -3,6 +3,7 @@ import './style.css';
 import AudioPage from '../AudioPage';
 import { MusicList } from '../MusicList';
 import NavigationPage from '../NavigationPage';
+import { Outlet } from 'react-router-dom';
 
 const SpecialLayout = ({ audioRef , handleNext, handlePrevious, handlePlay }) => {
     const profile = JSON.parse(localStorage.getItem('profile'));

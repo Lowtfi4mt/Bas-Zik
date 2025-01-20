@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate, Outlet } from 'react-router-dom';
 import './style.css';
 import SearchBar from '../../components/SearchBar';
 import SearchResults from '../SearchResults';
@@ -14,17 +14,10 @@ const NavigationPage = () => {
         <div>
             <header class="navigation-header">
                 <button onClick={() => navigate('/home')}>Accueil</button>
-                <button onClick={() => navigate('/app/')}>page blanche</button>
+                <button onClick={() => navigate('/app/search')}>page blanche</button>
                 <button onClick={() => navigate('/app/results')}>Rechercher</button>
             </header>
-            <div>
-                <Routes>
-                    <Route path="" Component={NavigationHome} />
-                    <Route path='results' Component={SearchResults} />
-                    <Route path='artist/:id' Component={Artist} />
-                    <Route path='album/:id' Component={Album} />
-                </Routes>
-            </div>
+            <Outlet />
         </div>
     );
 };
