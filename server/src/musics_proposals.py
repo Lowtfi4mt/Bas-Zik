@@ -82,7 +82,7 @@ class MusicProposalVoteResource(MethodView):
     """
 
     @musics_proposals_blp.response(204)
-    def post(self, music_id):
+    def put(self, music_id):
         """
         Vote on a proposed music
         """

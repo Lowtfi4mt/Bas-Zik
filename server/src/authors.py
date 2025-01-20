@@ -34,6 +34,7 @@ class AuthorResource(MethodView):
         """
         Add a new author
         """
+
         db.session.add(new_author)
         db.session.commit()
         return new_author
