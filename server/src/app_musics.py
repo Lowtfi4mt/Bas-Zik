@@ -95,7 +95,7 @@ class AppMusicLikeResource(MethodView):
     """
 
     @app_musics_blp.response(200, AppMusicSchema)
-    def post(self, music_id):
+    def put(self, music_id):
         """
         Like an app music
         """
