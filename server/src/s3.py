@@ -96,6 +96,7 @@ def download_file():
             as_attachment=True,
             download_name=file_key.split("/")[-1],  # Use the file name from the key
         )
+    # pylint: disable=broad-except
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

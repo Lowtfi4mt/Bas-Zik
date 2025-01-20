@@ -3,21 +3,8 @@ This module contains the schemas for the music API
 """
 
 from marshmallow import Schema, fields
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
-from models import Music, AppMusic, ProposedMusic, Author, Album
-
-
-class MusicSchema(SQLAlchemyAutoSchema):
-    """
-    A schema for a base music, not meant to be used directly
-    """
-
-    class Meta:
-        model = Music
-        load_instance = True
-        include_relationships = True
-
-    type = auto_field(dump_only=True)
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+from models import AppMusic, MusicProposal, Author, Album
 
 
 class AppMusicSchema(SQLAlchemyAutoSchema):
@@ -26,20 +13,24 @@ class AppMusicSchema(SQLAlchemyAutoSchema):
     """
 
     class Meta:
+        """Meta class for the schema"""
+
         model = AppMusic
+        load_instance = True
+        include_relationships = True
 
 
-class ProposedMusicSchema(SQLAlchemyAutoSchema):
+class MusicProposalSchema(SQLAlchemyAutoSchema):
     """
     A music schema for a music proposal from the community
     """
 
     class Meta:
-        model = ProposedMusic
-        exclude = (
-            "id",
-            "type",
-        )
+        """Meta class for the schema"""
+
+        model = MusicProposal
+        load_instance = True
+        include_relationships = True
 
 
 class AuthorSchema(SQLAlchemyAutoSchema):
@@ -48,6 +39,8 @@ class AuthorSchema(SQLAlchemyAutoSchema):
     """
 
     class Meta:
+        """Meta class for the schema"""
+
         model = Author
         load_instance = True
         include_relationships = True
@@ -60,6 +53,8 @@ class AlbumSchema(SQLAlchemyAutoSchema):
     """
 
     class Meta:
+        """Meta class for the schema"""
+
         model = Album
         load_instance = True
         include_relationships = True
@@ -74,4 +69,4 @@ class SearchResultSchema(Schema):
 
     authors = fields.List(fields.Nested(AuthorSchema))
     albums = fields.List(fields.Nested(AlbumSchema))
-    musics = fields.List(fields.Nested(MusicSchema))
+    musics = fields.List(fields.Nested(AppMusicSchema))
