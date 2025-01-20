@@ -4,19 +4,16 @@ import { usePlaylist } from '../../contexts/PlaylistContext';
 
 const RecordPlayer = ({ audioRef }) => {
   const [isDragging, setIsDragging] = useState(false);
-  const [rotation, setRotation] = useState(0); // Rotation basée sur l'audio
-  const [initialMouseAngle, setInitialMouseAngle] = useState(null); // Angle initial
-  const [initialAudioTime, setInitialAudioTime] = useState(null); // Temps audio initial
+  const [rotation, setRotation] = useState(0);
+  const [initialMouseAngle, setInitialMouseAngle] = useState(null);
+  const [initialAudioTime, setInitialAudioTime] = useState(null);
   const turntableRef = useRef(null);
-
   const { playlist, currentTrackIndex } = usePlaylist();
 
-  const MAX_TURNS = 30; // 30 tours pour couvrir toute la durée de l'audio
+  const MAX_TURNS = 30;
 
-  // Récupérer le thème depuis localStorage
   const theme = JSON.parse(localStorage.getItem('profile')).layout.theme;
 
-  // Calcul de la rotation basée sur l'audio
   const calculateRotationFromAudio = () => {
     const audio = audioRef.current;
     if (audio && audio.duration) {
@@ -25,10 +22,8 @@ const RecordPlayer = ({ audioRef }) => {
     return 0;
   };
 
-  // Synchronisation de la rotation avec l'audio
   useEffect(() => {
     const audio = audioRef.current;
-
     if (!audio) return;
 
     const updateRotation = () => {
@@ -36,13 +31,11 @@ const RecordPlayer = ({ audioRef }) => {
     };
 
     audio.addEventListener('timeupdate', updateRotation);
-
     return () => {
       audio.removeEventListener('timeupdate', updateRotation);
     };
   }, [audioRef]);
 
-  // Calcul de l'angle entre la souris et le centre du disque
   const calculateMouseAngle = (e, rect) => {
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
@@ -51,19 +44,16 @@ const RecordPlayer = ({ audioRef }) => {
     return Math.atan2(deltaY, deltaX) * (180 / Math.PI);
   };
 
-  // Gestion du clic souris
   const handleMouseDown = (e) => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    // Pause la musique et mémorise l'angle initial
     const rect = turntableRef.current.getBoundingClientRect();
     setInitialMouseAngle(calculateMouseAngle(e, rect));
     setInitialAudioTime(audio.currentTime);
     setIsDragging(true);
   };
 
-  // Gestion du déplacement souris
   const handleMouseMove = (e) => {
     if (!isDragging) return;
 
@@ -74,35 +64,31 @@ const RecordPlayer = ({ audioRef }) => {
     const currentMouseAngle = calculateMouseAngle(e, rect);
     const angleDelta = currentMouseAngle - initialMouseAngle;
 
-    // Normalisation de l'angle entre -180° et 180°
     const normalizedAngleDelta = (angleDelta + 360) % 360;
     const finalAngleDelta =
       normalizedAngleDelta > 180 ? normalizedAngleDelta - 360 : normalizedAngleDelta;
 
-    // Conversion de l'angle en temps audio
     const timeDeltaMax = finalAngleDelta > 0 ? audio.duration - initialAudioTime - 3 : initialAudioTime;
     const timeDelta = (finalAngleDelta / 180) * timeDeltaMax;
     const newTime = Math.max(0, Math.min(audio.duration - 1, initialAudioTime + timeDelta));
-    if (Math.abs(audio.currentTime - newTime) > 20) {
-      handleMouseUp();
-    } else {
-      audio.currentTime = newTime; // Mise à jour du temps audio
-      setRotation(calculateRotationFromAudio()); // Met à jour la rotation visuelle
-    }
+    audio.currentTime = newTime;
+    setRotation(calculateRotationFromAudio());
   };
 
-  // Gestion du relâchement souris
   const handleMouseUp = () => {
     setIsDragging(false);
   };
 
+  const handleVolumeChange = (e) => {
+    const volume = e.target.value / 100;
+    if (audioRef.current) {
+      audioRef.current.volume = volume;
+    }
+  };
+
   return (
-    <div
-      className="record-player-container"
-      style={{ backgroundColor: theme.background }}
-    >
-      <div className="record-player"
-        style={{ backgroundColor: theme.primary }}>
+    <div className="record-player-container" style={{ backgroundColor: theme.background }}>
+      <div className="record-player" style={{ backgroundColor: theme.primary }}>
         <div
           ref={turntableRef}
           className="disk"
@@ -113,15 +99,24 @@ const RecordPlayer = ({ audioRef }) => {
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
-          onMouseLeave={isDragging ? handleMouseUp : () => {}} // Arrête le drag en cas de sortie de la souris
+          onMouseLeave={isDragging ? handleMouseUp : () => {}}
         >
-          <div className="center-label" style={{ backgroundColor: 'grey' }}>
-            {playlist[currentTrackIndex]?.title ? (playlist[currentTrackIndex].title) : 'Pas de titre...'}
+          <div className="center-label">
+            {playlist[currentTrackIndex]?.title || 'Pas de titre...'}
           </div>
         </div>
-        <div
-          className="arm"
-          style={{ backgroundColor: theme.secondary }}
+        <div className="arm" style={{ backgroundColor: theme.secondary }} />
+      </div>
+      <div className="volume-slider-container">
+        <label htmlFor="volume-slider">Volume</label>
+        <input
+          id="volume-slider"
+          className="volume-slider"
+          type="range"
+          min="0"
+          max="100"
+          defaultValue="50"
+          onChange={handleVolumeChange}
         />
       </div>
     </div>
