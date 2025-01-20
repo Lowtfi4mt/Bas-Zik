@@ -1,14 +1,21 @@
 import './style.css';
 import { usePlaylist } from '../../contexts/PlaylistContext';
 import MusicCard from '../../components/MusicCard';
-import { useRef, useState } from 'preact/hooks';
-
+import { useRef, useState, useEffect } from 'preact/hooks';
 
 export const MusicList = () => {
   const { playlist, currentTrackIndex, setPlaylist, setCurrentTrackIndex } = usePlaylist();
   const [items, setItems] = useState(playlist);
   const dragItem = useRef();
   const dragOverItem = useRef();
+
+  useEffect(() => {
+    setItems(playlist);
+  }, [playlist]);
+
+  useEffect(() => {
+    // Trigger re-render when currentTrackIndex changes
+  }, [currentTrackIndex]);
 
   const handleSort = () => {
     let _items = [...items];
@@ -35,7 +42,7 @@ export const MusicList = () => {
       <ul className="playlist">
         {items.map((track, index) => (
           <li
-            key={track.id}
+            key={index}
             draggable
             onDragStart={() => (dragItem.current = index)}
             onDragEnter={() => (dragOverItem.current = index)}

@@ -116,7 +116,7 @@ const RecordPlayer = ({ audioRef }) => {
           onMouseLeave={isDragging ? handleMouseUp : () => {}} // Arrête le drag en cas de sortie de la souris
         >
           <div className="center-label" style={{ backgroundColor: 'grey' }}>
-            {audioRef.current ? (playlist[currentTrackIndex].title) : 'Pas de titre...'}
+            {playlist[currentTrackIndex]?.title ? (playlist[currentTrackIndex].title) : 'Pas de titre...'}
           </div>
         </div>
         <div

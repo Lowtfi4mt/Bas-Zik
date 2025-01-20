@@ -1,4 +1,4 @@
-import { useState } from "preact/hooks";
+import { useState, useEffect } from "preact/hooks";
 import "./Card.css";
 import { REMOTE_STORAGE_URL } from "../constants";
 import durationFormat from "../helpers/durationDisplay";
@@ -26,6 +26,7 @@ const MusicCard = ({ music, nowPlaying = null }) => {
         }
         else {
             setPlaylist([music]);
+            setCurrentTrackIndex(0);
         }
         setMenuOpen(false);
     }
@@ -34,6 +35,34 @@ const MusicCard = ({ music, nowPlaying = null }) => {
         setPlaylist((prev) => [...prev, music]);
         setMenuOpen(false);
     }
+
+    const handleRemoveFromPlaylist = () => {
+        setPlaylist((prev) => {
+            const newPlaylist = prev.filter((track) => track.id !== music.id);
+            const newCurrentTrackIndex = prev.slice(0, currentTrackIndex).filter((track) => track.id !== music.id).length;
+            if (newPlaylist.length === 0) {
+                setCurrentTrackIndex(null);
+            } else {
+                setCurrentTrackIndex(newCurrentTrackIndex >= newPlaylist.length ? newPlaylist.length - 1 : newCurrentTrackIndex);
+            }
+
+            return newPlaylist;
+        });
+        setMenuOpen(false);
+    }
+    // Close menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (menuOpen && !event.target.closest('.music-card')) {
+                setMenuOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [menuOpen]);
 
     return (
         <div className={`music-card ${nowPlaying == 0 ? "now-playing" : ""} ${nowPlaying < 0 ? "passed" : ""}`}>
@@ -107,6 +136,11 @@ const MusicCard = ({ music, nowPlaying = null }) => {
                             </Link>
                         )}
                         <li>Ajouter un j&apos;aime</li>
+                        {playlist.some(track => track.id === music.id) && (
+                            <li onClick={handleRemoveFromPlaylist}>
+                                Retirer de la liste de lecture
+                            </li>
+                        )}
                     </ul>
                 </div>
             )}
