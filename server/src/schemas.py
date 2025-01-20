@@ -44,7 +44,6 @@ class AuthorSchema(SQLAlchemyAutoSchema):
         model = Author
         load_instance = True
         include_relationships = True
-        exclude = ("id",)
 
 
 class AlbumSchema(SQLAlchemyAutoSchema):
@@ -58,7 +57,6 @@ class AlbumSchema(SQLAlchemyAutoSchema):
         model = Album
         load_instance = True
         include_relationships = True
-        exclude = ("id",)
 
 
 class SearchResultSchema(Schema):
