@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useNavigate, Outlet } from 'react-router-dom';
+import { useNavigate, Outlet } from 'react-router-dom';
 import './style.css';
 import SearchBar from '../../components/SearchBar';
 

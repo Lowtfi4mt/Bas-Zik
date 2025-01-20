@@ -1,12 +1,14 @@
 import { useEffect, useState } from "preact/hooks";
 import { API_URL } from "../../constants";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import MusicCard from "../../components/MusicCard";
 import AlbumCard from "../../components/AlbumCard";
 
 const Artist = () => {
     const [results, setResults] = useState(null);
     const { id } = useParams();
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchResults = async () => {
@@ -66,6 +68,7 @@ const Artist = () => {
             {
                 results ? (
                     <div>
+                        <button onClick={() => navigate(-1)}>Retour</button>
                         <h1>Page d&apos;artiste &bull; {results.name}</h1>
                         <h2>{results.albumCount} albums  &bull; {results.musicCount} titres</h2>
                         <h2>Albums</h2>
