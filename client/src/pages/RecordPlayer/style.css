@@ -66,27 +66,29 @@
 .volume-slider-container {
   position: absolute;
   top: 50%;
-  right: 10px;
+  right: 0px; /* À droite du disque */
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 5px;
-  background: #f7f7f7;
+  background: white;
   border-radius: 8px;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  width: 30px
 }
 
+
 .volume-slider {
-  writing-mode: bt-lr; /* Vertical slider */
   appearance: none;
-  width: 8px;
-  height: 120px;
-  background: #ddd;
+  width: 10px; /* Largeur du slider */
+  height: 150px; /* Hauteur du slider */
+  background: #ddd; /* Couleur de fond */
   border-radius: 5px;
   outline: none;
-  padding: 0;
   margin: 10px 0;
+  -webkit-appearance: slider-vertical; /* Force le mode vertical pour les navigateurs WebKit */
+  writing-mode: bt-lr; /* Compatibilité pour certains navigateurs */
 }
 
 .volume-slider::-webkit-slider-thumb {
