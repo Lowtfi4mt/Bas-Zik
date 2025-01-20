@@ -16,12 +16,12 @@ const MusicCard = ({ music, nowPlaying = null }) => {
     let likes = music.likes;
 
     const handlePlayNext = () => {
-        setPlaylist((prev) => {prev.splice(currentTrackIndex + 1, 0, music); return prev;});
+        setPlaylist((prev) => {prev.splice(currentTrackIndex + 1, 0, music); return [...prev];});
         setMenuOpen(false);
     }
 
     const handlePlayNow = () => {
-        if (nowPlaying){
+        if (nowPlaying != null){
             setCurrentTrackIndex(playlist.findIndex((track) => track.id == music.id));
         }
         else {
