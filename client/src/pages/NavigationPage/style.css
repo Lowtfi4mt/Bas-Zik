@@ -42,5 +42,26 @@
   }
   
   .navigation-header .search-bar {
+    justify-content: flex-end;
     flex: 1; 
+    display: flex;
+  }
+
+  .search-bar-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+    flex: 1;
+  }
+
+  .search-bar-button {
+    right : 0;
+    flex: 1;
+  }
+
+  .search-bar-div {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
   }
