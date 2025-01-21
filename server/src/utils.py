@@ -2,9 +2,23 @@
 Utility functions for processing JSON files and S3 buckets
 """
 
+from os import environ as env
+import logging
 import json
+
+from dotenv import load_dotenv
+from tqdm_loggable.auto import tqdm
+
 from models import db, AppMusic, Album, Author
 from s3 import s3_client, BUCKET_NAME
+
+
+load_dotenv()
+
+is_logging_enabled = env.get("CREATE_DB_FROM_ZERO", "False").lower() == "true"
+
+if is_logging_enabled:
+    logging.basicConfig(level=logging.INFO)
 
 
 def create_app_music_from_json(file):
@@ -49,32 +63,32 @@ def insert_music_from_json(json_data, base_name):
     if not title or not artists_data or not album_data:
         return {"error": "Missing required data fields"}
 
+    # Insert the app music in the correct model
+    app_music = AppMusic(
+        title=title,
+        duration=duration,
+        path=f"{base_name}",
+    )
+    db.session.add(app_music)
+
     # Check if the album exists
     album_name = album_data.get("name")
     album = Album.query.filter_by(name=album_name).first()
     if not album:
         album = Album(name=album_name)
         db.session.add(album)
+    album.app_musics.append(app_music)
 
     # Check if the authors exist, if not create them
-    authors = []
     for artist in artists_data:
         author_name = artist.get("name")
         author = Author.query.filter_by(name=author_name).first()
         if not author:
             author = Author(name=author_name)
             db.session.add(author)
-        authors.append(author)
-
-    # If it's an app music, insert it in the correct model
-    app_music = AppMusic(
-        title=title,
-        duration=duration,
-        path=f"{base_name}",
-        authors=authors,
-        albums=[album],
-    )
-    db.session.add(app_music)
+        author.app_musics.append(app_music)
+        if album not in author.albums:
+            author.albums.append(album)
 
     # Commit transaction
     db.session.commit()
@@ -83,31 +97,51 @@ def insert_music_from_json(json_data, base_name):
 
 
 def process_s3_bucket(app):
-    """
-    Process the S3 bucket, downloading and inserting music data into the database
-    """
     try:
-        # List all objects in the S3 bucket
-        response = s3_client.list_objects_v2(Bucket=BUCKET_NAME)
-        if "Contents" not in response:
-            print("No files found in the bucket.")
-            return
+        json_files = list_json_files_in_s3()
+        progress_bar = tqdm(
+            json_files,
+            desc="Processing files",
+            leave=True,
+            dynamic_ncols=True,
+            unit="file",
+        )
 
-        files = response["Contents"]
-        json_files = [file["Key"] for file in files if file["Key"].endswith(".json")]
+        for json_file in progress_bar:
+            base_name = json_file.rsplit(".", 1)[0]
 
-        for json_file in json_files:
-            base_name = json_file.rsplit(".", 1)[0]  # Remove the extension
-
-            # Download and process the JSON file
             json_object = s3_client.get_object(Bucket=BUCKET_NAME, Key=json_file)
             json_data = json.load(json_object["Body"])
 
-            # Insert data into the database
-            with app.app_context():
-                result = insert_music_from_json(json_data, base_name)
-                print(result)
+            insert_music_from_json(json_data, base_name)
+            progress_bar.set_description(f"Processing {json_file}")
 
-    # pylint: disable=broad-except
     except Exception as e:
-        print(f"Error processing S3 bucket: {e}")
+        print(f"Error: {e}")
+
+
+def list_json_files_in_s3():
+    continuation_token = None
+    json_files = []
+
+    while True:
+        print("Listing files from S3...")
+        list_kwargs = {
+            "Bucket": BUCKET_NAME,
+        }
+        if continuation_token:
+            list_kwargs["ContinuationToken"] = continuation_token
+
+        response = s3_client.list_objects_v2(**list_kwargs)
+
+        if "Contents" in response:
+            for obj in response["Contents"]:
+                if obj["Key"].endswith(".json"):
+                    json_files.append(obj["Key"])
+
+        if response.get("IsTruncated"):
+            continuation_token = response.get("NextContinuationToken")
+        else:
+            break
+
+    return json_files
