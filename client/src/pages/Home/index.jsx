@@ -1,39 +1,29 @@
-import preactLogo from '../../assets/preact.svg';
+import { Header } from '../../components/Header';
 import './style.css';
 
-export function Home() {
+export function Home () {
+	const profile = JSON.parse(localStorage.getItem('profile'));
+	const theme = profile.layout.theme;
 	return (
-		<div class="home">
-			<a href="https://preactjs.com" target="_blank">
-				<img src={preactLogo} alt="Preact logo" height="160" width="160" />
-			</a>
-			<h1>Get Started building Vite-powered Preact Apps </h1>
-			<section>
-				<Resource
-					title="Learn Preact"
-					description="If you're new to Preact, try the interactive tutorial to learn important concepts"
-					href="https://preactjs.com/tutorial"
-				/>
-				<Resource
-					title="Differences to React"
-					description="If you're coming from React, you may want to check out our docs to see where Preact differs"
-					href="https://preactjs.com/guide/v10/differences-to-react"
-				/>
-				<Resource
-					title="Learn Vite"
-					description="To learn more about Vite and how you can customize it to fit your needs, take a look at their excellent documentation"
-					href="https://vitejs.dev"
-				/>
-			</section>
-		</div>
+	<>
+	  <Header/>
+	  <div className="container-ext">
+		<div className="composant"> <div className="titre">
+			<div className="titre-section" style={{ color: profile.layout.theme.secondary }}>Top 10</div>
+			<div className="listenAll" style={{color: theme.primary}}><div className="listenTop"> ▶️  Ecouter tout</div></div>
+		</div></div>
+		<div className="composant"><h2 style={{ color: profile.layout.theme.secondary }}>Mes listes de lecture</h2></div>
+		<div className="composant"> <div className="titre">
+			<div className="titre-section" style={{ color: profile.layout.theme.secondary }}>Découvertes du moment</div>
+			<div className="listenAll" style={{color: theme.primary}}><div className="listenProp"> ▶️  Ecouter tout</div></div>
+		</div></div>
+	  </div>
+	  {/*<div>
+		<h2 style={{ color: profile.layout.theme.secondary }}>User Information</h2>
+		<p>Username: {profile.username}</p>
+	  </div>
+	  <div><h2 style={{ color: profile.layout.theme.secondary }}>User Information</h2>
+	  <p>Username: {profile.username}</p></div>*/}
+	</>
 	);
-}
-
-function Resource(props) {
-	return (
-		<a href={props.href} target="_blank" class="resource">
-			<h2>{props.title}</h2>
-			<p>{props.description}</p>
-		</a>
-	);
-}
+  };

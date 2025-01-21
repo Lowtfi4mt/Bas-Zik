@@ -1,0 +1,111 @@
+/* Record player container */
+.record-player-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Record player core styling */
+.record-player {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  position: relative;
+  margin: 50px auto;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.disk {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  position: relative;
+  cursor: grab;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.center-label {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: grey;
+  overflow: hidden;
+  text-align: center;
+  word-wrap: break-word;
+  font-size: 10px;
+  color: white;
+  padding: 4px;
+}
+
+.arm {
+  position: absolute;
+  width: 120px;
+  height: 10px;
+  top: 120px;
+  left: 20px;
+  border-radius: 5px;
+  transform-origin: 10% 50%;
+  transform: rotate(20deg);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Volume slider container */
+.volume-slider-container {
+  position: absolute;
+  top: 50%;
+  right: 0px; /* À droite du disque */
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  width: 30px
+}
+
+
+.volume-slider {
+  appearance: none;
+  width: 10px; /* Largeur du slider */
+  height: 150px; /* Hauteur du slider */
+  background: #ddd; /* Couleur de fond */
+  border-radius: 5px;
+  outline: none;
+  margin: 10px 0;
+  -webkit-appearance: slider-vertical; /* Force le mode vertical pour les navigateurs WebKit */
+  writing-mode: bt-lr; /* Compatibilité pour certains navigateurs */
+}
+
+.volume-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #3498db;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #3498db;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+}

@@ -1,0 +1,111 @@
+.user-editor {
+  width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-editor-title {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+.user-editor-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+input,
+select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.color-preview {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.color-box {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.user-editor-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button.active {
+  background-color: #4caf50;
+  color: white;
+}
+
+button.disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.layout-editor {
+  margin: 20px 0;
+}
+
+.layout-manager-container {
+  display: flex;
+  max-height: 250px;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.layout-manager-column {
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+  background-color: #f7f7f7;
+}
+
+.layout-manager-item {
+  max-width: 100%;
+  word-wrap: break-word;
+  background-color: #4caf50;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: grab;
+}
+

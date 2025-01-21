@@ -1,0 +1,20 @@
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    image: baszik-front
+    container_name: baszik_front
+    ports:
+      - "80:80"
+    restart: unless-stopped
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    image: baszik-back
+    container_name: baszik_back
+    ports:
+      - "5000:5000"
+    restart: unless-stopped

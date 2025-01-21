@@ -1,0 +1,107 @@
+/* Conteneur externe pour centrer en hauteur et largeur */
+.outer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Prend toute la hauteur de la fenêtre */
+    background-color: #ecf0f1; /* Couleur de fond pour voir le centrage */
+  }
+  
+  /* Conteneur principal légèrement relevé */
+  .centered-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 400px;
+    width: 700px;
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 16px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+  
+    /* Décalage vertical */
+    transform: translateY(-60px);
+  }
+  
+  /* Section texte */
+  .text-section {
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  
+  /* Section des boutons */
+  .button-section {
+    display: flex;
+    gap: 15px;
+  }
+  
+  /* Boutons */
+  .button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+  }
+  
+  .button-primary {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  .button-primary:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+  }
+  
+  .file-upload {
+    display: inline-block;
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    background-color: #229150;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+  }
+  
+  .file-upload:hover {
+    background-color: #18693a;
+    transform: scale(1.05);
+  }
+  
+  .file-upload input[type="file"] {
+    display: none; /* Masque le champ d'upload */
+  }
+  
+/* Animation de rotation */
+@keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Classe pour l'animation de rotation */
+  .logo.rotate {
+    animation: spin 2s ease-in;
+  }
+  

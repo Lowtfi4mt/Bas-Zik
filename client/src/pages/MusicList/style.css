@@ -1,0 +1,55 @@
+.music-list {
+  overflow-y: auto;
+  white-space: nowrap;
+  padding: 20px;
+  background-color: #f9f9f9;
+  max-height: 600px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 0 auto;
+  position: relative;
+}
+  
+  .music-list h1 {
+    font-size: 24px;
+    margin-bottom: 16px;
+    text-align: center;
+    color: #333;
+  }
+  
+  .playlist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .track-item {
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .track-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .track-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #444;
+    margin: 0;
+  }
+  
+  .track-artist,
+  .track-duration {
+    font-size: 14px;
+    color: #666;
+    margin: 4px 0 0;
+  }
+  

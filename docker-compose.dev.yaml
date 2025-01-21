@@ -1,0 +1,27 @@
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    image: baszik-back-dev
+    container_name: baszik_back_dev
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./server:/app
+    restart: unless-stopped
+  
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    image: baszik-front-dev
+    container_name: baszik_front_dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    environment:
+      - VITE_PORT=5173
+    restart: unless-stopped
