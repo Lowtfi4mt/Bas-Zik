@@ -81,11 +81,12 @@ const AlbumCard = ({ album }) => {
         };
     }, [menuOpen]);
 
-    let image = album?.app_musics?.[0]?.path 
-        ? REMOTE_STORAGE_URL + album.app_musics[0].path.split("/")[1] + ".jpg" 
+    let image = album?.image_path 
+        ? REMOTE_STORAGE_URL + album.image_path.split("/")[1] + ".jpg" 
+        : album?.app_musics ? REMOTE_STORAGE_URL + album.app_musics[0].path.split("/")[1] + ".jpg" 
         : "/public/BasZicLogo.png";
     let title = album.name;
-    let musics = album.app_musics.length;
+    let musics = album.music_count || album.app_musics.length;
 
     return (
         <div className={'music-card-container'}>

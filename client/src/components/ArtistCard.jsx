@@ -7,10 +7,10 @@ const ArtistCard = ({ artist }) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const theme = JSON.parse(localStorage.getItem('profile')).layout.theme;
 
-    let image = REMOTE_STORAGE_URL + artist?.app_musics?.[0].path.split("/")[1] + ".jpg";
+    let image = REMOTE_STORAGE_URL + (artist?.image_path || artist?.app_musics?.[0]?.path || "").split("/")[1] + ".jpg";
     let title = artist.name;
-    let musics = artist.app_musics.length;
-    let albums = artist.albums.length;
+    let musics = artist.music_count || artist.app_musics.length;
+    let albums = artist.albums_count || artist.albums.length;
 
     // Close menu when clicking outside
     useEffect(() => {
