@@ -23,44 +23,6 @@ const Artist = () => {
 
         fetchResults();
 
-        setResults({
-            name: "Léo Ferré",
-            albumCount: 5,
-            musicCount: 152,
-            musics: [
-                {
-                    title: "J'Avais Un Pense-Bête",
-                    path: "public/-3hDYqy7KX4",
-                    authors: ["Léo Ferré"],
-                    authorsId: [56],
-                    albums: ["Amour Anarchie"],
-                    albumsId: [78],
-                    duration: 185,
-                    likes: 123,
-                    id: 12
-                },
-                {
-                    title: "One Last Game",
-                    path: "public/-VmQ5jf3eyo",
-                    authors: ["Blabla"],
-                    authorsId: [56],
-                    albums: ["Blibli"],
-                    albumsId: [78],
-                    duration: 642,
-                    likes: 64,
-                    id: 52
-                }   
-            ], albums: [
-                {
-                    title: "Amour Anarchie",
-                    path: "public/0RURf-tNuOo", //Path d'une musique de l'album, sert à récup une image
-                    authors: ["Giorgio Gee", "Trevor Guthrie"],
-                    musicCount: 12, //Nombre de musiques dans l'album
-                    authorsId: [56, 62],
-                    id: 62
-                }
-            ]                
-        });
     }, [id]);
 
     return (
@@ -70,7 +32,7 @@ const Artist = () => {
                     <div>
                         <button onClick={() => navigate(-1)}>Retour</button>
                         <h1>Page d&apos;artiste &bull; {results.name}</h1>
-                        <h2>{results.albumCount} albums  &bull; {results.musicCount} titres</h2>
+                        <h2>{results.albums.length} albums  &bull; {results.app_musics.length} titres</h2>
                         <h2>Albums</h2>
                         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                             {results.albums.map((album) => (
@@ -79,8 +41,11 @@ const Artist = () => {
                         </div>
                         <h2>Titres</h2>
                         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                            {results.musics.map((music) => (
-                                <MusicCard key={music.id} music={music} />
+                            {results.app_musics.map((music) => (
+                                <MusicCard key={music.id} music={{...music, albums: [{
+                                    id: results.id,
+                                    name: results.name
+                                }], authors: results.authors}} />
                             ))}
                         </div>
                     </div>

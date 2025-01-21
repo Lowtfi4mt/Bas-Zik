@@ -6,10 +6,10 @@ import { Link } from "react-router-dom";
 const ArtistCard = ({ artist }) => {
     const [menuOpen, setMenuOpen] = useState(false);
 
-    let image = REMOTE_STORAGE_URL + artist.path.split("/")[1] + ".jpg";
+    let image = REMOTE_STORAGE_URL + artist?.app_musics?.[0].path.split("/")[1] + ".jpg";
     let title = artist.name;
-    let musics = artist.musicCount;
-    let albums = artist.albumCount;
+    let musics = artist.app_musics.length;
+    let albums = artist.albums.length;
 
     return (
         <div className="music-card">

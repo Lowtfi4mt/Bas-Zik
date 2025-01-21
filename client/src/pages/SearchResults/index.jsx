@@ -24,50 +24,6 @@ const SearchResults = () => {
 
         fetchResults();
 
-        setResults({
-            musics: [
-                {
-                    title: "J'Avais Un Pense-Bête",
-                    path: "public/-3hDYqy7KX4",
-                    authors: ["Léo Ferré"],
-                    authorsId: [56],
-                    albums: ["Amour Anarchie"],
-                    albumsId: [78],
-                    duration: 185,
-                    likes: 123,
-                    id: 12
-                },
-                {
-                    title: "One Last Game",
-                    path: "public/-VmQ5jf3eyo",
-                    authors: ["Blabla"],
-                    authorsId: [56],
-                    albums: ["Blibli"],
-                    albumsId: [78],
-                    duration: 642,
-                    likes: 64,
-                    id: 52
-                }   
-            ], albums: [
-                {
-                    title: "Amour Anarchie",
-                    path: "public/0RURf-tNuOo", //Path d'une musique de l'album, sert à récup une image
-                    authors: ["Giorgio Gee", "Trevor Guthrie"],
-                    musicCount: 12, //Nombre de musiques dans l'album
-                    authorsId: [56, 62],
-                    id: 62
-                }
-            ], artists: [
-                {
-                    name: "Léo Ferré",
-                    id: 5,
-                    albumCount: 5,
-                    musicCount: 152,
-                    path: "public/0IX090ajmI0" //Path d'une musique de l'artiste, sert à récup une image
-                }
-            ]
-                
-        });
     }, [query]);
 
     return (
@@ -91,7 +47,7 @@ const SearchResults = () => {
                         </div>
                         <h2>Artistes</h2>
                         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                            {results.artists.map((artist) => (
+                            {results.authors.map((artist) => (
                                 <ArtistCard key={artist.id} artist={artist} />
                             ))}
                         </div>

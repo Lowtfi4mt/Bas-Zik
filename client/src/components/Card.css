@@ -129,3 +129,47 @@
 .context-menu li:hover {
   background-color: #b3b3b3;
 }
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: black;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.proposals-list {
+  list-style: none;
+  padding: 0;
+}
+
+.proposal-item {
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.proposal-item.selected {
+  background-color: #e0f7fa;
+  border-color: #4caf50;
+}
+
+.popup-buttons button {
+  width: 48%;
+}
