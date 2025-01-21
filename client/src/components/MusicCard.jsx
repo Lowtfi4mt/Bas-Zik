@@ -144,9 +144,9 @@ const MusicCard = ({ music, nowPlaying = null }) => {
                         &bull; {
                             music.albums.length > 0 ? (
                                 music.albums.map((album, index) => (
-                                    <span key={index}>
-                                        <Link to={`/app/album/${music.albumsId[index]}`}>
-                                            {album}
+                                    <span key={album.id}>
+                                        <Link to={`/app/album/${album.id}`}>
+                                            {album.name}
                                         </Link>
                                         {index < music.albums.length - 1 && " et "}
                                     </span>
