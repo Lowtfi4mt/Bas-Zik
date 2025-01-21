@@ -1,11 +1,14 @@
 import './style.css';
 import { useState, useEffect } from 'preact/hooks';
 import durationFormat from '../../helpers/durationDisplay';
+import { usePlaylist } from '../../contexts/PlaylistContext';
 
 const AudioPlayer = ({ audioRef, handleNext, handlePrevious, handlePlay }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+
+  const { playlist } = usePlaylist();
 
   // Récupérer les couleurs du thème depuis le profil
   const theme = JSON.parse(localStorage.getItem('profile')).layout.theme;
@@ -61,6 +64,7 @@ const AudioPlayer = ({ audioRef, handleNext, handlePrevious, handlePlay }) => {
         <button
           className="control-button play-button"
           onClick={handlePlay}
+          disabled={playlist.length === 0}
           style={{
             backgroundColor: theme.primary,
             color: theme.secondary,

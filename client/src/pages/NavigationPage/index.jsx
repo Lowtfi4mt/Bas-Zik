@@ -1,19 +1,18 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Outlet } from 'react-router-dom';
 import './style.css';
+import SearchBar from '../../components/SearchBar';
 
 const NavigationPage = () => {
     const navigate = useNavigate();
 
-    const navigateToHome = () => {
-        navigate('/home');
-    };
-
     return (
+        
         <div>
-            <button onClick={navigateToHome}>Accueil</button>
-            <div style={{ textAlign: 'center', marginTop: '20px' }}>
-                <p>ici se trouve la page de navigation</p>
-            </div>
+            <header class="navigation-header">
+                <button onClick={() => navigate('/home')}>Accueil</button>
+            </header>
+            <SearchBar />
+            <Outlet />
         </div>
     );
 };

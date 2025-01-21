@@ -3,8 +3,9 @@ import './style.css';
 import AudioPage from '../AudioPage';
 import { MusicList } from '../MusicList';
 import NavigationPage from '../NavigationPage';
+import { Outlet } from 'react-router-dom';
 
-const SpecialLayout = ({ audioRef, playlist , handleNext, handlePrevious, handlePlay }) => {
+const SpecialLayout = ({ audioRef , handleNext, handlePrevious, handlePlay }) => {
     const profile = JSON.parse(localStorage.getItem('profile'));
     const leftContent = setContent(profile.layout.leftPanel);
     const mainContent = setContent(profile.layout.centerPanel); 
@@ -12,6 +13,7 @@ const SpecialLayout = ({ audioRef, playlist , handleNext, handlePrevious, handle
     const theme = profile.layout.theme;
     const [isLeftCollapsed, setLeftCollapsed] = useState(false);
     const [isRightCollapsed, setRightCollapsed] = useState(false);
+    
 
     function setContent(page){
         switch(page){
@@ -20,7 +22,7 @@ const SpecialLayout = ({ audioRef, playlist , handleNext, handlePrevious, handle
             case 'AudioPage':
                 return AudioPage({ audioRef , handleNext, handlePrevious, handlePlay });
             case 'MusicList':
-                return MusicList({playlist});
+                return MusicList();
         }
     }
 

@@ -28,6 +28,65 @@ img:hover {
 	box-shadow: 0 25px 50px -12px #673ab888;
 }
 
+.container-ext {
+	display: flex;
+	gap: 10px;
+	padding: 10px;
+}
+
+.composant {
+	flex: 1;
+	border-radius: 0.5rem;
+	border: 1px solid;
+	padding: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.titre {
+	display: flex;
+	align-items: center;
+}
+
+.titre-section {
+	flex: 6.5;
+	font-size: 1.5rem;
+	font-weight: bold;
+}
+
+.listenAll {
+    display: flex;
+    flex: 3.5;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .listenTop {
+	flex: 3;
+    display: inline-block;
+    border: 2px solid;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 1px;
+    transition: transform 0.2s, box-shadow 0.2s;
+	justify-content: center;
+    align-items: center;
+    font-weight: bold;
+  }
+
+  .listenProp {
+	flex: 3;
+    display: inline-block;
+    border: 2px solid;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 1px;
+    transition: transform 0.2s, box-shadow 0.2s;
+	justify-content: center;
+    align-items: center;
+    font-weight: bold;
+  }
+
 @media (max-width: 639px) {
 	.home section {
 		margin-top: 5rem;

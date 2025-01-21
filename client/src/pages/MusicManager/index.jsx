@@ -1,36 +1,28 @@
 import './style.css';
-import { useState, useRef, useEffect } from 'preact/hooks';
+import { useRef, useEffect } from 'preact/hooks';
 import { Fragment } from 'preact';
 import SpecialLayout from '../SpecialLayout';
 import { REMOTE_STORAGE_URL } from '../../constants';
+import { usePlaylist } from '../../contexts/PlaylistContext';
 
 const MusicManager = () => {
   const audioRef = useRef(null);
 
-  const initSongs = [
-    "LRPGqNeav_M",
-    "RkKyB284eHQ",
-    "Trcr4YBELCA",
-    "wl_QRuCPzbE",
-    "zNfyJxXcfp8",
-    "9VQ2J3PA7uo",
-  ]
-
-  // Liste de lecture
-  const [playlist, setPlaylist] = useState(initSongs.map(id => ({ id })));
-
-  console.log("playlist", playlist);
-
-  // Piste actuelle
-  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+  const { playlist, currentTrackIndex, setCurrentTrackIndex } = usePlaylist()
 
   // Mettre à jour la piste actuelle dans l'audio
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.src = REMOTE_STORAGE_URL + playlist[currentTrackIndex].id + ".ogg";
-      audioRef.current.play(); // Démarre la lecture automatiquement
+      if (currentTrackIndex == null){
+        audioRef.current.pause();
+        audioRef.current.src = "";
+      }
+      else {
+        audioRef.current.src = REMOTE_STORAGE_URL + playlist[currentTrackIndex].path.split("/")[1] + ".ogg";
+        audioRef.current.play(); // Démarre la lecture automatiquement  
+      }
     }
-  }, [currentTrackIndex]);
+  }, [playlist[currentTrackIndex]?.id]);
 
   // Gestion de la fin de la piste
   useEffect(() => {
@@ -72,6 +64,10 @@ const MusicManager = () => {
     const audio = audioRef.current;
     if (!audio) return;
 
+    if (currentTrackIndex === null && playlist.length > 0) {
+      setCurrentTrackIndex(0);
+    }
+
     if (audio.paused) {
       audio.play();
     } else {
@@ -83,7 +79,7 @@ const MusicManager = () => {
     <Fragment>
       {/* Balise audio visible */}
 			<audio ref={audioRef} style={{ display: 'none' }} />
-      <SpecialLayout audioRef={audioRef} playlist={playlist} handleNext={handleNext} handlePrevious={handlePrevious} handlePlay={handlePlay} />
+      <SpecialLayout audioRef={audioRef} handleNext={handleNext} handlePrevious={handlePrevious} handlePlay={handlePlay} />
     </Fragment>
   );
 };
