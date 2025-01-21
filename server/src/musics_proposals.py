@@ -107,5 +107,5 @@ class MusicProposalSearchResource(MethodView):
         return [
             proposal
             for proposal in proposals
-            if fuzz.partial_ratio(search, proposal.title) >= threshold
+            if fuzz.partial_ratio(search.lower(), proposal.title.lower()) >= threshold
         ]
