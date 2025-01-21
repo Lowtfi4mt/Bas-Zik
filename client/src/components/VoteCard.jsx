@@ -10,53 +10,91 @@ const MusicCardVote = ({ music }) => {
     const theme = JSON.parse(localStorage.getItem('profile')).layout.theme;
     let title = music.title;
     let votes=music.votes;
-    let vote=true;
 
     const infoStyle ={
         color: theme.primary,
         backgroundColor: 'transparent',
     }
 
-    const [clickedStates, setClickedStates] = useState({});
+    const ensureVotesExist = () => {
+        if (profile && !profile.votes) {
+          const updatedProfile = { ...profile, votes: {last_updated: Date.now(), ids: [] }};  // Crée une partie 'votes' vide si elle n'existe pas
+          setProfile(updatedProfile);
+        }
+    };
+
+    ensureVotesExist();
 
     const handleClick = async (id) => {
 
-        setClickedStates((prevStates) => ({
-            ...prevStates,
-            [id]: !prevStates[id], // Inverser la valeur de "clicked"
-          }));
-
-        const url=API_URL+`musics/proposals/${id}/vote`
-
         const body = {}
 
-        const options = {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: body,
-          }; 
-        try {
-            // Effectuer la requête PUT
-            const response = await fetch(url, { 
-                method: 'PUT', 
-                headers: { 
-                'Content-type': 'application/json'
-                }, 
-                body: JSON.stringify(body)
-            });
-            const data = await response;
-    
-            if (response.ok) {
-            // Si la requête est réussie
-            console.log('Réponse de la requête PUT:', data);
-            } else {
-            // Si la requête échoue
-            console.error('Erreur avec la requête PUT:', data);
+        
+        if (profile.votes.ids.includes(music.id)) {
+
+            const url=API_URL+`musics/proposals/${music.id}/unvote`
+
+            try {
+                const response = await fetch(url, { 
+                    method: 'DELETE', 
+                    headers: { 
+                    'Content-type': 'application/json'
+                    }, 
+                    body: JSON.stringify(body)
+                });
+                const data = await response;
+        
+                if (response.ok) {
+                // Si la requête est réussie
+                console.log('Réponse de la requête DELETE:', data);
+                } else {
+                // Si la requête échoue
+                console.error('Erreur avec la requête DELETE:', data);
+                }
+                const updatedVotes = profile.votes.ids.filter(voteId => voteId !== music.id);
+                const updatedProfile = {
+                    ...profile,
+                    votes: {ids: updatedVotes, last_updated: Date.now()}
+                };
+            
+                setProfile(updatedProfile);
+
+            } catch (error) {
+                console.error('Erreur lors de la requête PUT:', error);
             }
-        } catch (error) {
-            console.error('Erreur lors de la requête PUT:', error);
+        }
+        else {
+
+            const url=API_URL+`musics/proposals/${music.id}/vote`
+
+            try {
+                // Effectuer la requête PUT
+                const response = await fetch(url, { 
+                    method: 'PUT', 
+                    headers: { 
+                    'Content-type': 'application/json'
+                    }, 
+                    body: JSON.stringify(body)
+                });
+                const data = await response;
+        
+                if (response.ok) {
+                // Si la requête est réussie
+                console.log('Réponse de la requête PUT:', data);
+                } else {
+                // Si la requête échoue
+                console.error('Erreur avec la requête PUT:', data);
+                }
+                const updatedProfile = {
+                    ...profile,
+                    votes: {ids: [...profile.votes.ids, id], last_updated: Date.now()}  // Ajoute l'ID de musique et le timestamp
+                };
+            
+                setProfile(updatedProfile);
+
+            } catch (error) {
+                console.error('Erreur lors de la requête PUT:', error);
+            }
         }
       };
 
@@ -101,7 +139,7 @@ const MusicCardVote = ({ music }) => {
                 </div>
                 <div className="Vote" style={{color: theme.secondary, backgroundColor: 'white', flex: 0.4, borderRadius: '8px', border: `2px solid ${theme.primary}`, padding: '7px', display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center'}} onClick={() => handleClick(music.id)} >
                     
-                    {clickedStates[music.id] ? "❤️ Liké" : "🤍 Voter"}
+                    {profile.votes.ids.includes(music.id) ? "❤️ Aimé" : "🤍 Voter"}
                 </div>
             </div>
         </div>

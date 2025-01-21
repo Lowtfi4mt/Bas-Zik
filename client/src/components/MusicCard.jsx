@@ -5,6 +5,7 @@ import durationFormat from "../helpers/durationDisplay";
 import { Link } from "react-router-dom";
 import { usePlaylist } from "../contexts/PlaylistContext";
 import { useProfile } from "../contexts/ProfileContext";
+import { API_URL } from "../constants";
 
 const MusicCard = ({ music, nowPlaying = null, inPlaylist = null }) => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -120,6 +121,46 @@ const MusicCard = ({ music, nowPlaying = null, inPlaylist = null }) => {
         setMenuOpen(false);
     };
 
+    const handleLike = () => {
+        if (profile.playlists[0].musics.some(like => like.id == music.id)) {
+            fetch(API_URL + `musics/app/${music.id}/unlike`, { method: "PUT" }).then((response) => {
+                if (response.ok) {
+                    setProfile((prev) => {
+                        return {
+                            ...prev,
+                            playlists: [
+                                {
+                                    ...prev.playlists[0],
+                                    musics: prev.playlists[0].musics.filter((like) => like.id !== music.id),
+                                },
+                                ...prev.playlists.slice(1),
+                            ],
+                        };
+                    });
+                }});
+        }
+        else {
+            fetch(API_URL + `musics/app/${music.id}/like`, { method: "PUT" }).then((response) => {
+                if (response.ok) {
+                    setProfile((prev) => {
+                        return {
+                            ...prev,
+                            playlists: [
+                                {
+                                    ...prev.playlists[0],
+                                    musics: [...prev.playlists[0].musics, music],
+                                },
+                                ...prev.playlists.slice(1),
+                            ],
+                        };
+                    });
+                }
+            });
+    
+        }
+        setMenuOpen(false)
+    }
+
     // Close menu when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -180,7 +221,7 @@ const MusicCard = ({ music, nowPlaying = null, inPlaylist = null }) => {
 
                 {/* Boutons d'action */}
                 <div className="music-actions">
-                    <button className="play-button" onClick={handlePlayNow} style={{backgroundColor: theme.secondary}}>▶</button>
+                    <button className="play-button" onClick={handlePlayNow} style={{backgroundColor: profile.playlists[0].musics.some( like => like.id == music.id) ? "#ff0000" : theme.secondary}}>▶</button>
                     <button
                         className="more-options-button"
                         onClick={() => setMenuOpen(!menuOpen)}
@@ -213,7 +254,7 @@ const MusicCard = ({ music, nowPlaying = null, inPlaylist = null }) => {
                             </Link>
                         )}
                         </li>
-                        <li>Ajouter un j&apos;aime</li>
+                        <li onClick={handleLike}>{profile.playlists[0].musics.some(like => like.id == music.id) ? "Je n'aime plus" : "J'aime"}</li>
                         {inPlaylist == null && playlist.some(track => track.id === music.id) && (
                             <li onClick={handleRemoveFromPlaylist}>
                                 Retirer de la liste de lecture

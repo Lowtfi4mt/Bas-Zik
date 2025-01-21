@@ -147,12 +147,39 @@ class NRAlbumSchema(BaseSchema):
     model = Album
 
 
+class SearchMusicSchema(BaseSchema):
+    """
+    A schema for a music in a search result
+    """
+
+    model = AppMusic
+
+
+class SearchAuthorSchema(BaseSchema):
+    """
+    A schema for an author in a search result
+    """
+
+    model = Author
+    # image path (REQUIRED)
+    image_path = fields.String(required=True)
+
+
+class SearchAlbumSchema(BaseSchema):
+    """
+    A schema for an album in a search result
+    """
+
+    model = Album
+    image_path = fields.String(required=True)
+
+
 class SearchResultSchema(Schema):
     """
     A schema for a search result
     Contains a list of authors, albums and musics
     """
 
-    authors = fields.List(fields.Nested(AuthorSchema))
-    albums = fields.List(fields.Nested(AlbumSchema))
-    musics = fields.List(fields.Nested(AppMusicSchema))
+    authors = fields.List(fields.Nested(SearchAuthorSchema))
+    albums = fields.List(fields.Nested(SearchAlbumSchema))
+    musics = fields.List(fields.Nested(SearchMusicSchema))
