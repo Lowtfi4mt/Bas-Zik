@@ -49,43 +49,64 @@ img:hover {
 }
 
 .titre-section {
-	flex: 6.5;
+	flex: 6;
 	font-size: 1.5rem;
 	font-weight: bold;
 }
 
 .listenAll {
-    display: flex;
-    flex: 3.5;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .listenTop {
-	flex: 3;
-    display: inline-block;
-    border: 2px solid;
-    border-radius: 8px;
-    padding: 15px;
-    margin: 1px;
-    transition: transform 0.2s, box-shadow 0.2s;
+	flex: 4;
 	justify-content: center;
-    align-items: center;
-    font-weight: bold;
-  }
+	align-items: right;
+}
 
-  .listenProp {
-	flex: 3;
-    display: inline-block;
-    border: 2px solid;
-    border-radius: 8px;
-    padding: 15px;
-    margin: 1px;
-    transition: transform 0.2s, box-shadow 0.2s;
+.listenTop {
+	display: inline-block;
+	border: 2px solid;
+	border-radius: 8px;
+	padding: 15px;
+	margin: 1px;
+	transition: transform 0.2s, box-shadow 0.2s;
 	justify-content: center;
-    align-items: center;
-    font-weight: bold;
-  }
+	align-items: center;
+	font-weight: bold;
+}
+
+.listenProp {
+	display: inline-block;
+	border: 2px solid;
+	border-radius: 8px;
+	padding: 15px;
+	margin: 1px;
+	transition: transform 0.2s, box-shadow 0.2s;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
+}
+
+.newList {
+	display: inline-block;
+	border: 2px solid;
+	border-radius: 8px;
+	padding: 15px;
+	margin: 1px;
+	transition: transform 0.2s, box-shadow 0.2s;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
+}
+
+.listenAll:hover {
+	background-color: rgb(240, 240, 240);
+}
+
+.listenProp:hover {
+	background-color: rgb(240, 240, 240);
+}
+
+.newList:hover {
+	background-color: rgb(240, 240, 240);
+}
 
 @media (max-width: 639px) {
 	.home section {
@@ -100,6 +121,7 @@ img:hover {
 		color: #ccc;
 		background-color: #161616;
 	}
+
 	.resource:hover {
 		border: 1px solid #bbb;
 	}
