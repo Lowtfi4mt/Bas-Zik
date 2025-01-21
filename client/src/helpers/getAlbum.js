@@ -8,7 +8,7 @@ export const fetchAlbum = async (id) => {
             id: data.id,
             name: data.name,
             authors: data.authors,
-            musics: data.app_musics.map((music) => ({
+            app_musics: data.app_musics.map((music) => ({
                 ...music,
                 authors: data.authors,
                 albums: [{

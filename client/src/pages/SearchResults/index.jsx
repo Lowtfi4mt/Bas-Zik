@@ -34,19 +34,19 @@ const SearchResults = () => {
                         <button onClick={() => navigate(-1)}>Retour</button>
                         <h1>Résultats de la recherche pour &apos;{query}&apos;</h1>
                         <h2>Titres</h2>
-                        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "0px" }}>
                             {results.musics.map((music) => (
                                 <MusicCard key={music.id} music={music} />
                             ))}
                         </div>
                         <h2>Albums</h2>
-                        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "0px" }}>
                             {results.albums.map((album) => (
                                 <AlbumCard key={album.id} album={album} />
                             ))}
                         </div>
                         <h2>Artistes</h2>
-                        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "0px" }}>
                             {results.authors.map((artist) => (
                                 <ArtistCard key={artist.id} artist={artist} />
                             ))}

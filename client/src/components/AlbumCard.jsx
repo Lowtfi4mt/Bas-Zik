@@ -17,17 +17,17 @@ const AlbumCard = ({ album }) => {
 
     
     const handlePlayNext = () => {
-        fetchAlbum(album.id).then(result => setPlaylist((prev) => {prev.splice(currentTrackIndex + 1, 0, ...result.musics); return prev;}));
+        fetchAlbum(album.id).then(result => setPlaylist((prev) => {prev.splice(currentTrackIndex + 1, 0, ...result.app_musics); return [...prev];}));
         setMenuOpen(false);
     }
 
     const handlePlayNow = () => {
-        fetchAlbum(album.id).then(result => {setPlaylist(result.musics); setCurrentTrackIndex(0);});
+        fetchAlbum(album.id).then(result => {setPlaylist(result.app_musics); setCurrentTrackIndex(0);});
         setMenuOpen(false);
     }
 
     const handleAddToQueue = () => {
-        fetchAlbum(album.id).then(result => setPlaylist((prev) => [...prev, ...result.musics]));
+        fetchAlbum(album.id).then(result => setPlaylist((prev) => [...prev, ...result.app_musics]));
         setMenuOpen(false);
     }
 
@@ -37,7 +37,7 @@ const AlbumCard = ({ album }) => {
                 setProfile((prev) => {
                     const newPlaylist = {
                         title: newPlaylistName.trim(),
-                        musics: result.musics,
+                        musics: result.app_musics,
                     };
                     return {
                         ...prev,
@@ -50,7 +50,7 @@ const AlbumCard = ({ album }) => {
                         if (index === selectedProposal) {
                             return {
                                 ...playlist,
-                                musics: [...playlist.musics, ...result.musics],
+                                musics: [...playlist.musics, ...result.app_musics],
                             };
                         }
                         return playlist;

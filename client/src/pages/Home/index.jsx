@@ -4,10 +4,13 @@ import { top } from '../../helpers/top10';
 import { useState, useEffect } from 'preact/hooks';
 import MusicCard from "../../components/MusicCard";
 import { usePlaylist } from "../../contexts/PlaylistContext";
+import { useProfile } from '../../contexts/ProfileContext';
+import PlaylistCard from '../../components/PlaylistCard';
 
 
 export function Home () {
-	const profile = JSON.parse(localStorage.getItem('profile'));
+	const { profile } = useProfile();
+
 	const theme = profile.layout.theme;
 
 	const [tops, setTops] = useState(null); // État pour stocker les données de `top`
@@ -49,7 +52,16 @@ export function Home () {
 						</div>
 		<div className="composant"> <div className="titre">
 			<div className="titre-section" style={{ color: profile.layout.theme.secondary }}>Mes listes de lecture</div>
-			<div className="listenAll" style={{color: theme.primary}}><div className="newList"> + Nouvelle liste</div></div></div>
+			</div>
+			<div style={{ display: "flex", flexDirection: "column", gap: "0px", color: theme.primary}}>
+				{
+					profile.playlists.map((playlist, index) => (
+						<div key={index}>
+							<PlaylistCard playlist={playlist} index={index} />
+						</div>
+					))
+				}
+			</div>
 				
 		</div>
 		<div className="composant"> <div className="titre">
