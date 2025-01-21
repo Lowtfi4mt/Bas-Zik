@@ -5,6 +5,7 @@ Module for searching authors, musics and albums in the app
 from flask_smorest import Blueprint
 from flask.views import MethodView
 from fuzzywuzzy import fuzz
+
 from models import Author, AppMusic, Album
 from schemas import SearchResultSchema
 

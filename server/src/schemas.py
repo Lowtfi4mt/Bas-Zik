@@ -5,6 +5,7 @@ This module contains the schemas for the music API
 from marshmallow import Schema, fields
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow_sqlalchemy.fields import Nested
+
 from models import AppMusic, MusicProposal, Author, Album
 
 

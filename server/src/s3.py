@@ -5,10 +5,10 @@ This module contains the S3 blueprint.
 from io import BytesIO
 import os
 
+from dotenv import load_dotenv, find_dotenv
 from flask_smorest import Blueprint
 from flask import Request, request, jsonify, send_file
 import boto3
-from dotenv import load_dotenv, find_dotenv
 
 
 s3_blp = Blueprint(
