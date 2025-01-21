@@ -19,7 +19,7 @@ const MusicCard = ({ music, nowPlaying = null, inPlaylist = null }) => {
     const { playlist, setPlaylist, currentTrackIndex, setCurrentTrackIndex } =
         usePlaylist();
 
-    let image = music.path ? REMOTE_STORAGE_URL + music.path.split("/")[1] + ".jpg" : "/public/BasZicLogo.png";
+    let image = music.path ? REMOTE_STORAGE_URL + music.path.split("/")[1] + ".jpg" : "/BasZicLogo.png";
     let title = music.title;
     let duration = durationFormat(music.duration);
     let likes = music.likes;

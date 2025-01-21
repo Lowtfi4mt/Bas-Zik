@@ -84,7 +84,7 @@ const AlbumCard = ({ album }) => {
     let image = album?.image_path 
         ? REMOTE_STORAGE_URL + album.image_path.split("/")[1] + ".jpg" 
         : album?.app_musics ? REMOTE_STORAGE_URL + album.app_musics[0].path.split("/")[1] + ".jpg" 
-        : "/public/BasZicLogo.png";
+        : "/BasZicLogo.png";
     let title = album.name;
     let musics = album.music_count || album.app_musics.length;
 

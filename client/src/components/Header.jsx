@@ -1,4 +1,5 @@
 import { useLocation } from 'preact-iso';
+import { Link } from 'react-router-dom';
 
 export function Header() {
 	const { url } = useLocation();
@@ -16,45 +17,45 @@ export function Header() {
 		transition: 'all 0.3s ease',
 	}
 
-	return (
-		<header>
-			<div
-      		style={{
-        	display: 'flex',
-        	gap: '20px',
-			padding: '20px',
-			flexWrap: 'wrap',
-			backgroundColor: profile.layout.theme.background,
-			}}
-			>
-			<nav>
-				<a href="/" class={url == '/' && 'active'} style={buttonstyle} >
-					💿 Page de connexion
-				</a>
-			</nav>
-			
-			<nav>
-				<a href="/app" class={url == '/app' && 'active'} style={buttonstyle}>
-					🎵 Musique
-				</a>
-			</nav>
-			
-			<nav>
-				<a href="/propose" class={url == '/propose' && 'active'} style={buttonstyle}>
-					🎶 Proposition
-				</a>
-			</nav>
-			<nav>
-				<a href="/profile" class={url == '/profile' && 'active'} style={buttonstyle}>
-					⚙️ Profil
-				</a>
-			</nav>
-			<nav>
-				<a href="/contact" class={url == '/contact' && 'active'} style={buttonstyle}>
-					📞 Contact
-				</a>
-			</nav>
-			</div>
-		</header>
-	);
+		return (
+			<header>
+				<div
+				style={{
+				display: 'flex',
+				gap: '20px',
+				padding: '20px',
+				flexWrap: 'wrap',
+				backgroundColor: profile.layout.theme.background,
+				}}
+				>
+				<nav>
+					<Link to="/" className={url == '/' && 'active'} style={buttonstyle} >
+						💿 Page de connexion
+					</Link>
+				</nav>
+				
+				<nav>
+					<Link to="/app" className={url == '/app' && 'active'} style={buttonstyle}>
+						🎵 Musique
+					</Link>
+				</nav>
+				
+				<nav>
+					<Link to="/propose" className={url == '/propose' && 'active'} style={buttonstyle}>
+						🎶 Proposition
+					</Link>
+				</nav>
+				<nav>
+					<Link to="/profile" className={url == '/profile' && 'active'} style={buttonstyle}>
+						⚙️ Profil
+					</Link>
+				</nav>
+				<nav>
+					<Link to="/contact" className={url == '/contact' && 'active'} style={buttonstyle}>
+						📞 Contact
+					</Link>
+				</nav>
+				</div>
+			</header>
+		);
 }

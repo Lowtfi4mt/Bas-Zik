@@ -59,7 +59,7 @@ const PlaylistCard = ({ playlist, index }) => {
 
     let image = playlist?.musics?.[0]?.path 
         ? REMOTE_STORAGE_URL + playlist.musics[0].path.split("/")[1] + ".jpg" 
-        : "/public/BasZicLogo.png";
+        : "/BasZicLogo.png";
     let title = playlist.title;
     let musics = playlist.musics.length;
 
