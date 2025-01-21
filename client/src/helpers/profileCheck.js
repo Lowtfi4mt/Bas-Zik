@@ -9,7 +9,8 @@ export function checkIsProfile (profile) {
         profile.layout.centerPanel &&
         profile.layout.rightPanel &&
         profile.layout.leftPanel &&
-        profile.playlists
+        profile.playlists &&
+        profile.playlists.length > 0
       ) {
         return true;
       }

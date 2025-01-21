@@ -96,7 +96,7 @@ const PlaylistCard = ({ playlist, index }) => {
                             <li onClick={handlePlayNow}>Lire maintenant</li>
                             <li onClick={handlePlayNext}>Lire ensuite</li>
                             <li onClick={handleAddToQueue}>Ajouter à la file d&apos;attente</li>
-                            <li onClick={handleDeletePlaylist}>Supprimer la liste</li>
+                            {index > 0 && <li onClick={handleDeletePlaylist}>Supprimer la liste</li>}
                         </ul>
                     </div>
                 )}
