@@ -76,9 +76,9 @@ const MusicCard = ({ music, nowPlaying = null }) => {
                 <p className="music-meta">
                     {music.authors.length > 0 ? (
                         music.authors.map((author, index) => (
-                            <span key={index}>
-                                <Link to={`/app/artist/${music.authorsId[index]}`}>
-                                    {author}
+                            <span key={author.id}>
+                                <Link to={`/app/artist/${author.id}`}>
+                                    {author.name}
                                 </Link>
                                 {index < music.authors.length - 1 && " et "}
                             </span>
@@ -89,9 +89,9 @@ const MusicCard = ({ music, nowPlaying = null }) => {
                       &bull; {
                         music.albums.length > 0 ? (
                             music.albums.map((album, index) => (
-                                <span key={index}>
-                                    <Link to={`/app/album/${music.albumsId[index]}`}>
-                                        {album}
+                                <span key={album.id}>
+                                    <Link to={`/app/album/${album.id}`}>
+                                        {album.name}
                                     </Link>
                                     {index < music.albums.length - 1 && " et "}
                                 </span>
@@ -125,13 +125,13 @@ const MusicCard = ({ music, nowPlaying = null }) => {
                         <li onClick={handlePlayNext}>Lire ensuite</li>
                         <li onClick={handleAddToQueue}>Ajouter à la file d&apos;attente</li>
                         <li>Ajouter à une liste de lecture</li>
-                        {music.albumsId.length > 0 && (
-                            <Link to={`/app/album/${music.albumsId[0]}`}>
+                        {music.albums.length > 0 && (
+                            <Link to={`/app/album/${music.albums[0].id}`}>
                                 <li>Accéder à l&apos;album</li>
                             </Link>
                         )}
-                        {music.authorsId.length > 0 && (
-                            <Link to={`/app/artist/${music.authorsId[0]}`}>
+                        {music.authors.length > 0 && (
+                            <Link to={`/app/artist/${music.authors[0].id}`}>
                                 <li>Accéder à l&apos;artiste</li>
                             </Link>
                         )}
