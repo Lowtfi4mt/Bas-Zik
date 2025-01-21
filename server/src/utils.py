@@ -54,32 +54,32 @@ def insert_music_from_json(json_data, base_name):
     if not title or not artists_data or not album_data:
         return {"error": "Missing required data fields"}
 
+    # Insert the app music in the correct model
+    app_music = AppMusic(
+        title=title,
+        duration=duration,
+        path=f"{base_name}",
+    )
+    db.session.add(app_music)
+
     # Check if the album exists
     album_name = album_data.get("name")
     album = Album.query.filter_by(name=album_name).first()
     if not album:
         album = Album(name=album_name)
         db.session.add(album)
-
+    album.app_musics.append(app_music)
+    
     # Check if the authors exist, if not create them
-    authors = []
     for artist in artists_data:
         author_name = artist.get("name")
         author = Author.query.filter_by(name=author_name).first()
         if not author:
             author = Author(name=author_name)
             db.session.add(author)
-        authors.append(author)
-
-    # If it's an app music, insert it in the correct model
-    app_music = AppMusic(
-        title=title,
-        duration=duration,
-        path=f"{base_name}",
-        authors=authors,
-        albums=[album],
-    )
-    db.session.add(app_music)
+        author.app_musics.append(app_music)
+        if album not in author.albums:
+            author.albums.append(album)
 
     # Commit transaction
     db.session.commit()
