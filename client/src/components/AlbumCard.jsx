@@ -8,7 +8,7 @@ import { useProfile } from "../contexts/ProfileContext";
 
 const AlbumCard = ({ album }) => {
     const [menuOpen, setMenuOpen] = useState(false);
-    const { setPlaylist, currentTrackIndex } = usePlaylist();
+    const { setPlaylist, currentTrackIndex, setCurrentTrackIndex } = usePlaylist();
     const theme = JSON.parse(localStorage.getItem('profile')).layout.theme;
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [selectedProposal, setSelectedProposal] = useState(null);
@@ -22,7 +22,7 @@ const AlbumCard = ({ album }) => {
     }
 
     const handlePlayNow = () => {
-        fetchAlbum(album.id).then(result => setPlaylist(result.musics));
+        fetchAlbum(album.id).then(result => {setPlaylist(result.musics); setCurrentTrackIndex(0);});
         setMenuOpen(false);
     }
 
