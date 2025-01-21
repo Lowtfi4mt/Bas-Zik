@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import MusicCard from "../../components/MusicCard";
 import { fetchAlbum } from "../../helpers/getAlbum";
 import AlbumCard from "../../components/AlbumCard";
+import './style.css';
 
 const Album = () => {
     const [results, setResults] = useState(null);
@@ -16,12 +17,11 @@ const Album = () => {
 
     return (
         <div style={{ padding: "20px" }}>
+            <button className="return-search-button" onClick={() => navigate(-1)}>Retour</button>
+            <h1 className="search-text">Page d&apos;album &bull;</h1>
             {results ? (
                 <>
-                    <div>
-                        <button onClick={() => navigate(-1)}>Retour</button>
-                        <h1>Page d&apos;album &bull;</h1>
-
+                    <div className="search-results">
                         <AlbumCard album={results} />
 
                         <h2>Titres</h2>
