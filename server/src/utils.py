@@ -2,14 +2,23 @@
 Utility functions for processing JSON files and S3 buckets
 """
 
+from os import environ as env
+import logging
 import json
 
+from dotenv import load_dotenv
 from tqdm_loggable.auto import tqdm
+
 from models import db, AppMusic, Album, Author
 from s3 import s3_client, BUCKET_NAME
-import logging
 
-logging.basicConfig(level=logging.INFO)
+
+load_dotenv()
+
+is_logging_enabled = env.get("CREATE_DB_FROM_ZERO", "False").lower() == "true"
+
+if is_logging_enabled:
+    logging.basicConfig(level=logging.INFO)
 
 
 def create_app_music_from_json(file):
@@ -69,7 +78,7 @@ def insert_music_from_json(json_data, base_name):
         album = Album(name=album_name)
         db.session.add(album)
     album.app_musics.append(app_music)
-    
+
     # Check if the authors exist, if not create them
     for artist in artists_data:
         author_name = artist.get("name")
@@ -86,10 +95,17 @@ def insert_music_from_json(json_data, base_name):
 
     return {"message": f"Music '{title}' inserted successfully!"}
 
+
 def process_s3_bucket(app):
     try:
         json_files = list_json_files_in_s3()
-        progress_bar = tqdm(json_files, desc="Processing files", leave=True, dynamic_ncols=True, unit="file")
+        progress_bar = tqdm(
+            json_files,
+            desc="Processing files",
+            leave=True,
+            dynamic_ncols=True,
+            unit="file",
+        )
 
         for json_file in progress_bar:
             base_name = json_file.rsplit(".", 1)[0]
@@ -103,29 +119,29 @@ def process_s3_bucket(app):
     except Exception as e:
         print(f"Error: {e}")
 
+
 def list_json_files_in_s3():
     continuation_token = None
     json_files = []
 
     while True:
-        print('Listing files from S3...')
+        print("Listing files from S3...")
         list_kwargs = {
-            'Bucket': BUCKET_NAME,
+            "Bucket": BUCKET_NAME,
         }
         if continuation_token:
-            list_kwargs['ContinuationToken'] = continuation_token
+            list_kwargs["ContinuationToken"] = continuation_token
 
         response = s3_client.list_objects_v2(**list_kwargs)
 
-        if 'Contents' in response:
-            for obj in response['Contents']:
-                if obj['Key'].endswith('.json'):
-                    json_files.append(obj['Key'])
+        if "Contents" in response:
+            for obj in response["Contents"]:
+                if obj["Key"].endswith(".json"):
+                    json_files.append(obj["Key"])
 
-        if response.get('IsTruncated'):
-            continuation_token = response.get('NextContinuationToken')
+        if response.get("IsTruncated"):
+            continuation_token = response.get("NextContinuationToken")
         else:
             break
 
     return json_files
-
