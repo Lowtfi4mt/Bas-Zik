@@ -184,8 +184,7 @@ const MusicCard = ({ music, nowPlaying = null, inPlaylist = null }) => {
 
                 {/* Infos principales */}
                 <div className="music-info">
-                    {nowPlaying == 0 && <span className="span-lecture">▶ En cours de lecture...</span>}
-                    <h3 className="music-title">{title}</h3>
+                    <h3 className="music-title">{nowPlaying == 0 && <span className="span-lecture">▶ </span>}{title}</h3>
                     <p className="music-meta">
                         {music.authors.length > 0 ? (
                             music.authors.map((author, index) => (
