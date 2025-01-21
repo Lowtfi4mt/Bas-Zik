@@ -27,12 +27,12 @@ const MusicCardVote = ({ music }) => {
 
     const handleClick = async (id) => {
 
-        const url=API_URL+`musics/proposals/${id}/vote`
-
         const body = {}
 
         
-        if (id in profile.votes.ids) {
+        if (profile.votes.ids.includes(music.id)) {
+
+            const url=API_URL+`musics/proposals/${music.id}/unvote`
 
             try {
                 const response = await fetch(url, { 
@@ -51,7 +51,7 @@ const MusicCardVote = ({ music }) => {
                 // Si la requête échoue
                 console.error('Erreur avec la requête DELETE:', data);
                 }
-                const updatedVotes = profile.votes.ids.filter(voteId => voteId !== id);
+                const updatedVotes = profile.votes.ids.filter(voteId => voteId !== music.id);
                 const updatedProfile = {
                     ...profile,
                     votes: {ids: updatedVotes, last_updated: Date.now()}
@@ -64,6 +64,9 @@ const MusicCardVote = ({ music }) => {
             }
         }
         else {
+
+            const url=API_URL+`musics/proposals/${music.id}/vote`
+
             try {
                 // Effectuer la requête PUT
                 const response = await fetch(url, { 
@@ -136,7 +139,7 @@ const MusicCardVote = ({ music }) => {
                 </div>
                 <div className="Vote" style={{color: theme.secondary, backgroundColor: 'white', flex: 0.4, borderRadius: '8px', border: `2px solid ${theme.primary}`, padding: '7px', display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center'}} onClick={() => handleClick(music.id)} >
                     
-                    {music.id in profile.votes.ids ? "❤️ Liké" : "🤍 Voter"}
+                    {profile.votes.ids.includes(music.id) ? "❤️ Aimé" : "🤍 Voter"}
                 </div>
             </div>
         </div>
