@@ -4,6 +4,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import MusicCard from "../../components/MusicCard";
 import AlbumCard from "../../components/AlbumCard";
 import ArtistCard from "../../components/ArtistCard";
+import './style.css';
 
 const SearchResults = () => {
     const [results, setResults] = useState(null);
@@ -27,12 +28,13 @@ const SearchResults = () => {
     }, [query]);
 
     return (
-        <div style={{ padding: "20px" }}>
+        <div style={{ padding: "0px" }}>
+            <button onClick={() => navigate(-1)}>Retour</button>
+            <h1 className="search-text">Résultats de la recherche pour &apos;{query}&apos;</h1>
             {
                 results ? (
-                    <div>
-                        <button onClick={() => navigate(-1)}>Retour</button>
-                        <h1>Résultats de la recherche pour &apos;{query}&apos;</h1>
+                    <div className="search-results">
+                        
                         <h2>Titres</h2>
                         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                             {results.musics.map((music) => (

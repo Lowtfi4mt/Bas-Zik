@@ -1,0 +1,11 @@
+.search-results {
+    overflow-y: auto;
+    flex: 1;
+    max-height: 100%;
+}
+
+.search-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 10px 0;
+}
