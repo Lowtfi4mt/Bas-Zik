@@ -114,6 +114,7 @@ img:hover {
 .topmusics {
 	flex-grow: 1;
 	overflow-y: auto;
+	margin-top: 3px;
 }
 
 .listenAll:hover {

@@ -1,9 +1,11 @@
 import { Header } from '../../components/Header';
 import './style.css';
 import { top } from '../../helpers/top10';
+import { proposals } from '../../helpers/proposals';
 import { useState, useEffect } from 'preact/hooks';
 import MusicCard from "../../components/MusicCard";
 import { usePlaylist } from "../../contexts/PlaylistContext";
+import MusicCardVote from '../../components/VoteCard';
 import { useProfile } from '../../contexts/ProfileContext';
 import PlaylistCard from '../../components/PlaylistCard';
 
@@ -21,6 +23,16 @@ export function Home () {
             setTops(data); // Mise à jour de l'état
         };
         fetchTop(); // Exécution de la fonction au montage du composant
+    }, []);
+
+	const [listproposals, setProposals] = useState(null);
+
+	useEffect(() => {
+        const fetchProposal = async () => {
+            const data = await proposals(10); // Appel à la fonction asynchrone
+            setProposals(data); // Mise à jour de l'état
+        };
+        fetchProposal(); // Exécution de la fonction au montage du composant
     }, []);
 
 	const { setPlaylist, currentTrackIndex } = usePlaylist();
@@ -66,7 +78,17 @@ export function Home () {
 		</div>
 		<div className="composant"> <div className="titre">
 			<div className="titre-section" style={{ color: profile.layout.theme.secondary }}>Top Propositions </div>
-		</div><p style={{color: theme.secondary}}>N'oublie pas de voter pour les prochaines musiques sur la plateforme !!</p></div>
+		</div>
+		<p style={{color: theme.secondary}}>N'oublie pas de voter pour les prochaines musiques sur la plateforme !!</p>
+		<div className="topmusics">
+		{listproposals ? ( listproposals.map((music) => (
+                                <MusicCardVote key={music.id} music={music} />
+                            ))
+                        ) : (
+                            <p>Chargement...</p> // Message de chargement
+                        )}
+		</div>
+		</div>
 	  </div></div>
 	</>
 	);
