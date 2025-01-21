@@ -1,6 +1,6 @@
 import { useState, useEffect } from "preact/hooks";
 import "./Card.css";
-import { REMOTE_STORAGE_URL } from "../constants";
+import { REMOTE_STORAGE_URL, API_URL } from "../constants";
 import durationFormat from "../helpers/durationDisplay";
 import { Link } from "react-router-dom";
 import { useProfile } from "../contexts/ProfileContext";
@@ -12,16 +12,52 @@ const MusicCardVote = ({ music }) => {
     let votes=music.votes;
     let vote=true;
 
-    const [clicked, setClicked] = useState(false);
-
     const infoStyle ={
         color: theme.primary,
         backgroundColor: 'transparent',
     }
 
-    const handleClick = () => {
-        setClicked(!clicked);
-        console.log('Div cliquée!');
+    const [clickedStates, setClickedStates] = useState({});
+
+    const handleClick = async (id) => {
+
+        setClickedStates((prevStates) => ({
+            ...prevStates,
+            [id]: !prevStates[id], // Inverser la valeur de "clicked"
+          }));
+
+        const url=API_URL+`musics/proposals/${id}/vote`
+
+        const body = {}
+
+        const options = {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: body,
+          }; 
+        try {
+            // Effectuer la requête PUT
+            const response = await fetch(url, { 
+                method: 'PUT', 
+                headers: { 
+                'Content-type': 'application/json'
+                }, 
+                body: JSON.stringify(body)
+            });
+            const data = await response;
+    
+            if (response.ok) {
+            // Si la requête est réussie
+            console.log('Réponse de la requête PUT:', data);
+            } else {
+            // Si la requête échoue
+            console.error('Erreur avec la requête PUT:', data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la requête PUT:', error);
+        }
       };
 
     return (
@@ -63,11 +99,9 @@ const MusicCardVote = ({ music }) => {
                         <span>{votes} votes</span>
                     </p>
                 </div>
-                <div className="Vote" style={{color: theme.secondary, backgroundColor: 'white', flex: 0.4, borderRadius: '8px', border: `2px solid ${theme.primary}`, padding: '7px', display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center'}} onClick={handleClick} >
-                    {clicked ? "❤️ Liké" : "🤍 Voter"}
-                </div>
-                {/* Boutons d'action */}
-                <div className="music-actions">
+                <div className="Vote" style={{color: theme.secondary, backgroundColor: 'white', flex: 0.4, borderRadius: '8px', border: `2px solid ${theme.primary}`, padding: '7px', display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center'}} onClick={() => handleClick(music.id)} >
+                    
+                    {clickedStates[music.id] ? "❤️ Liké" : "🤍 Voter"}
                 </div>
             </div>
         </div>
