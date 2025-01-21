@@ -19,6 +19,7 @@ is_logging_enabled = env.get("CREATE_DB_FROM_ZERO", "False").lower() == "true"
 
 if is_logging_enabled:
     logging.basicConfig(level=logging.INFO)
+    logging.getLogger("botocore").setLevel(logging.WARNING)
 
 
 def create_app_music_from_json(file):
