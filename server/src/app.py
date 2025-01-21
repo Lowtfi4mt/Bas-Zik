@@ -2,6 +2,8 @@
 Simple Flask API
 """
 
+from os import environ as env
+from dotenv import find_dotenv
 from flask import Flask
 from flask_smorest import Api
 from flask_cors import CORS
@@ -13,7 +15,9 @@ from models import db
 from search import search_blp
 from utils import process_s3_bucket
 
-CREATE_DB_FROM_ZERO = False
+
+find_dotenv()
+CREATE_DB_FROM_ZERO: bool = env.get("CREATE_DB_FROM_ZERO", "False").lower() == "true"
 
 
 def create_app() -> Flask:
