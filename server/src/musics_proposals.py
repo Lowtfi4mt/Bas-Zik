@@ -4,9 +4,10 @@ Module for handling music proposals
 
 from flask_smorest import Blueprint
 from flask.views import MethodView
+from fuzzywuzzy import fuzz
+
 from schemas import MusicProposalSchema
 from models import db, MusicProposal
-from fuzzywuzzy import fuzz
 
 musics_proposals_blp = Blueprint(
     "musics_proposals",

@@ -4,6 +4,7 @@ Module for handling authors
 
 from flask_smorest import Blueprint
 from flask.views import MethodView
+
 from schemas import AuthorSchema
 from models import db, Author
 
