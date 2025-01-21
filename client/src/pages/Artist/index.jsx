@@ -3,6 +3,8 @@ import { API_URL } from "../../constants";
 import { useParams, useNavigate } from "react-router-dom";
 import MusicCard from "../../components/MusicCard";
 import AlbumCard from "../../components/AlbumCard";
+import './style.css';
+import ArtistCard from "../../components/ArtistCard";
 
 const Artist = () => {
     const [results, setResults] = useState(null);
@@ -26,26 +28,35 @@ const Artist = () => {
     }, [id]);
 
     return (
-        <div style={{ padding: "20px" }}>
+        <div className="search-results-page">
+            <button className="return-search-button" onClick={() => navigate(-1)}>Retour</button>
             {
                 results ? (
-                    <div>
-                        <button onClick={() => navigate(-1)}>Retour</button>
-                        <h1>Page d&apos;artiste &bull; {results.name}</h1>
-                        <h2>{results.albums.length} albums  &bull; {results.app_musics.length} titres</h2>
-                        <h2>Albums</h2>
-                        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                            {results.albums.map((album) => (
-                                <AlbumCard key={album.id} album={album} />
-                            ))}
+                    <>
+                        <ArtistCard artist={results} />
+                        <div className="search-results">
+                            <details open>
+                                <summary>
+                                    Albums
+                                </summary>
+                                <div className="div-artist-collaps" style={{ display: "flex", flexDirection: "column" }}>
+                                    {results.albums.map((album) => (
+                                        <AlbumCard key={album.id} album={album} />
+                                    ))}
+                                </div>
+                            </details>
+                            <details open>
+                                <summary>
+                                    Titres
+                                </summary>
+                                <div className="div-artist-collaps" style={{ display: "flex", flexDirection: "column" }}>
+                                    {results.app_musics.map((music) => (
+                                        <MusicCard key={music.id} music={music} />
+                                    ))}
+                                </div>
+                            </details>
                         </div>
-                        <h2>Titres</h2>
-                        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                            {results.app_musics.map((music) => (
-                                <MusicCard key={music.id} music={music} />
-                            ))}
-                        </div>
-                    </div>
+                    </>
                 ) : (
                     <p>Loading...</p>
                 )

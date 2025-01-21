@@ -57,7 +57,9 @@ const PlaylistCard = ({ playlist, index }) => {
         };
     }, [menuOpen]);
 
-    let image = REMOTE_STORAGE_URL + playlist?.musics?.[0]?.path.split("/")[1] + ".jpg";
+    let image = playlist?.musics?.[0]?.path 
+        ? REMOTE_STORAGE_URL + playlist.musics[0].path.split("/")[1] + ".jpg" 
+        : "/public/BasZicLogo.png";
     let title = playlist.title;
     let musics = playlist.musics.length;
 
@@ -96,7 +98,7 @@ const PlaylistCard = ({ playlist, index }) => {
                             <li onClick={handlePlayNow}>Lire maintenant</li>
                             <li onClick={handlePlayNext}>Lire ensuite</li>
                             <li onClick={handleAddToQueue}>Ajouter à la file d&apos;attente</li>
-                            <li onClick={handleDeletePlaylist}>Supprimer la liste</li>
+                            {index > 0 && <li onClick={handleDeletePlaylist}>Supprimer la liste</li>}
                         </ul>
                     </div>
                 )}

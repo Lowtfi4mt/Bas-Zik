@@ -11,5 +11,8 @@
     "centerPanel": "AudioPage",
     "rightPanel": "MusicList"
   },
-  "playlists": []
+  "playlists": [{
+    "title": "Titres 'J'aime'",
+    "musics": []
+  }]
 }

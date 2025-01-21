@@ -5,11 +5,12 @@ Module for handling app musics
 from flask_smorest import Blueprint
 from flask import request
 from flask.views import MethodView
+from sqlalchemy.sql.functions import random
+
 from schemas import AppMusicSchema
 from models import db, AppMusic
 from s3 import create_package_from_files, upload_package_to_s3
 from utils import create_app_music_from_json
-from sqlalchemy.sql.functions import random
 
 
 UPLOAD_TO_S3 = False

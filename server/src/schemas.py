@@ -5,6 +5,7 @@ This module contains the schemas for the music API
 from marshmallow import Schema, fields
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow_sqlalchemy.fields import Nested
+
 from models import AppMusic, MusicProposal, Author, Album
 
 
@@ -147,12 +148,44 @@ class NRAlbumSchema(BaseSchema):
     model = Album
 
 
+class SearchMusicSchema(BaseSchema):
+    """
+    A schema for a music in a search result
+    """
+
+    model = AppMusic
+    authors = fields.List(fields.Nested(NRAuthorSchema))
+    albums = fields.List(fields.Nested(NRAlbumSchema))
+
+
+class SearchAuthorSchema(BaseSchema):
+    """
+    A schema for an author in a search result
+    """
+
+    model = Author
+    image_path = fields.String(required=True)
+    music_count = fields.Integer(required=True)
+    albums_count = fields.Integer(required=True)
+
+
+class SearchAlbumSchema(BaseSchema):
+    """
+    A schema for an album in a search result
+    """
+
+    model = Album
+    image_path = fields.String(required=True)
+    music_count = fields.Integer(required=True)
+    authors = fields.List(fields.Nested(NRAuthorSchema))
+
+
 class SearchResultSchema(Schema):
     """
     A schema for a search result
     Contains a list of authors, albums and musics
     """
 
-    authors = fields.List(fields.Nested(AuthorSchema))
-    albums = fields.List(fields.Nested(AlbumSchema))
-    musics = fields.List(fields.Nested(AppMusicSchema))
+    authors = fields.List(fields.Nested(SearchAuthorSchema))
+    albums = fields.List(fields.Nested(SearchAlbumSchema))
+    musics = fields.List(fields.Nested(SearchMusicSchema))

@@ -97,6 +97,9 @@ def insert_music_from_json(json_data, base_name):
 
 
 def process_s3_bucket(app):
+    """
+    Process all JSON files in the S3 bucket
+    """
     try:
         json_files = list_json_files_in_s3()
         progress_bar = tqdm(
@@ -116,11 +119,16 @@ def process_s3_bucket(app):
             insert_music_from_json(json_data, base_name)
             progress_bar.set_description(f"Processing {json_file}")
 
+    # pylint: disable=broad-except
     except Exception as e:
         print(f"Error: {e}")
 
 
 def list_json_files_in_s3():
+    """
+    List all JSON files in the S3 bucket
+    """
+
     continuation_token = None
     json_files = []
 

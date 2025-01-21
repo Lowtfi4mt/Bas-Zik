@@ -3,10 +3,12 @@ Simple Flask API
 """
 
 from os import environ as env
+
 from dotenv import find_dotenv
 from flask import Flask
 from flask_smorest import Api
 from flask_cors import CORS
+
 from app_musics import app_musics_blp
 from musics_proposals import musics_proposals_blp
 from authors import authors_blp
@@ -63,3 +65,7 @@ def create_app() -> Flask:
 if __name__ == "__main__":
     flask_app = create_app()
     flask_app.run(host="0.0.0.0", port=5000, debug=True)
+
+
+if __name__ != "__main__":
+    app = create_app()

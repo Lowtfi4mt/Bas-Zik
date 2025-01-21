@@ -81,7 +81,9 @@ const AlbumCard = ({ album }) => {
         };
     }, [menuOpen]);
 
-    let image = REMOTE_STORAGE_URL + album?.app_musics?.[0]?.path.split("/")[1] + ".jpg";
+    let image = album?.app_musics?.[0]?.path 
+        ? REMOTE_STORAGE_URL + album.app_musics[0].path.split("/")[1] + ".jpg" 
+        : "/public/BasZicLogo.png";
     let title = album.name;
     let musics = album.app_musics.length;
 
