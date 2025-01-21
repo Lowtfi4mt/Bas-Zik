@@ -42,10 +42,7 @@ const Artist = () => {
                         <h2>Titres</h2>
                         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                             {results.app_musics.map((music) => (
-                                <MusicCard key={music.id} music={{...music, albums: [{
-                                    id: results.id,
-                                    name: results.name
-                                }], authors: results.authors}} />
+                                <MusicCard key={music.id} music={music} />
                             ))}
                         </div>
                     </div>

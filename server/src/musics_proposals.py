@@ -92,6 +92,23 @@ class MusicProposalVoteResource(MethodView):
         return None
 
 
+@musics_proposals_blp.route("/<int:music_id>/unvote")
+class MusicProposalUnvoteResource(MethodView):
+    """
+    Resource for unvoting on a proposed music
+    """
+
+    @musics_proposals_blp.response(204)
+    def put(self, music_id):
+        """
+        Unvote on a proposed music
+        """
+        proposal = MusicProposal.query.get_or_404(music_id)
+        proposal.votes -= 1
+        db.session.commit()
+        return None
+
+
 @musics_proposals_blp.route("/search/<string:search>/fuzzy/<int:threshold>")
 class MusicProposalSearchResource(MethodView):
     """
@@ -107,5 +124,5 @@ class MusicProposalSearchResource(MethodView):
         return [
             proposal
             for proposal in proposals
-            if fuzz.partial_ratio(search, proposal.title) >= threshold
+            if fuzz.partial_ratio(search.lower(), proposal.title.lower()) >= threshold
         ]
