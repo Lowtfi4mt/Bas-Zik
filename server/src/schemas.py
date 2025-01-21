@@ -6,6 +6,7 @@ from marshmallow import Schema, fields
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow_sqlalchemy.fields import Nested
 from models import db, AppMusic, MusicProposal, Author, Album
+from models import AppMusic, MusicProposal, Author, Album
 
 
 class AppMusicSchema(SQLAlchemyAutoSchema):
@@ -85,8 +86,6 @@ class NRAppMusicSchema(SQLAlchemyAutoSchema):
         model = AppMusic
         load_instance = True
         include_relationships = False
-        exclude = ["authors", "albums"]
-        session = db.session
 
 
 class NRMusicProposalSchema(SQLAlchemyAutoSchema):
@@ -100,8 +99,6 @@ class NRMusicProposalSchema(SQLAlchemyAutoSchema):
         model = MusicProposal
         load_instance = True
         include_relationships = False
-        exclude = ["authors", "albums"]
-        session = db.session
 
 
 class NRAuthorSchema(SQLAlchemyAutoSchema):
@@ -115,8 +112,6 @@ class NRAuthorSchema(SQLAlchemyAutoSchema):
         model = Author
         load_instance = True
         include_relationships = False
-        exclude = ["app_musics", "musics_proposals", "albums"]
-        session = db.session
 
 
 class NRAlbumSchema(SQLAlchemyAutoSchema):
@@ -130,8 +125,6 @@ class NRAlbumSchema(SQLAlchemyAutoSchema):
         model = Album
         load_instance = True
         include_relationships = False
-        exclude = ["app_musics", "musics_proposals", "authors"]
-        session = db.session
 
 
 class SearchResultSchema(Schema):
