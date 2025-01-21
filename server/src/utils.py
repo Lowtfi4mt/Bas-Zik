@@ -4,9 +4,12 @@ Utility functions for processing JSON files and S3 buckets
 
 import json
 
-from tqdm import tqdm
+from tqdm_loggable.auto import tqdm
 from models import db, AppMusic, Album, Author
 from s3 import s3_client, BUCKET_NAME
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 
 def create_app_music_from_json(file):
@@ -83,12 +86,10 @@ def insert_music_from_json(json_data, base_name):
 
     return {"message": f"Music '{title}' inserted successfully!"}
 
-
 def process_s3_bucket(app):
     try:
         json_files = list_json_files_in_s3()
-
-        progress_bar = tqdm(json_files, desc="Processing files", leave=True, dynamic_ncols=True)
+        progress_bar = tqdm(json_files, desc="Processing files", leave=True, dynamic_ncols=True, unit="file")
 
         for json_file in progress_bar:
             base_name = json_file.rsplit(".", 1)[0]
@@ -97,7 +98,6 @@ def process_s3_bucket(app):
             json_data = json.load(json_object["Body"])
 
             insert_music_from_json(json_data, base_name)
-
             progress_bar.set_description(f"Processing {json_file}")
 
     except Exception as e:
@@ -108,6 +108,7 @@ def list_json_files_in_s3():
     json_files = []
 
     while True:
+        print('Listing files from S3...')
         list_kwargs = {
             'Bucket': BUCKET_NAME,
         }

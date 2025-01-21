@@ -13,8 +13,7 @@ from models import db
 from search import search_blp
 from utils import process_s3_bucket
 
-CREATE_DB_FROM_ZERO = False
-
+CREATE_DB_FROM_ZERO = True
 
 def create_app() -> Flask:
     """
