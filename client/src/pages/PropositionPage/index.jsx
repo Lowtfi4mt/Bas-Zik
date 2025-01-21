@@ -10,6 +10,7 @@ export function PropositionPage() {
     const [musicName, setMusicName] = useState('');
     const [artist, setArtist] = useState('');
     const [album, setAlbum] = useState('');
+    const [isNewProposal, setIsNewProposal] = useState(true);
 
     // Popup state
     const [proposals, setProposals] = useState([]);
@@ -35,7 +36,7 @@ export function PropositionPage() {
     };
 
     const handleFinalize = async () => {
-        const result = await finalizeProposal(selectedProposal || { name: musicName, artist, album });
+        const result = await finalizeProposal(selectedProposal || { name: musicName, artist, album }, isNewProposal);
         if (result) {
             navigate('/home');
         } else {
@@ -97,7 +98,7 @@ export function PropositionPage() {
                                 onClick={() => handleSelectProposal(proposal)}
                             >
                                 <strong>{proposal.name}</strong> - {proposal.artist} ({proposal.album})
-                                <button onClick={() => handleSelectProposal(proposal)} class="validate-button">
+                                <button onClick={() => { setIsNewProposal(false); handleSelectProposal(proposal); }} className="validate-button">
                                     Choisir celle-ci
                                 </button>
                             </li>

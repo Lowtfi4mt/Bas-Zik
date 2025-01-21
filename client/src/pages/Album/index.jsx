@@ -1,5 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import MusicCard from "../../components/MusicCard";
 import { Link } from "react-router-dom";
 import { fetchAlbum } from "../../helpers/getAlbum";
@@ -9,6 +9,8 @@ const Album = () => {
     const [results, setResults] = useState(null);
     const { setPlaylist, currentTrackIndex } = usePlaylist();
     const { id } = useParams();
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchAlbum(id).then((result) => setResults(result));
@@ -38,6 +40,7 @@ const Album = () => {
             {results ? (
                 <>
                     <div>
+                        <button onClick={() => navigate(-1)}>Retour</button>
                         <h1>Page d&apos;album &bull; {results.title}</h1>
                         <h2>
                             {results.authors.length > 0 ? (

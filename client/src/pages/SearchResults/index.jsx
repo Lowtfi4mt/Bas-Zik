@@ -1,6 +1,6 @@
 import { useEffect, useState } from "preact/hooks";
 import { API_URL } from "../../constants";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import MusicCard from "../../components/MusicCard";
 import AlbumCard from "../../components/AlbumCard";
 import ArtistCard from "../../components/ArtistCard";
@@ -9,13 +9,14 @@ const SearchResults = () => {
     const [results, setResults] = useState(null);
     const [searchParams] = useSearchParams();
     const query = searchParams.get("query");
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchResults = async () => {
             try {
                 const response = await fetch(API_URL + `search/${query}`);
                 const data = await response.json();
-                setResults(data.results);
+                setResults(data);
             } catch (error) {
                 console.error("Error fetching search results:", error);
             }
@@ -74,6 +75,7 @@ const SearchResults = () => {
             {
                 results ? (
                     <div>
+                        <button onClick={() => navigate(-1)}>Retour</button>
                         <h1>Résultats de la recherche pour &apos;{query}&apos;</h1>
                         <h2>Titres</h2>
                         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>

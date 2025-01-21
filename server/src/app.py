@@ -4,14 +4,17 @@ Simple Flask API
 
 from flask import Flask
 from flask_smorest import Api
-from musics import musics_blp
+from flask_cors import CORS
+from app_musics import app_musics_blp
+from musics_proposals import musics_proposals_blp
 from authors import authors_blp
 from albums import albums_blp
-from models import db
+from models import db, MusicProposal
 from search import search_blp
 from utils import process_s3_bucket
+from faker import Faker
 
-CREATE_DB_FROM_ZERO = True
+CREATE_DB_FROM_ZERO = False
 
 
 def create_app() -> Flask:
@@ -19,6 +22,7 @@ def create_app() -> Flask:
     Create the Flask app
     """
     app = Flask(__name__)
+    CORS(app)
     app.config["API_TITLE"] = "My API"
     app.config["API_VERSION"] = "v1"
     app.config["OPENAPI_VERSION"] = "3.0.3"
@@ -29,10 +33,11 @@ def create_app() -> Flask:
     )
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    app.config["SQLALCHEMY_ECHO"] = True
+    app.config["SQLALCHEMY_ECHO"] = False
 
     api = Api(app)
-    api.register_blueprint(musics_blp)
+    api.register_blueprint(app_musics_blp)
+    api.register_blueprint(musics_proposals_blp)
     api.register_blueprint(authors_blp)
     api.register_blueprint(albums_blp)
     api.register_blueprint(search_blp)
@@ -41,16 +46,26 @@ def create_app() -> Flask:
 
     if CREATE_DB_FROM_ZERO:
         with app.app_context():
+            db.drop_all()
             db.create_all()
             try:
                 process_s3_bucket(app)
+            # pylint: disable=broad-except
             except Exception as e:
                 print(f"Error processing S3 bucket: {e}")
+
+    with app.app_context():
+        faker = Faker()
+        for _ in range(10):
+            music_proposal = MusicProposal(
+                title=faker.name(),
+            )
+            db.session.add(music_proposal)
+        db.session.commit()
 
     return app
 
 
-app = create_app()
-
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    flask_app = create_app()
+    flask_app.run(host="0.0.0.0", port=5000, debug=True)

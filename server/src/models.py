@@ -7,25 +7,47 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-music_author = db.Table(
-    "music_author",
-    db.Column("music_id", db.Integer, db.ForeignKey("musics.id"), primary_key=True),
+app_music_author = db.Table(
+    "app_music_author",
+    db.Column("music_id", db.Integer, db.ForeignKey("app_musics.id"), primary_key=True),
     db.Column("author_id", db.Integer, db.ForeignKey("authors.id"), primary_key=True),
 )
 
-music_album = db.Table(
-    "music_album",
-    db.Column("music_id", db.Integer, db.ForeignKey("musics.id"), primary_key=True),
+app_music_album = db.Table(
+    "app_music_album",
+    db.Column("music_id", db.Integer, db.ForeignKey("app_musics.id"), primary_key=True),
     db.Column("album_id", db.Integer, db.ForeignKey("albums.id"), primary_key=True),
 )
 
+music_proposal_author = db.Table(
+    "music_proposal_author",
+    db.Column(
+        "music_id", db.Integer, db.ForeignKey("proposed_musics.id"), primary_key=True
+    ),
+    db.Column("author_id", db.Integer, db.ForeignKey("authors.id"), primary_key=True),
+)
 
-class Music(db.Model):
+music_proposal_album = db.Table(
+    "music_proposal_album",
+    db.Column(
+        "music_id", db.Integer, db.ForeignKey("proposed_musics.id"), primary_key=True
+    ),
+    db.Column("album_id", db.Integer, db.ForeignKey("albums.id"), primary_key=True),
+)
+
+album_author = db.Table(
+    "album_author",
+    db.Column("album_id", db.Integer, db.ForeignKey("albums.id"), primary_key=True),
+    db.Column("author_id", db.Integer, db.ForeignKey("authors.id"), primary_key=True),
+)
+
+
+class AppMusic(db.Model):
     """
-    A base music model
+    An app music model, inheriting from the base music model
     """
 
-    __tablename__ = "musics"
+    __tablename__ = "app_musics"
     id = db.Column(
         db.Integer,
         primary_key=True,
@@ -36,28 +58,6 @@ class Music(db.Model):
         nullable=False,
         doc="The music title",
     )
-    type = db.Column(
-        db.String(50),
-        nullable=False,
-        doc="Internal discriminator for joined table inheritance, hidden from frontend",
-    )
-
-    # Relationships
-    authors = db.relationship("Author", secondary=music_author, back_populates="musics")
-    albums = db.relationship("Album", secondary=music_album, back_populates="musics")
-
-    __mapper_args__ = {
-        "polymorphic_identity": "base_music",
-        "polymorphic_on": type,
-    }
-
-
-class AppMusic(Music):
-    """
-    An app music model, inheriting from the base music model
-    """
-
-    __tablename__ = "app_musics"
     path = db.Column(
         db.String(200),
         nullable=False,
@@ -74,26 +74,42 @@ class AppMusic(Music):
         doc="How many likes the music has",
     )
 
-    __mapper_args__ = {
-        "polymorphic_identity": "app_music",
-    }
+    authors = db.relationship(
+        "Author", secondary=app_music_author, back_populates="app_musics"
+    )
+    albums = db.relationship(
+        "Album", secondary=app_music_album, back_populates="app_musics"
+    )
 
 
-class ProposedMusic(Music):
+class MusicProposal(db.Model):
     """
     A proposed music model, inheriting from the base music model
     """
 
     __tablename__ = "proposed_musics"
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+        doc="The music ID",
+    )
+    title = db.Column(
+        db.String(100),
+        nullable=False,
+        doc="The music title",
+    )
     votes = db.Column(
         db.Integer,
         default=0,
         doc="How many votes the music has",
     )
 
-    __mapper_args__ = {
-        "polymorphic_identity": "proposed_music",
-    }
+    authors = db.relationship(
+        "Author", secondary=music_proposal_author, back_populates="musics_proposals"
+    )
+    albums = db.relationship(
+        "Album", secondary=music_proposal_album, back_populates="musics_proposals"
+    )
 
 
 class Author(db.Model):
@@ -113,7 +129,13 @@ class Author(db.Model):
         doc="The author name",
     )
 
-    musics = db.relationship("Music", secondary=music_author, back_populates="authors")
+    app_musics = db.relationship(
+        "AppMusic", secondary=app_music_author, back_populates="authors"
+    )
+    musics_proposals = db.relationship(
+        "MusicProposal", secondary=music_proposal_author, back_populates="authors"
+    )
+    albums = db.relationship("Album", secondary=album_author, back_populates="authors")
 
 
 class Album(db.Model):
@@ -133,4 +155,10 @@ class Album(db.Model):
         doc="The album name",
     )
 
-    musics = db.relationship("Music", secondary=music_album, back_populates="albums")
+    app_musics = db.relationship(
+        "AppMusic", secondary=app_music_album, back_populates="albums"
+    )
+    musics_proposals = db.relationship(
+        "MusicProposal", secondary=music_proposal_album, back_populates="albums"
+    )
+    authors = db.relationship("Author", secondary=album_author, back_populates="albums")

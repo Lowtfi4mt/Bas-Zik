@@ -35,14 +35,14 @@ const AlbumCard = ({ album }) => {
             <img src={image} alt={title} className="music-image" />
 
             <div className="music-info">
-                <Link to={`/album/${album.id}`}>
+                <Link to={`/app/album/${album.id}`}>
                     <h3 className="music-title">{title}</h3>
                 </Link>
                 <p className="music-meta">
                     {album.authors.length > 0 ? (
                         album.authors.map((author, index) => (
                             <span key={index}>
-                                <Link to={`/artist/${album.authorsId[index]}`}>
+                                <Link to={`/app/artist/${album.authorsId[index]}`}>
                                     {author}
                                 </Link>
                                 {index < album.authors.length - 1 && " et "}
@@ -77,7 +77,7 @@ const AlbumCard = ({ album }) => {
                         <li onClick={handleAddToQueue}>Ajouter à la file d&apos;attente</li>
                         <li>Ajouter à une liste de lecture</li>
                         {album.authorsId.length > 0 && (
-                            <Link to={`/artist/${album.authorsId[0]}`}>
+                            <Link to={`/app/artist/${album.authorsId[0]}`}>
                                 <li>Accéder à l&apos;artiste</li>
                             </Link>
                         )}

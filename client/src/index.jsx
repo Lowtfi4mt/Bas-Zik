@@ -14,6 +14,7 @@ import SearchResults from './pages/SearchResults/index.jsx';
 import Artist from './pages/Artist/index.jsx';
 import Album from './pages/Album/index.jsx';
 import { PlaylistProvider } from './contexts/PlaylistContext.jsx';
+import NavigationHome from './pages/NavigationHome/index.jsx';
 
 export function App() {
   return (
@@ -25,12 +26,14 @@ export function App() {
 				<Route path="/" Component={Welcome} />
 				<Route path="/home" Component={() => <ProtectedRoute component={Home} />} />
         <Route path="/profile" Component={() => <ProtectedRoute component={UserSettings} />} />
-				<Route path="/app/*" Component={() => <ProtectedRoute component={MusicManager} />} />
+				<Route path="/app" Component={() => <ProtectedRoute component={MusicManager} />} >
+          <Route path="" Component={NavigationHome} />
+          <Route path="search" Component={SearchResults} />
+          <Route path='artist/:id' Component={() => <ProtectedRoute component={Artist} />} />
+          <Route path='album/:id' Component={() => <ProtectedRoute component={Album} />} />
+        </Route>
         <Route path="/contact" Component={() => <ProtectedRoute component={Contact} />} />
         <Route path='/propose' Component={() => <ProtectedRoute component={PropositionPage} />} />
-        <Route path='/search' Component={() => <ProtectedRoute component={SearchResults} />} />
-        <Route path='/artist/:id' Component={() => <ProtectedRoute component={Artist} />} />
-        <Route path='/album/:id' Component={() => <ProtectedRoute component={Album} />} />
 				<Route default Component={NotFound} />
 			</Routes>
           </Router>

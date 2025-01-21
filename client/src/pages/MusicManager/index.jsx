@@ -12,9 +12,15 @@ const MusicManager = () => {
 
   // Mettre à jour la piste actuelle dans l'audio
   useEffect(() => {
-    if (audioRef.current && currentTrackIndex !== null) {
-      audioRef.current.src = REMOTE_STORAGE_URL + playlist[currentTrackIndex].path.split("/")[1] + ".ogg";
-      audioRef.current.play(); // Démarre la lecture automatiquement
+    if (audioRef.current) {
+      if (currentTrackIndex == null){
+        audioRef.current.pause();
+        audioRef.current.src = "";
+      }
+      else {
+        audioRef.current.src = REMOTE_STORAGE_URL + playlist[currentTrackIndex].path.split("/")[1] + ".ogg";
+        audioRef.current.play(); // Démarre la lecture automatiquement  
+      }
     }
   }, [playlist[currentTrackIndex]?.id]);
 

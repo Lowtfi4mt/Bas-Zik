@@ -1,4 +1,4 @@
-import { useState } from "preact/hooks";
+import { useState, useEffect } from "preact/hooks";
 import "./Card.css";
 import { REMOTE_STORAGE_URL } from "../constants";
 import durationFormat from "../helpers/durationDisplay";
@@ -16,16 +16,17 @@ const MusicCard = ({ music, nowPlaying = null }) => {
     let likes = music.likes;
 
     const handlePlayNext = () => {
-        setPlaylist((prev) => {prev.splice(currentTrackIndex + 1, 0, music); return prev;});
+        setPlaylist((prev) => {prev.splice(currentTrackIndex + 1, 0, music); return [...prev];});
         setMenuOpen(false);
     }
 
     const handlePlayNow = () => {
-        if (nowPlaying){
+        if (nowPlaying != null){
             setCurrentTrackIndex(playlist.findIndex((track) => track.id == music.id));
         }
         else {
             setPlaylist([music]);
+            setCurrentTrackIndex(0);
         }
         setMenuOpen(false);
     }
@@ -34,6 +35,34 @@ const MusicCard = ({ music, nowPlaying = null }) => {
         setPlaylist((prev) => [...prev, music]);
         setMenuOpen(false);
     }
+
+    const handleRemoveFromPlaylist = () => {
+        setPlaylist((prev) => {
+            const newPlaylist = prev.filter((track) => track.id !== music.id);
+            const newCurrentTrackIndex = prev.slice(0, currentTrackIndex).filter((track) => track.id !== music.id).length;
+            if (newPlaylist.length === 0) {
+                setCurrentTrackIndex(null);
+            } else {
+                setCurrentTrackIndex(newCurrentTrackIndex >= newPlaylist.length ? newPlaylist.length - 1 : newCurrentTrackIndex);
+            }
+
+            return newPlaylist;
+        });
+        setMenuOpen(false);
+    }
+    // Close menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (menuOpen && !event.target.closest('.music-card')) {
+                setMenuOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [menuOpen]);
 
     return (
         <div className={`music-card ${nowPlaying == 0 ? "now-playing" : ""} ${nowPlaying < 0 ? "passed" : ""}`}>
@@ -48,7 +77,7 @@ const MusicCard = ({ music, nowPlaying = null }) => {
                     {music.authors.length > 0 ? (
                         music.authors.map((author, index) => (
                             <span key={index}>
-                                <Link to={`/artist/${music.authorsId[index]}`}>
+                                <Link to={`/app/artist/${music.authorsId[index]}`}>
                                     {author}
                                 </Link>
                                 {index < music.authors.length - 1 && " et "}
@@ -61,7 +90,7 @@ const MusicCard = ({ music, nowPlaying = null }) => {
                         music.albums.length > 0 ? (
                             music.albums.map((album, index) => (
                                 <span key={index}>
-                                    <Link to={`/album/${music.albumsId[index]}`}>
+                                    <Link to={`/app/album/${music.albumsId[index]}`}>
                                         {album}
                                     </Link>
                                     {index < music.albums.length - 1 && " et "}
@@ -97,16 +126,21 @@ const MusicCard = ({ music, nowPlaying = null }) => {
                         <li onClick={handleAddToQueue}>Ajouter à la file d&apos;attente</li>
                         <li>Ajouter à une liste de lecture</li>
                         {music.albumsId.length > 0 && (
-                            <Link to={`/album/${music.albumsId[0]}`}>
+                            <Link to={`/app/album/${music.albumsId[0]}`}>
                                 <li>Accéder à l&apos;album</li>
                             </Link>
                         )}
                         {music.authorsId.length > 0 && (
-                            <Link to={`/artist/${music.authorsId[0]}`}>
+                            <Link to={`/app/artist/${music.authorsId[0]}`}>
                                 <li>Accéder à l&apos;artiste</li>
                             </Link>
                         )}
                         <li>Ajouter un j&apos;aime</li>
+                        {playlist.some(track => track.id === music.id) && (
+                            <li onClick={handleRemoveFromPlaylist}>
+                                Retirer de la liste de lecture
+                            </li>
+                        )}
                     </ul>
                 </div>
             )}

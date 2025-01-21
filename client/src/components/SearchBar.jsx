@@ -9,7 +9,7 @@ const SearchBar = () => {
         const query = e.target.query.value;
 
         if (query.trim() === '') return;
-        navigate(`/search?query=${query}`);
+        navigate(`/app/search?query=${query}`);
         
     };
 
