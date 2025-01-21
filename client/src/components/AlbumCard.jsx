@@ -25,9 +25,9 @@ const AlbumCard = ({ album }) => {
     }
 
 
-    let image = REMOTE_STORAGE_URL + album.path.split("/")[1] + ".jpg";
-    let title = album.title;
-    let musics = album.musicCount;
+    let image = REMOTE_STORAGE_URL + album?.app_musics?.[0]?.path.split("/")[1] + ".jpg";
+    let title = album.name;
+    let musics = album.app_musics.length;
 
     return (
         <div className="music-card">
@@ -41,9 +41,9 @@ const AlbumCard = ({ album }) => {
                 <p className="music-meta">
                     {album.authors.length > 0 ? (
                         album.authors.map((author, index) => (
-                            <span key={index}>
-                                <Link to={`/app/artist/${album.authorsId[index]}`}>
-                                    {author}
+                            <span key={author.id}>
+                                <Link to={`/app/artist/${author.id}`}>
+                                    {author.name}
                                 </Link>
                                 {index < album.authors.length - 1 && " et "}
                             </span>
@@ -76,8 +76,8 @@ const AlbumCard = ({ album }) => {
                         <li onClick={handlePlayNext}>Lire ensuite</li>
                         <li onClick={handleAddToQueue}>Ajouter à la file d&apos;attente</li>
                         <li>Ajouter à une liste de lecture</li>
-                        {album.authorsId.length > 0 && (
-                            <Link to={`/app/artist/${album.authorsId[0]}`}>
+                        {album.authors.length > 0 && (
+                            <Link to={`/app/artist/${album.authors[0].id}`}>
                                 <li>Accéder à l&apos;artiste</li>
                             </Link>
                         )}
