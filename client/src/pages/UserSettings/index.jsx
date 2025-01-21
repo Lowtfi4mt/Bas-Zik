@@ -25,6 +25,25 @@ const UserSettings = () => {
           secondary: '#bdc3c7',
           background: '#95a5a6',
         },
+        {
+            name : 'Daltoniens - Protanopie',
+            primary: '#704d1c',
+            secondary: '#FFE900',
+            background: '#0064B1',
+        }
+        ,
+        {
+            name : 'Daltoniens - Deuteranopie',
+            primary: '#99660c',
+            secondary: '#FFB23C',
+            background: '#0064B1',
+        },
+        {
+            name : 'Daltoniens - Tritanopie',
+            primary: '#7A474C',
+            secondary: '#FFDAE0',
+            background: '#3CB3C6',
+        }
     ];
     const [username, setUserName] = useState(user.username);
     const [theme, setTheme] = useState(user.layout.theme);
