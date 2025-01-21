@@ -1,0 +1,31 @@
+.navigation-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  /* Header fixé en haut */
+  .navigation-header {
+    top: 0;
+    left: 0;
+    width: 100%; /* Étend le header sur toute la largeur */
+    background-color: #f5f5f5; /* Couleur de fond */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre pour démarquer le header */
+    z-index: 10; /* Assure qu'il reste au-dessus du contenu */
+  }
+  
+  /* Contenu principal */
+  .navigation-content {
+    margin-top: 60px; /* Ajuste cet espace à la hauteur réelle du header */
+    flex: 1; /* Remplit l'espace restant sous le header */
+    overflow: auto; /* Permet de scroller si le contenu est trop long */
+    background-color: #ffffff; /* Couleur de fond du contenu */
+    display: flex;
+    flex-direction: column; /* Les enfants sont disposés verticalement */
+  }
+  
+  /* Assurez que les enfants de navigation-content ne débordent pas */
+  .navigation-content > * {
+    flex-shrink: 0; /* Empêche les enfants de rétrécir */
+    overflow: hidden; /* Évite les débordements */
+  }
