@@ -21,6 +21,7 @@
 }
 
 .music-info {
+  padding: 3px 0px;
   padding-left: 5px;
   text-decoration: none;
   display: flex;

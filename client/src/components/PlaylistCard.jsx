@@ -57,7 +57,9 @@ const PlaylistCard = ({ playlist, index }) => {
         };
     }, [menuOpen]);
 
-    let image = REMOTE_STORAGE_URL + playlist?.musics?.[0]?.path.split("/")[1] + ".jpg";
+    let image = playlist?.musics?.[0]?.path 
+        ? REMOTE_STORAGE_URL + playlist.musics[0].path.split("/")[1] + ".jpg" 
+        : "/public/BasZicLogo.png";
     let title = playlist.title;
     let musics = playlist.musics.length;
 

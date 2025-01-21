@@ -39,7 +39,7 @@ const Artist = () => {
                                 <summary>
                                     Albums
                                 </summary>
-                                <div className="div-artist-collaps" style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                                <div className="div-artist-collaps" style={{ display: "flex", flexDirection: "column" }}>
                                     {results.albums.map((album) => (
                                         <AlbumCard key={album.id} album={album} />
                                     ))}
@@ -49,7 +49,7 @@ const Artist = () => {
                                 <summary>
                                     Titres
                                 </summary>
-                                <div className="div-artist-collaps" style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                                <div className="div-artist-collaps" style={{ display: "flex", flexDirection: "column" }}>
                                     {results.app_musics.map((music) => (
                                         <MusicCard key={music.id} music={music} />
                                     ))}
