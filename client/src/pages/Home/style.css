@@ -28,7 +28,19 @@ img:hover {
 	box-shadow: 0 25px 50px -12px #673ab888;
 }
 
+.container-ext-ext {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Utilise toute la hauteur de la fenêtre */
+}
+
+.header {
+    flex-shrink: 0; /* Empêche le header de se rétrécir */
+}
+
 .container-ext {
+	flex-grow: 1;
+	overflow-y: auto; 
 	display: flex;
 	gap: 10px;
 	padding: 10px;
@@ -36,6 +48,8 @@ img:hover {
 
 .composant {
 	flex: 1;
+	display: flex;
+	flex-direction: column;
 	border-radius: 0.5rem;
 	border: 1px solid;
 	padding: 10px;
@@ -98,7 +112,8 @@ img:hover {
 }
 
 .topmusics {
-	overflow-y: scroll;
+	flex-grow: 1;
+	overflow-y: auto;
 }
 
 .listenAll:hover {

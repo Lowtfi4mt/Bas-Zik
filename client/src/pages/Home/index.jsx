@@ -20,13 +20,16 @@ export function Home () {
 
 	return (
 	<>
-	  <Header/>
+	<div className="container-ext-ext">
+                <div className="header">
+                    <Header />
+                </div>
 	  <div className="container-ext">
 		<div className="composant"> <div className="titre">
 			<div className="titre-section" style={{ color: profile.layout.theme.secondary }}>Top 10</div>
 			<div className="listenAll" style={{color: theme.primary}}><div className="listenTop"> ▶️  Ecouter tout</div></div>
 		</div>
-		<div>{tops ? ( tops.map((music) => (
+		<div className="topmusics">{tops ? ( tops.map((music) => (
                                 <MusicCard key={music.id} music={music} />
                             ))
                         ) : (
@@ -42,7 +45,7 @@ export function Home () {
 			<div className="titre-section" style={{ color: profile.layout.theme.secondary }}>Top Propositions</div>
 			<p style={{color: theme.secondary}}>N'oublie pas de voter pour les prochaines musiques sur la plateforme !!</p>
 		</div></div>
-	  </div>
+	  </div></div>
 	</>
 	);
   };
