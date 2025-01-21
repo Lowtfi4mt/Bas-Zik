@@ -1,7 +1,7 @@
 import { useEffect, useState } from "preact/hooks";
 import "./Card.css";
 import { REMOTE_STORAGE_URL } from "../constants";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { usePlaylist } from "../contexts/PlaylistContext";
 import { useProfile } from "../contexts/ProfileContext";
 
@@ -10,6 +10,8 @@ const PlaylistCard = ({ playlist, index }) => {
     const { setPlaylist, currentTrackIndex, setCurrentTrackIndex } = usePlaylist();
     const theme = JSON.parse(localStorage.getItem('profile')).layout.theme;
     const { setProfile } = useProfile();
+
+    const navigate = useNavigate();
     
     const handlePlayNext = () => {
         setPlaylist((prev) => {prev.splice(currentTrackIndex + 1, 0, ...playlist.musics); return prev;});
@@ -20,6 +22,7 @@ const PlaylistCard = ({ playlist, index }) => {
         setPlaylist(playlist.musics); 
         setCurrentTrackIndex(0);
         setMenuOpen(false);
+        navigate('/app/');
     }
 
     const handleAddToQueue = () => {
@@ -36,6 +39,7 @@ const PlaylistCard = ({ playlist, index }) => {
             };
         });
         setMenuOpen(false);
+        navigate('/home/');
     }
 
 
