@@ -154,6 +154,8 @@ class SearchMusicSchema(BaseSchema):
     """
 
     model = AppMusic
+    authors = fields.List(fields.Nested(NRAuthorSchema))
+    albums = fields.List(fields.Nested(NRAlbumSchema))
 
 
 class SearchAuthorSchema(BaseSchema):
@@ -162,8 +164,9 @@ class SearchAuthorSchema(BaseSchema):
     """
 
     model = Author
-    # image path (REQUIRED)
     image_path = fields.String(required=True)
+    music_count = fields.Integer(required=True)
+    albums_count = fields.Integer(required=True)
 
 
 class SearchAlbumSchema(BaseSchema):
@@ -173,6 +176,8 @@ class SearchAlbumSchema(BaseSchema):
 
     model = Album
     image_path = fields.String(required=True)
+    music_count = fields.Integer(required=True)
+    authors = fields.List(fields.Nested(NRAuthorSchema))
 
 
 class SearchResultSchema(Schema):

@@ -65,19 +65,34 @@ class FuzzySearchResource(MethodView):
         albums = Album.query.all()
 
         authors = [
-            {**author.__dict__, "image_path": author.app_musics[0].path}
+            {
+                **author.__dict__,
+                "image_path": author.app_musics[0].path,
+                "music_count": len(author.app_musics),
+                "albums_count": len(author.albums),
+            }
             for author in authors
             if fuzz.partial_ratio(author.name.lower(), query.lower()) >= threshold
         ][:MAX_SEARCH_RESULTS]
 
         musics = [
-            {**music.__dict__, "image_path": music.path}
+            {
+                **music.__dict__,
+                "image_path": music.path,
+                "authors": music.authors,
+                "albums": music.albums,
+            }
             for music in musics
             if fuzz.partial_ratio(music.title.lower(), query.lower()) >= threshold
         ][:MAX_SEARCH_RESULTS]
 
         albums = [
-            {**album.__dict__, "image_path": album.app_musics[0].path}
+            {
+                **album.__dict__,
+                "image_path": album.app_musics[0].path,
+                "music_count": len(album.app_musics),
+                "authors": album.authors,
+            }
             for album in albums
             if fuzz.partial_ratio(album.name.lower(), query.lower()) >= threshold
         ][:MAX_SEARCH_RESULTS]
