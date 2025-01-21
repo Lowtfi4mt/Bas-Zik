@@ -2,6 +2,7 @@ import { Header } from '../../components/Header';
 import './style.css';
 import { top } from '../../helpers/top10';
 import { proposals } from '../../helpers/proposals';
+import { aleatoire } from '../../helpers/aleatoire';
 import { useState, useEffect } from 'preact/hooks';
 import MusicCard from "../../components/MusicCard";
 import { usePlaylist } from "../../contexts/PlaylistContext";
@@ -15,34 +16,51 @@ export function Home () {
 
 	const theme = profile.layout.theme;
 
-	const [tops, setTops] = useState(null); // État pour stocker les données de `top`
+	const [tops, setTops] = useState(null);
+	const [alea, setAlea] = useState(null); // État pour stocker les données de `top`
+
+	const [isAleatoire, setAleatoire] = useState(false);
+	const nombre=10;
+	const musiques = isAleatoire ? alea : tops
 
     useEffect(() => {
         const fetchTop = async () => {
-            const data = await top(10); // Appel à la fonction asynchrone
-            setTops(data); // Mise à jour de l'état
+            const data = await top(nombre);
+            setTops(data);
         };
-        fetchTop(); // Exécution de la fonction au montage du composant
+        fetchTop();
+    }, []);
+
+	useEffect(() => {
+        const fetchAlea = async () => {
+            const data = await aleatoire(nombre);
+            setAlea(data);
+        };
+        fetchAlea();
     }, []);
 
 	const [listproposals, setProposals] = useState(null);
 
 	useEffect(() => {
         const fetchProposal = async () => {
-            const data = await proposals(10); // Appel à la fonction asynchrone
-            setProposals(data); // Mise à jour de l'état
+            const data = await proposals(10);
+            setProposals(data);
         };
-        fetchProposal(); // Exécution de la fonction au montage du composant
+        fetchProposal();
     }, []);
 
 	const { setPlaylist, currentTrackIndex } = usePlaylist();
 
 	const [menuOpen, setMenuOpen] = useState(false);
 
-	const listenToTop = () => {
-			setPlaylist(() => [...tops]);
+	const listenToAll = () => {
+			setPlaylist(() => [...musiques]);
 			setMenuOpen(false);
 		}
+
+	const changeTop = () => {
+		setAleatoire(!isAleatoire)
+	}
 
 	return (
 	<>
@@ -52,10 +70,14 @@ export function Home () {
                 </div>
 	  <div className="container-ext">
 		<div className="composant"> <div className="titre">
-			<div className="titre-section" style={{ color: profile.layout.theme.secondary }}>Top 10</div>
-			<div className="listenAll" style={{color: theme.primary}} onClick={listenToTop} ><div className="listenTop"> ▶️  Ecouter tout</div></div>
+			<div className="titre-section" style={{ color: profile.layout.theme.secondary }}>
+				{isAleatoire ? `Aléatoire` : `Top`}
+				{nombre} 
+			</div>
+			<div className="button-box" style={{color: theme.primary}} onClick={changeTop} ><div className="topbutton">{isAleatoire ? `Top` : `Aléatoire`}</div></div>
+			<div className="button-box" style={{color: theme.primary}} onClick={listenToAll} ><div className="topbutton"> ▶️  Ecouter tout</div></div>
 		</div>
-		<div className="topmusics">{tops ? ( tops.map((music) => (
+		<div className="topmusics">{musiques ? ( musiques.map((music) => (
                                 <MusicCard key={music.id} music={music} />
                             ))
                         ) : (
