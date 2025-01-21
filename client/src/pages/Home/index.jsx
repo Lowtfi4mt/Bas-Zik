@@ -20,7 +20,7 @@ export function Home () {
 	const [alea, setAlea] = useState(null); // État pour stocker les données de `top`
 
 	const [isAleatoire, setAleatoire] = useState(false);
-	const nombre=10;
+	const [nombre, setNombre] = useState(10);
 	const musiques = isAleatoire ? alea : tops
 
     useEffect(() => {
@@ -29,7 +29,7 @@ export function Home () {
             setTops(data);
         };
         fetchTop();
-    }, []);
+    }, [nombre]);
 
 	useEffect(() => {
         const fetchAlea = async () => {
@@ -37,7 +37,7 @@ export function Home () {
             setAlea(data);
         };
         fetchAlea();
-    }, []);
+    }, [nombre]);
 
 	const [listproposals, setProposals] = useState(null);
 
@@ -62,6 +62,11 @@ export function Home () {
 		setAleatoire(!isAleatoire)
 	}
 
+	const handleNombreChange = (e) => {
+		const value = Math.max(1, Number(e.target.value)); // Empêche des valeurs négatives ou 0
+		setNombre(value);
+	  };
+
 	return (
 	<>
 	<div className="container-ext-ext">
@@ -72,7 +77,21 @@ export function Home () {
 		<div className="composant"> <div className="titre">
 			<div className="titre-section" style={{ color: profile.layout.theme.secondary }}>
 				{isAleatoire ? `Aléatoire` : `Top`}
-				{nombre} 
+				<input
+                  type="number"
+                  value={nombre}
+                  onChange={handleNombreChange}
+                  style={{
+                    width: '50px',
+                    marginLeft: '10px',
+                    padding: '2px',
+                    textAlign: 'center',
+                    color: theme.primary,
+                    backgroundColor: 'transparent',
+                    border: `2px solid ${theme.secondary}`,
+                    borderRadius: '4px',
+                  }}
+                /> 
 			</div>
 			<div className="button-box" style={{color: theme.primary}} onClick={changeTop} ><div className="topbutton">{isAleatoire ? `Top` : `Aléatoire`}</div></div>
 			<div className="button-box" style={{color: theme.primary}} onClick={listenToAll} ><div className="topbutton"> ▶️  Ecouter tout</div></div>
