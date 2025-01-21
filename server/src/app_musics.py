@@ -105,6 +105,23 @@ class AppMusicLikeResource(MethodView):
         return music
 
 
+@app_musics_blp.route("/<int:music_id>/unlike")
+class AppMusicUnlikeResource(MethodView):
+    """
+    Resource for unliking an app music
+    """
+
+    @app_musics_blp.response(200, AppMusicSchema)
+    def put(self, music_id):
+        """
+        Unlike an app music
+        """
+        music = AppMusic.query.get_or_404(music_id)
+        music.likes -= 1
+        db.session.commit()
+        return music
+
+
 @app_musics_blp.route("/top/<int:top_count>")
 class AppMusicTopResource(MethodView):
     """
