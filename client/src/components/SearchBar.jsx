@@ -14,14 +14,14 @@ const SearchBar = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={handleSearch}>
-                <input
+        <div >
+            <form onSubmit={handleSearch} className="search-bar-div">
+                <input className="search-bar-input"
                     type="text"
                     name="query"
                     placeholder="Rechercher..."
                 />
-                <button type="submit">Rechercher</button>
+                <button className="search-bar-button" type="submit">Rechercher</button>
             </form>
         </div>
     );

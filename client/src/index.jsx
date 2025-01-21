@@ -15,6 +15,7 @@ import Artist from './pages/Artist/index.jsx';
 import Album from './pages/Album/index.jsx';
 import { PlaylistProvider } from './contexts/PlaylistContext.jsx';
 import NavigationHome from './pages/NavigationHome/index.jsx';
+import Playlist from './pages/Playlist/index.jsx';
 
 export function App() {
   return (
@@ -31,6 +32,7 @@ export function App() {
           <Route path="search" Component={SearchResults} />
           <Route path='artist/:id' Component={() => <ProtectedRoute component={Artist} />} />
           <Route path='album/:id' Component={() => <ProtectedRoute component={Album} />} />
+          <Route path='playlist/:id' Component={() => <ProtectedRoute component={Playlist} />} />
         </Route>
         <Route path="/contact" Component={() => <ProtectedRoute component={Contact} />} />
         <Route path='/propose' Component={() => <ProtectedRoute component={PropositionPage} />} />

@@ -15,7 +15,7 @@ const SearchResults = () => {
     useEffect(() => {
         const fetchResults = async () => {
             try {
-                const response = await fetch(API_URL + `search/${query}`);
+                const response = await fetch(API_URL + `search/${query}/fuzzy/80`);
                 const data = await response.json();
                 setResults(data);
             } catch (error) {

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { usePlaylist } from "../contexts/PlaylistContext";
 import { useProfile } from "../contexts/ProfileContext";
 
-const MusicCard = ({ music, nowPlaying = null }) => {
+const MusicCard = ({ music, nowPlaying = null, inPlaylist = null }) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const theme = JSON.parse(localStorage.getItem('profile')).layout.theme;
     const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -103,6 +103,23 @@ const MusicCard = ({ music, nowPlaying = null }) => {
         setNewPlaylistName("");
     };
 
+    const handleRemoveFromPlaylists = () => {
+        setProfile((prev) => {
+            const newPlaylist = prev.playlists[inPlaylist].musics.filter((track) => track.id !== music.id);
+            const updatedPlaylists = prev.playlists.map((playlist, index) => {
+                if (index === inPlaylist) {
+                    return {
+                        ...playlist,
+                        musics: newPlaylist,
+                    };
+                }
+                return playlist;
+            });
+            return { ...prev, playlists: updatedPlaylists };
+        });
+        setMenuOpen(false);
+    };
+
     // Close menu when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -197,8 +214,13 @@ const MusicCard = ({ music, nowPlaying = null }) => {
                         )}
                         </li>
                         <li>Ajouter un j&apos;aime</li>
-                        {playlist.some(track => track.id === music.id) && (
+                        {inPlaylist == null && playlist.some(track => track.id === music.id) && (
                             <li onClick={handleRemoveFromPlaylist}>
+                                Retirer de la liste de lecture
+                            </li>
+                        )}
+                        {inPlaylist !== null && (
+                            <li onClick={handleRemoveFromPlaylists}>
                                 Retirer de la liste de lecture
                             </li>
                         )}
