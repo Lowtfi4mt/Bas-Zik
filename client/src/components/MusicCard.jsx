@@ -106,7 +106,7 @@ const MusicCard = ({ music, nowPlaying = null }) => {
     // Close menu when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (menuOpen && !event.target.closest(".music-card")) {
+            if (menuOpen && !event.target.closest(".music-card-container")) {
                 setMenuOpen(false);
             }
         };
@@ -118,7 +118,7 @@ const MusicCard = ({ music, nowPlaying = null }) => {
     }, [menuOpen]);
 
     return (
-        <div>
+        <div className={'music-card-container'}>
             <div className={`music-card ${nowPlaying == 0 ? "now-playing" : ""} ${nowPlaying < 0 ? "passed" : ""}`} 
             style={{backgroundColor: nowPlaying == 0 ? theme.primary : (nowPlaying < 0 ? "white" : theme.background)}}>
                 {/* Image */}
@@ -126,14 +126,14 @@ const MusicCard = ({ music, nowPlaying = null }) => {
 
                 {/* Infos principales */}
                 <div className="music-info">
-                    {nowPlaying == 0 && <span class="span-lecture">▶ En cours de lecture...</span>}
+                    {nowPlaying == 0 && <span className="span-lecture">▶ En cours de lecture...</span>}
                     <h3 className="music-title">{title}</h3>
                     <p className="music-meta">
                         {music.authors.length > 0 ? (
                             music.authors.map((author, index) => (
                                 <span key={author.id}>
-                                    <Link to={`/app/artist/${author.id}`}>
-                                        <a class="music-author">{author.name}</a>
+                                    <Link to={`/app/artist/${author.id}`} className="music-author">
+                                        {author.name}
                                     </Link>
                                     {index < music.authors.length - 1 && " et "}
                                 </span>
@@ -144,9 +144,9 @@ const MusicCard = ({ music, nowPlaying = null }) => {
                         &bull; {
                             music.albums.length > 0 ? (
                                 music.albums.map((album, index) => (
-                                    <span key={index}>
-                                        <Link to={`/app/album/${music.albumsId[index]}`}>
-                                            {album}
+                                    <span key={album.id}>
+                                        <Link to={`/app/album/${album.id}`}>
+                                            {album.name}
                                         </Link>
                                         {index < music.albums.length - 1 && " et "}
                                     </span>
@@ -166,7 +166,7 @@ const MusicCard = ({ music, nowPlaying = null }) => {
                     <button className="play-button" onClick={handlePlayNow} style={{backgroundColor: theme.secondary}}>▶</button>
                     <button
                         className="more-options-button"
-                        onClick={() => {setMenuOpen(!menuOpen);console.log(menuOpen)}}
+                        onClick={() => setMenuOpen(!menuOpen)}
                     >
                         ⋮
                     </button>
@@ -181,17 +181,21 @@ const MusicCard = ({ music, nowPlaying = null }) => {
                         <li onClick={handleAddToQueue}>
                             Ajouter à la file d&apos;attente
                         </li>
-                        <li onClick={() => setIsPopupOpen(true)}>Ajouter à une liste de lecture</li>
+                        <li onClick={() => {setIsPopupOpen(true); setMenuOpen(false);}}>Ajouter à une liste de lecture</li>
+                        <li>
                         {music.albums.length > 0 && (
                             <Link to={`/app/album/${music.albums[0].id}`} class="context-menu-text">
                                 Accéder à l&apos;album
                             </Link>
                         )}
+                        </li>
+                        <li>
                         {music.authors.length > 0 && (
                             <Link to={`/app/artist/${music.authors[0].id}`} class="context-menu-text">
                                 Accéder à l&apos;artiste
                             </Link>
                         )}
+                        </li>
                         <li>Ajouter un j&apos;aime</li>
                         {playlist.some(track => track.id === music.id) && (
                             <li onClick={handleRemoveFromPlaylist}>

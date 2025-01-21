@@ -47,6 +47,7 @@ class AuthorSchema(SQLAlchemyAutoSchema):
 
     app_musics = fields.List(fields.Nested("NRAppMusicSchema"))
     musics_proposals = fields.List(fields.Nested("NRMusicProposalSchema"))
+    albums = fields.List(fields.Nested("NRAlbumSchema"))
 
     class Meta:
         """Meta class for the schema"""
@@ -63,6 +64,7 @@ class AlbumSchema(SQLAlchemyAutoSchema):
 
     app_musics = fields.List(fields.Nested("NRAppMusicSchema"))
     musics_proposals = fields.List(fields.Nested("NRMusicProposalSchema"))
+    authors = fields.List(fields.Nested("NRAuthorSchema"))
 
     class Meta:
         """Meta class for the schema"""

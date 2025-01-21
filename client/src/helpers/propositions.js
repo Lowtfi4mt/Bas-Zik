@@ -33,7 +33,7 @@ async function finalizeProposal(proposal, isNewProposal) {
     console.log(music);
     if (isNewProposal) {
         // Create a new proposal
-        const response = await fetch(`${API_URL}/musics/proposals`, {
+        const response = await fetch(`${API_URL}/musics/proposals/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
