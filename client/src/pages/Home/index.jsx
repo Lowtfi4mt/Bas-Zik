@@ -5,6 +5,7 @@ import { proposals } from '../../helpers/proposals';
 import { useState, useEffect } from 'preact/hooks';
 import MusicCard from "../../components/MusicCard";
 import { usePlaylist } from "../../contexts/PlaylistContext";
+import MusicCardVote from '../../components/VoteCard';
 
 
 export function Home () {
@@ -68,7 +69,9 @@ export function Home () {
 		</div>
 		<p style={{color: theme.secondary}}>N'oublie pas de voter pour les prochaines musiques sur la plateforme !!</p>
 		<div className="topmusics">
-		{listproposals ? ( JSON.stringify(listproposals)
+		{listproposals ? ( listproposals.map((music) => (
+                                <MusicCardVote key={music.id} music={music} />
+                            ))
                         ) : (
                             <p>Chargement...</p> // Message de chargement
                         )}
