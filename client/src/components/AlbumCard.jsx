@@ -4,11 +4,17 @@ import { REMOTE_STORAGE_URL } from "../constants";
 import { Link } from "react-router-dom";
 import { usePlaylist } from "../contexts/PlaylistContext";
 import { fetchAlbum } from "../helpers/getAlbum";
+import { useProfile } from "../contexts/ProfileContext";
 
 const AlbumCard = ({ album }) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const { setPlaylist, currentTrackIndex } = usePlaylist();
     const theme = JSON.parse(localStorage.getItem('profile')).layout.theme;
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [selectedProposal, setSelectedProposal] = useState(null);
+    const [newPlaylistName, setNewPlaylistName] = useState("");
+    const { profile, setProfile } = useProfile();
+
     
     const handlePlayNext = () => {
         fetchAlbum(album.id).then(result => setPlaylist((prev) => {prev.splice(currentTrackIndex + 1, 0, ...result.musics); return prev;}));
@@ -24,6 +30,42 @@ const AlbumCard = ({ album }) => {
         fetchAlbum(album.id).then(result => setPlaylist((prev) => [...prev, ...result.musics]));
         setMenuOpen(false);
     }
+
+    const handleAddToPlaylist = () => {
+        fetchAlbum(album.id).then(result => {
+            if (selectedProposal === -1) {
+                setProfile((prev) => {
+                    const newPlaylist = {
+                        title: newPlaylistName.trim(),
+                        musics: result.musics,
+                    };
+                    return {
+                        ...prev,
+                        playlists: [...prev.playlists, newPlaylist],
+                    };
+                });
+            } else {
+                setProfile((prev) => {
+                    const newPlaylists = prev.playlists.map((playlist, index) => {
+                        if (index === selectedProposal) {
+                            return {
+                                ...playlist,
+                                musics: [...playlist.musics, ...result.musics],
+                            };
+                        }
+                        return playlist;
+                    });
+                    return {
+                        ...prev,
+                        playlists: newPlaylists,
+                    };
+                });
+            }
+        });
+        setIsPopupOpen(false);
+        setMenuOpen(false);
+        setNewPlaylistName("");
+    };
 
      // Close menu when clicking outside
     useEffect(() => {
@@ -92,7 +134,7 @@ const AlbumCard = ({ album }) => {
                             <li onClick={handlePlayNow}>Lire maintenant</li>
                             <li onClick={handlePlayNext}>Lire ensuite</li>
                             <li onClick={handleAddToQueue}>Ajouter à la file d&apos;attente</li>
-                            <li>Ajouter à une liste de lecture</li>
+                            <li onClick={() => {setIsPopupOpen(true); setMenuOpen(false);}}>Ajouter à une liste de lecture</li>
                             {album.authors.length > 0 && (
                                 <Link to={`/app/artist/${album.authors[0].id}`}>
                                     <li>Accéder à l&apos;artiste</li>
@@ -101,6 +143,60 @@ const AlbumCard = ({ album }) => {
                         </ul>
                     </div>
                 )}
+
+{isPopupOpen && (
+                <div className="popup">
+                    <h2>Ajouter à la playlist</h2>
+                    <ul className="proposals-list">
+                        {profile.playlists.map((playlist, index) => (
+                            <li
+                                key={index}
+                                className={`proposal-item ${
+                                    selectedProposal === index
+                                        ? "selected"
+                                        : ""
+                                }`}
+                                onClick={() => setSelectedProposal(index)}
+                            >
+                                <strong>{playlist.title}</strong> -{" "}
+                                {playlist.musics.length} titres
+                            </li>
+                        ))}
+                        <li
+                                className={`proposal-item ${
+                                    selectedProposal === -1
+                                        ? "selected"
+                                        : ""
+                                }`}
+                                onClick={() => setSelectedProposal(-1)}
+                            >
+                                <input
+                                    type="text"
+                                    placeholder="Nouvelle playlist"
+                                    value={selectedProposal === -1 ? newPlaylistName : ""}
+                                    // @ts-ignore
+                                    onChange={(e) => setNewPlaylistName(e.target.value)}
+                                />
+                            </li>
+                    </ul>
+                    <div className="popup-buttons">
+                        <button
+                            onClick={() => {setIsPopupOpen(false); setMenuOpen(false);}}
+                            className="cancel-button"
+                        >
+                            Annuler
+                        </button>
+                        <button
+                            onClick={handleAddToPlaylist}
+                            className="validate-button"
+                            disabled={selectedProposal === null || selectedProposal === -1 && newPlaylistName.trim() === "" }
+                        >
+                            Valider
+                        </button>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };
