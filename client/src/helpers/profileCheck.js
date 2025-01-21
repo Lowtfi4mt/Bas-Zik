@@ -8,7 +8,8 @@ export function checkIsProfile (profile) {
         profile.layout.theme.background &&
         profile.layout.centerPanel &&
         profile.layout.rightPanel &&
-        profile.layout.leftPanel
+        profile.layout.leftPanel &&
+        profile.playlists
       ) {
         return true;
       }
