@@ -66,18 +66,20 @@ class FuzzySearchResource(MethodView):
         authors = [
             author
             for author in authors
-            if fuzz.partial_ratio(author.name, query) >= threshold
-        ]
+            if fuzz.partial_ratio(author.name.lower(), query.lower()) >= threshold
+        ][:MAX_SEARCH_RESULTS]
+
         musics = [
             music
             for music in musics
-            if fuzz.partial_ratio(music.title, query) >= threshold
-        ]
+            if fuzz.partial_ratio(music.title.lower(), query.lower()) >= threshold
+        ][:MAX_SEARCH_RESULTS]
+
         albums = [
             album
             for album in albums
-            if fuzz.partial_ratio(album.name, query) >= threshold
-        ]
+            if fuzz.partial_ratio(album.name.lower(), query.lower()) >= threshold
+        ][:MAX_SEARCH_RESULTS]
 
         return {
             "authors": authors,
