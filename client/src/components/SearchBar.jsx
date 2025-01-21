@@ -19,9 +19,9 @@ const SearchBar = () => {
                 <input
                     type="text"
                     name="query"
-                    placeholder="Search..."
+                    placeholder="Rechercher..."
                 />
-                <button type="submit">Search</button>
+                <button type="submit">Rechercher</button>
             </form>
         </div>
     );
