@@ -66,17 +66,13 @@ def insert_music_from_json(json_data, base_name):
             db.session.add(author)
         authors.append(author)
 
-    # Create and insert the music record
-    music = AppMusic(title=title)
-    music.authors.extend(authors)
-    music.albums.append(album)
-
     # If it's an app music, insert it in the correct model
     app_music = AppMusic(
-        id=music.id,
-        title=music.title,
+        title=title,
         duration=duration,
         path=f"{base_name}",
+        authors=authors,
+        albums=[album],
     )
     db.session.add(app_music)
 
@@ -102,23 +98,6 @@ def process_s3_bucket(app):
 
         for json_file in json_files:
             base_name = json_file.rsplit(".", 1)[0]  # Remove the extension
-
-            # Construct paths for the expected music and image files
-            music_file = f"{base_name}.ogg"
-            image_file = f"{base_name}.img"
-
-            # Check if the corresponding files exist in the bucket
-            available_files = {file["Key"] for file in files}
-            music_path = (
-                f"s3://{BUCKET_NAME}/{music_file}"
-                if music_file in available_files
-                else None
-            )
-            image_path = (
-                f"s3://{BUCKET_NAME}/{image_file}"
-                if image_file in available_files
-                else None
-            )
 
             # Download and process the JSON file
             json_object = s3_client.get_object(Bucket=BUCKET_NAME, Key=json_file)
