@@ -182,16 +182,20 @@ const MusicCard = ({ music, nowPlaying = null }) => {
                             Ajouter à la file d&apos;attente
                         </li>
                         <li onClick={() => setIsPopupOpen(true)}>Ajouter à une liste de lecture</li>
+                        <li>
                         {music.albums.length > 0 && (
                             <Link to={`/app/album/${music.albums[0].id}`} class="context-menu-text">
                                 Accéder à l&apos;album
                             </Link>
                         )}
+                        </li>
+                        <li>
                         {music.authors.length > 0 && (
                             <Link to={`/app/artist/${music.authors[0].id}`} class="context-menu-text">
                                 Accéder à l&apos;artiste
                             </Link>
                         )}
+                        </li>
                         <li>Ajouter un j&apos;aime</li>
                         {playlist.some(track => track.id === music.id) && (
                             <li onClick={handleRemoveFromPlaylist}>
