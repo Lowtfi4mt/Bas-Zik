@@ -28,8 +28,8 @@ const SearchResults = () => {
     }, [query]);
 
     return (
-        <div style={{ padding: "0px" }}>
-            <button onClick={() => navigate(-1)}>Retour</button>
+        <div className="search-results-page">
+            <button className="return-search-button" onClick={() => navigate(-1)}>Retour</button>
             <h1 className="search-text">Résultats de la recherche pour &apos;{query}&apos;</h1>
             {
                 results ? (

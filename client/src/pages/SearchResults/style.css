@@ -1,7 +1,15 @@
+.return-search-button {
+    height: 35px;
+}
+
+.search-text {
+    height: 35px;
+}
+
 .search-results {
     overflow-y: auto;
     flex: 1;
-    max-height: 100%;
+    max-height: calc(100% - 70px); 
 }
 
 .search-text {
