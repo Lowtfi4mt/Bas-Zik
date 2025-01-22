@@ -7,12 +7,14 @@ const NavigationPage = () => {
 
     return (
         
-        <div>
-            <header class="navigation-header">
+        <div className="navigation-page">
+            <header className="navigation-header">
                 <button onClick={() => navigate('/home')}>Accueil</button>
+                <SearchBar />
             </header>
-            <SearchBar />
-            <Outlet />
+            <div className="navigation-content">
+                <Outlet />
+            </div>
         </div>
     );
 };

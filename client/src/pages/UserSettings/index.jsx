@@ -1,17 +1,21 @@
 import { useState } from 'preact/hooks';
 import './style.css';
-import { saveProfile } from '../../helpers/profileSave';
 import { useNavigate } from 'react-router-dom';
+import { checkIsProfile } from '../../helpers/profileCheck';
+import { useProfile } from '../../contexts/ProfileContext';
 
 const UserSettings = () => {
     const navigate = useNavigate();
-    const user = JSON.parse(localStorage.getItem('profile'));
+
+    const { profile, setProfile } = useProfile();
+
+    const user = profile
     const colors = [
         {
           name : 'classique',
           primary: '#3498db',
           secondary: '#2ecc71',
-          background: '#e74c3c',
+          background: '#ecf0f1',
         },
         {
           name : 'sombre',
@@ -25,6 +29,25 @@ const UserSettings = () => {
           secondary: '#bdc3c7',
           background: '#95a5a6',
         },
+        {
+            name : 'Daltoniens - Protanopie',
+            primary: '#704d1c',
+            secondary: '#FFE900',
+            background: '#0064B1',
+        }
+        ,
+        {
+            name : 'Daltoniens - Deuteranopie',
+            primary: '#99660c',
+            secondary: '#FFB23C',
+            background: '#0064B1',
+        },
+        {
+            name : 'Daltoniens - Tritanopie',
+            primary: '#7A474C',
+            secondary: '#FFDAE0',
+            background: '#3CB3C6',
+        }
     ];
     const [username, setUserName] = useState(user.username);
     const [theme, setTheme] = useState(user.layout.theme);
@@ -53,8 +76,8 @@ const UserSettings = () => {
             user.layout.leftPanel = layout.leftPanel;
             user.layout.centerPanel = layout.centerPanel;
             user.layout.rightPanel = layout.rightPanel;
-            const isSaved = saveProfile(user);
-            if (isSaved) {
+            if (checkIsProfile(user)) {
+                setProfile({...user});
                 setIsModified(false);
                 navigate('/home');
             } else {
@@ -90,7 +113,7 @@ const UserSettings = () => {
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = 'profile.json'; // Nom du fichier téléchargé
+        link.download = 'Profil_Bas_Zic.json'; // Nom du fichier téléchargé
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);

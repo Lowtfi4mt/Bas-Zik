@@ -1,15 +1,18 @@
-import { useState } from 'preact/hooks';
-import './style.css';
-import { useNavigate } from 'react-router-dom';
-import { fetchSimilarProposals, finalizeProposal } from '../../helpers/propositions';
+import { useState } from "preact/hooks";
+import "./style.css";
+import { useNavigate } from "react-router-dom";
+import {
+    fetchSimilarProposals,
+    finalizeProposal,
+} from "../../helpers/propositions";
 
 export function PropositionPage() {
     const navigate = useNavigate();
 
     // Form state
-    const [musicName, setMusicName] = useState('');
-    const [artist, setArtist] = useState('');
-    const [album, setAlbum] = useState('');
+    const [musicName, setMusicName] = useState("");
+    const [artist, setArtist] = useState("");
+    const [album, setAlbum] = useState("");
     const [isNewProposal, setIsNewProposal] = useState(true);
 
     // Popup state
@@ -19,13 +22,13 @@ export function PropositionPage() {
 
     const handleValidate = async () => {
         if (!musicName || !artist || !album) {
-            alert('Tous les champs doivent être remplis.');
+            alert("Tous les champs doivent être remplis.");
             return;
         }
 
         // Appel à une fonction externe pour récupérer les propositions similaires
         // Remplacez cette partie par votre appel API réel
-        const similarProposals = await fetchSimilarProposals(musicName, artist, album);
+        const similarProposals = await fetchSimilarProposals(musicName);
 
         setProposals(similarProposals);
         setIsPopupOpen(true);
@@ -36,9 +39,12 @@ export function PropositionPage() {
     };
 
     const handleFinalize = async () => {
-        const result = await finalizeProposal(selectedProposal || { name: musicName, artist, album }, isNewProposal);
+        const result = await finalizeProposal(
+            selectedProposal || { name: musicName, artist, album },
+            isNewProposal
+        );
         if (result) {
-            navigate('/home');
+            navigate("/home");
         } else {
             alert("Erreur lors de la validation de la proposition.");
         }
@@ -76,10 +82,18 @@ export function PropositionPage() {
                     />
                 </div>
                 <div className="proposition-buttons">
-                    <button type="button" class="cancel-button" onClick={() => navigate('/home')}>
+                    <button
+                        type="button"
+                        className="cancel-button"
+                        onClick={() => navigate("/home")}
+                    >
                         Annuler
                     </button>
-                    <button type="button" class="validate-button" onClick={handleValidate}>
+                    <button
+                        type="button"
+                        className="validate-button"
+                        onClick={handleValidate}
+                    >
                         Valider
                     </button>
                 </div>
@@ -93,20 +107,40 @@ export function PropositionPage() {
                             <li
                                 key={index}
                                 className={`proposal-item ${
-                                    selectedProposal === proposal ? 'selected' : ''
+                                    selectedProposal === proposal
+                                        ? "selected"
+                                        : ""
                                 }`}
                                 onClick={() => handleSelectProposal(proposal)}
                             >
-                                <strong>{proposal.name}</strong> - {proposal.artist} ({proposal.album})
-                                <button onClick={() => { setIsNewProposal(false); handleSelectProposal(proposal); }} className="validate-button">
+                                <strong>{proposal.title}</strong> -{" "}
+                                {proposal.authors[0].name} (
+                                {proposal.albums[0].name})
+                                <button
+                                    onClick={() => {
+                                        setIsNewProposal(false);
+                                        handleSelectProposal(proposal);
+                                    }}
+                                    className="validate-button"
+                                >
                                     Choisir celle-ci
                                 </button>
                             </li>
                         ))}
                     </ul>
                     <div className="popup-buttons">
-                        <button onClick={() => setIsPopupOpen(false)} class="cancel-button">Annuler</button>
-                        <button onClick={handleFinalize} class="validate-button">Valider ma proposition</button>
+                        <button
+                            onClick={() => setIsPopupOpen(false)}
+                            className="cancel-button"
+                        >
+                            Annuler
+                        </button>
+                        <button
+                            onClick={handleFinalize}
+                            className="validate-button"
+                        >
+                            Valider ma proposition
+                        </button>
                     </div>
                 </div>
             )}
