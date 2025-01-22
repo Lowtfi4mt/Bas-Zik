@@ -9,6 +9,7 @@ import { usePlaylist } from "../../contexts/PlaylistContext";
 import MusicCardVote from "../../components/VoteCard";
 import { useProfile } from "../../contexts/ProfileContext";
 import PlaylistCard from "../../components/PlaylistCard";
+import { useNavigate } from "react-router-dom";
 
 export function Home() {
     const { profile } = useProfile();
@@ -21,6 +22,8 @@ export function Home() {
     const [isAleatoire, setAleatoire] = useState(false);
     const [nombre, setNombre] = useState(10);
     const musiques = isAleatoire ? alea : tops;
+
+	const navigate = useNavigate();
 
     useEffect(() => {
         const fetchTop = async () => {
@@ -52,6 +55,7 @@ export function Home() {
 
     const listenToAll = () => {
         setPlaylist(() => [...musiques]);
+		navigate("/app/");
     };
 
     const changeTop = () => {
@@ -96,7 +100,7 @@ export function Home() {
                                     }}
                                 />
                             </div>
-                            <div
+                            <button
                                 className="button-box"
                                 style={{ color: theme.primary }}
                                 onClick={changeTop}
@@ -104,8 +108,8 @@ export function Home() {
                                 <div className="topbutton">
                                     {isAleatoire ? `Top` : `Aléatoire`}
                                 </div>
-                            </div>
-                            <div
+                            </button>
+                            <button
                                 className="button-box"
                                 style={{ color: theme.primary }}
                                 onClick={listenToAll}
@@ -114,7 +118,7 @@ export function Home() {
                                     {" "}
                                     ▶️ Ecouter tout
                                 </div>
-                            </div>
+                            </button>
                         </div>
                         <div className="topmusics">
                             {musiques ? (
