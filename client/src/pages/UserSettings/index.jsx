@@ -77,7 +77,7 @@ const UserSettings = () => {
             user.layout.centerPanel = layout.centerPanel;
             user.layout.rightPanel = layout.rightPanel;
             if (checkIsProfile(user)) {
-                setProfile(user);
+                setProfile({...user});
                 setIsModified(false);
                 navigate('/home');
             } else {
