@@ -10,7 +10,10 @@ export function checkIsProfile (profile) {
         profile.layout.rightPanel &&
         profile.layout.leftPanel &&
         profile.playlists &&
-        profile.playlists.length > 0
+        profile.playlists.length > 0 &&
+        profile.votes &&
+        profile.votes.ids &&
+        profile.votes.last_updated
       ) {
         return true;
       }

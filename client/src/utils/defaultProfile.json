@@ -11,8 +11,14 @@
     "centerPanel": "AudioPage",
     "rightPanel": "MusicList"
   },
-  "playlists": [{
-    "title": "Titres 'J'aime'",
-    "musics": []
-  }]
+  "playlists": [
+    {
+      "title": "Titres 'J'aime'",
+      "musics": []
+    }
+  ],
+  "votes": {
+    "last_updated": "",
+    "ids": []
+  }
 }
