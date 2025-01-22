@@ -1,14 +1,24 @@
 {
-    "username": "Guest",
-    "layout": {
-      "theme" : { 
-        "name" : "default",
-        "primary" : "#3498db", 
-        "secondary" : "#2ecc71", 
-        "background" : "#ecf0f1" 
-      },
-      "leftPanel" : "NavigationPage",
-      "centerPanel" : "AudioPage",
-      "rightPanel" : "MusicList"
+  "username": "Guest",
+  "layout": {
+    "theme": {
+      "name": "default",
+      "primary": "#3498db",
+      "secondary": "#2ecc71",
+      "background": "#ecf0f1"
+    },
+    "leftPanel": "NavigationPage",
+    "centerPanel": "AudioPage",
+    "rightPanel": "MusicList"
+  },
+  "playlists": [
+    {
+      "title": "Titres 'J'aime'",
+      "musics": []
     }
+  ],
+  "votes": {
+    "last_updated": 0,
+    "ids": []
   }
+}

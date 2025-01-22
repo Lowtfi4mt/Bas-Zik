@@ -1,0 +1,50 @@
+.return-search-button {
+    height: 35px;
+}
+
+.playlist-page-header {
+    display: flex;
+    direction: row;
+    align-items: center;
+  }
+
+.search-results {
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1;
+    max-height: 500px; 
+}
+
+.search-results-page {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+    padding: 20px; 
+    height: 100vh;
+}
+
+details {
+    padding: 10px;
+    overflow: auto;
+  }
+  
+  details[open] {
+    border-color: #007BFF;
+    overflow: auto;
+  }
+  
+  summary {
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  summary::-webkit-details-marker {
+    display: none; 
+  }
+  
+.div-artist-collaps {
+    padding: 10px;
+    background-color: #f9f9f9;
+  }
+  

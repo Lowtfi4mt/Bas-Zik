@@ -3,6 +3,7 @@ Simple Flask API
 """
 
 from os import environ as env
+from pathlib import Path
 
 from dotenv import find_dotenv
 from flask import Flask
@@ -50,8 +51,12 @@ def create_app() -> Flask:
     db.init_app(app)
 
     if CREATE_DB_FROM_ZERO:
+        print("Creating database from zero")
         with app.app_context():
-            db.drop_all()
+            print("Creating database from zero")
+            database_path = Path("__file__").parent / "instance" / "database.db"
+            if database_path.exists():
+                database_path.unlink()
             db.create_all()
             try:
                 process_s3_bucket(app)
@@ -68,4 +73,5 @@ if __name__ == "__main__":
 
 
 if __name__ != "__main__":
-    app = create_app()
+    print("Creating app")
+    flask_app = create_app()

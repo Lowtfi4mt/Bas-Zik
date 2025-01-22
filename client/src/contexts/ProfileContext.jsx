@@ -27,7 +27,7 @@ export const ProfileProvider = ({ children }) => {
   };
 
   return (
-    <ProfileContext.Provider value={{ profile, login, logout }}>
+    <ProfileContext.Provider value={{ profile, setProfile, login, logout }}>
       {children}
     </ProfileContext.Provider>
   );
