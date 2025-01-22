@@ -13,7 +13,7 @@ export function checkIsProfile (profile) {
         profile?.playlists?.length > 0 &&
         profile?.votes &&
         Array.isArray(profile?.votes?.ids) &&
-        typeof profile?.votes?.last_updated === 'string'
+        typeof profile?.votes?.last_updated === 'number'
       ) {
         return true;
       }
