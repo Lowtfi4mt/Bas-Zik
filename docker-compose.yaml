@@ -1,14 +1,4 @@
 services:
-  client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile
-    image: baszik-front
-    container_name: baszik_front
-    ports:
-      - "80:80"
-    restart: unless-stopped
-
   server:
     build:
       context: ./server
@@ -17,4 +7,16 @@ services:
     container_name: baszik_back
     ports:
       - "5000:5000"
+    restart: unless-stopped
+  
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    image: baszik-front
+    container_name: baszik_front
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_PORT=5173
     restart: unless-stopped
