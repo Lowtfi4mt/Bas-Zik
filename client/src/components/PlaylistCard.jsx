@@ -8,7 +8,8 @@ import { useProfile } from "../contexts/ProfileContext";
 const PlaylistCard = ({ playlist, index }) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const { setPlaylist, currentTrackIndex, setCurrentTrackIndex } = usePlaylist();
-    const theme = JSON.parse(localStorage.getItem('profile')).layout.theme;
+    const { profile } = useProfile();
+    const theme = profile.layout.theme;
     const { setProfile } = useProfile();
 
     const navigate = useNavigate();

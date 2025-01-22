@@ -2,16 +2,22 @@ import { checkIsProfile } from '../../helpers/profileCheck';
 import { useProfile } from '../../contexts/ProfileContext';
 import './style.css';
 import defaultProfile from '../../utils/defaultProfile.json';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { saveProfile } from '../../helpers/profileSave';
-import { useState } from 'preact/hooks';
-
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'preact/hooks';
 
 export function Welcome() {
   const { login: setAuthProfile } = useProfile();
   const navigate = useNavigate();
   const [isRotating, setIsRotating] = useState(false); // État pour gérer l'animation
 
+  const { profile, setProfile } = useProfile();
+
+  useEffect(() => {
+    const profile = JSON.parse(localStorage.getItem('profile'));
+    if (profile && checkIsProfile(profile)) {
+      navigate('/home');
+    }
+  }, []);
 
   const handleFileUpload = (event) => {
     const uploadedFile = event.target.files[0];
@@ -24,12 +30,12 @@ export function Welcome() {
     reader.onload = (e) => {
       try {
         const profile = JSON.parse(e.target.result.toString());
-        const isProfile = saveProfile(profile);
-        if (!isProfile) {
+        if (!checkIsProfile(profile)) {
           alert('Invalid profile');
           return;
         }
         else {
+          setProfile(profile);
           navigate('/home');
         }
       } catch (error) {
@@ -37,20 +43,6 @@ export function Welcome() {
       }
     };
     reader.readAsText(uploadedFile);
-  };
-
-  const handleGuestProfile = async () => {
-    try {
-      const response = await fetch('/utils/defaultProfile.json'); // Charge le fichier JSON par défaut
-      const profile = await response.json();
-      if (!checkIsProfile(profile)) {
-        alert('Invalid default profile');
-        return;
-      }
-      setAuthProfile(profile);
-    } catch (error) {
-      alert('Error loading default profile');
-    }
   };
 
   const handleImageClick = () => {

@@ -1,10 +1,17 @@
 import { useLocation } from 'preact-iso';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useProfile } from '../contexts/ProfileContext';
 
 export function Header() {
 	const { url } = useLocation();
+	const navigate = useNavigate();
 
-	const profile = JSON.parse(localStorage.getItem('profile'));
+	const { profile } = useProfile();
+
+	const handleDisconnect = () => {
+		localStorage.removeItem('profile');
+		navigate('/');
+	}
 
 	const buttonstyle = {
 		display: 'inline-block',
@@ -29,9 +36,9 @@ export function Header() {
 				}}
 				>
 				<nav>
-					<Link to="/" className={url == '/' && 'active'} style={buttonstyle} >
-						💿 Page de connexion
-					</Link>
+					<button onClick={handleDisconnect} className={url == '/' && 'active'} style={buttonstyle} >
+						💿 Déconnexion
+					</button>
 				</nav>
 				
 				<nav>

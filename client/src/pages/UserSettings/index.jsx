@@ -1,11 +1,15 @@
 import { useState } from 'preact/hooks';
 import './style.css';
-import { saveProfile } from '../../helpers/profileSave';
 import { useNavigate } from 'react-router-dom';
+import { checkIsProfile } from '../../helpers/profileCheck';
+import { useProfile } from '../../contexts/ProfileContext';
 
 const UserSettings = () => {
     const navigate = useNavigate();
-    const user = JSON.parse(localStorage.getItem('profile'));
+
+    const { profile, setProfile } = useProfile();
+
+    const user = profile
     const colors = [
         {
           name : 'classique',
@@ -72,8 +76,8 @@ const UserSettings = () => {
             user.layout.leftPanel = layout.leftPanel;
             user.layout.centerPanel = layout.centerPanel;
             user.layout.rightPanel = layout.rightPanel;
-            const isSaved = saveProfile(user);
-            if (isSaved) {
+            if (checkIsProfile(user)) {
+                setProfile(user);
                 setIsModified(false);
                 navigate('/home');
             } else {
