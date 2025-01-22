@@ -25,7 +25,7 @@ export function PropositionPage() {
 
         // Appel à une fonction externe pour récupérer les propositions similaires
         // Remplacez cette partie par votre appel API réel
-        const similarProposals = await fetchSimilarProposals(musicName, artist, album);
+        const similarProposals = await fetchSimilarProposals(musicName);
 
         setProposals(similarProposals);
         setIsPopupOpen(true);
@@ -89,7 +89,7 @@ export function PropositionPage() {
                 <div className="popup">
                     <h2>Propositions similaires</h2>
                     <ul className="proposals-list">
-                        {proposals.map((proposal, index) => (
+                        {proposals.map((proposal, index) => {console.log(proposal); return (
                             <li
                                 key={index}
                                 className={`proposal-item ${
@@ -97,12 +97,12 @@ export function PropositionPage() {
                                 }`}
                                 onClick={() => handleSelectProposal(proposal)}
                             >
-                                <strong>{proposal.name}</strong> - {proposal.artist} ({proposal.album})
+                                <strong>{proposal.title}</strong> - {proposal.authors[0].name} ({proposal.albums[0].name})
                                 <button onClick={() => { setIsNewProposal(false); handleSelectProposal(proposal); }} className="validate-button">
                                     Choisir celle-ci
                                 </button>
                             </li>
-                        ))}
+                        )})}
                     </ul>
                     <div className="popup-buttons">
                         <button onClick={() => setIsPopupOpen(false)} class="cancel-button">Annuler</button>
