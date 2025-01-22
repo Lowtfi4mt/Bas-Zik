@@ -2,8 +2,19 @@
   height: 35px;
 }
 
+.playlist-page-header {
+  display: flex;
+  direction: row;
+  align-items: center;
+}
+
+.playlist-music-list-header {
+  font-size: 12px;
+}
+
 .search-text {
   height: 35px;
+  padding-left: 40px;
 }
 
 .search-results {

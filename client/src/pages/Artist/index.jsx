@@ -3,6 +3,8 @@ import { API_URL } from "../../constants";
 import { useParams, useNavigate } from "react-router-dom";
 import MusicCard from "../../components/MusicCard";
 import AlbumCard from "../../components/AlbumCard";
+import './style.css';
+import ArtistCard from "../../components/ArtistCard";
 
 const Artist = () => {
     const [results, setResults] = useState(null);
@@ -23,67 +25,38 @@ const Artist = () => {
 
         fetchResults();
 
-        setResults({
-            name: "Léo Ferré",
-            albumCount: 5,
-            musicCount: 152,
-            musics: [
-                {
-                    title: "J'Avais Un Pense-Bête",
-                    path: "public/-3hDYqy7KX4",
-                    authors: ["Léo Ferré"],
-                    authorsId: [56],
-                    albums: ["Amour Anarchie"],
-                    albumsId: [78],
-                    duration: 185,
-                    likes: 123,
-                    id: 12
-                },
-                {
-                    title: "One Last Game",
-                    path: "public/-VmQ5jf3eyo",
-                    authors: ["Blabla"],
-                    authorsId: [56],
-                    albums: ["Blibli"],
-                    albumsId: [78],
-                    duration: 642,
-                    likes: 64,
-                    id: 52
-                }   
-            ], albums: [
-                {
-                    title: "Amour Anarchie",
-                    path: "public/0RURf-tNuOo", //Path d'une musique de l'album, sert à récup une image
-                    authors: ["Giorgio Gee", "Trevor Guthrie"],
-                    musicCount: 12, //Nombre de musiques dans l'album
-                    authorsId: [56, 62],
-                    id: 62
-                }
-            ]                
-        });
     }, [id]);
 
     return (
-        <div style={{ padding: "20px" }}>
+        <div className="search-results-page">
+            <button className="return-search-button" onClick={() => navigate(-1)}>Retour</button>
             {
                 results ? (
-                    <div>
-                        <button onClick={() => navigate(-1)}>Retour</button>
-                        <h1>Page d&apos;artiste &bull; {results.name}</h1>
-                        <h2>{results.albumCount} albums  &bull; {results.musicCount} titres</h2>
-                        <h2>Albums</h2>
-                        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                            {results.albums.map((album) => (
-                                <AlbumCard key={album.id} album={album} />
-                            ))}
+                    <>
+                        <ArtistCard artist={results} />
+                        <div className="search-results">
+                            <details open>
+                                <summary>
+                                    Albums
+                                </summary>
+                                <div className="div-artist-collaps" style={{ display: "flex", flexDirection: "column" }}>
+                                    {results.albums.map((album) => (
+                                        <AlbumCard key={album.id} album={album} />
+                                    ))}
+                                </div>
+                            </details>
+                            <details open>
+                                <summary>
+                                    Titres
+                                </summary>
+                                <div className="div-artist-collaps" style={{ display: "flex", flexDirection: "column" }}>
+                                    {results.app_musics.map((music) => (
+                                        <MusicCard key={music.id} music={music} />
+                                    ))}
+                                </div>
+                            </details>
                         </div>
-                        <h2>Titres</h2>
-                        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                            {results.musics.map((music) => (
-                                <MusicCard key={music.id} music={music} />
-                            ))}
-                        </div>
-                    </div>
+                    </>
                 ) : (
                     <p>Loading...</p>
                 )
