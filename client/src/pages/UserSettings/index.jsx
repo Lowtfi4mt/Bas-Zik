@@ -11,7 +11,7 @@ const UserSettings = () => {
           name : 'classique',
           primary: '#3498db',
           secondary: '#2ecc71',
-          background: '#e74c3c',
+          background: '#ecf0f1',
         },
         {
           name : 'sombre',
