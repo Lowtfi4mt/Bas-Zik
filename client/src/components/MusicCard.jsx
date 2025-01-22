@@ -2,7 +2,7 @@ import { useState, useEffect } from "preact/hooks";
 import "./Card.css";
 import { REMOTE_STORAGE_URL } from "../constants";
 import durationFormat from "../helpers/durationDisplay";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { usePlaylist } from "../contexts/PlaylistContext";
 import { useProfile } from "../contexts/ProfileContext";
 import { API_URL } from "../constants";
@@ -15,6 +15,8 @@ const MusicCard = ({ music, nowPlaying = null, inPlaylist = null }) => {
     const [newPlaylistName, setNewPlaylistName] = useState("");
 
     const { profile, setProfile } = useProfile();
+
+    const navigate = useNavigate();
 
     const { playlist, setPlaylist, currentTrackIndex, setCurrentTrackIndex } =
         usePlaylist();
@@ -42,6 +44,10 @@ const MusicCard = ({ music, nowPlaying = null, inPlaylist = null }) => {
             setCurrentTrackIndex(0);
         }
         setMenuOpen(false);
+
+        if (!window.location.pathname.startsWith("/app")) {
+            navigate("/app");
+        }
     };
 
     const handleAddToQueue = () => {
