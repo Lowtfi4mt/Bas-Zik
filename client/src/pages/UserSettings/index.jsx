@@ -113,7 +113,7 @@ const UserSettings = () => {
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = 'profile.json'; // Nom du fichier téléchargé
+        link.download = 'Profil_Bas_Zic.json'; // Nom du fichier téléchargé
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
